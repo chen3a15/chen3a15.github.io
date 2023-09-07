@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    span {
+      font-size: 1.6vh;
+    }
+    input {
+      font-size: 1.6vh;
+    }
+    select {
+      font-size: 1.6vh;
+    }
+    .box {
+      float: left;
+      background: rgba(0, 0, 0, 0.1);
+      margin: 5px 20px 20px 0;
+      border-style: dotted;
+      border-radius: 10px;
+      border-width: 2px;
+      padding: 5px;
+      font-size: 1.6vh;
+    }
+    .box input {
+      width: 1.5vh;
+      height: 1.5vh;
+    }
+  </style>
+  <title>崩坏·星穹铁道 角色经验计算</title>
+</head>
+<body>
+  <span>
+    角色当前等级：
+    <input id="jsdqdj" type="text" value="60" oninput="jyjs()" />
+  </span>
+  <br />
+  <span>
+    角色目标等级：
+    <input id="jsmbdj" type="text" value="61" oninput="jyjs()" />
+  </span>
+  <br />
+  <span>
+    角色当前经验：
+    <input id="jsdqjy" type="text" value="0" oninput="jyjs()" />
+    （可不填）
+  </span>
+  <br />
+  <span>
+    角色所需经验：
+    <input id="jssxjy" readonly type="text" value="" />
+  </span>
+  <hr />
+  <span>
+    材料消耗：
+    <input id="clxh" readonly type="text" value="" style="width: 75%" />
+  </span>
+  <hr />
+  <span>
+    均衡等级：
+    <select id="jhdj" onchange="fun_jhdj()">
+      <option>0</option>
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option selected>5</option>
+      <option>6</option>
+    </select>
+  </span>
+  <hr />
+  <span>
+    单怪经验（普通/精英）：
+    <input id="dgjy" readonly type="text" value="" />
+  </span>
+  <hr />
+  <span>
+    刷怪数量：
+    <input id="sgsl" readonly type="text" value="" />
+  </span>
+  <hr />
+  <div>
+  <div class="box">
+    <input id="cdqy0" onchange="cdqyxz(0)" type="checkbox" value="0" />空间站「黑塔」
+    <br /><span>ㅤ┣</span>
+    <input id="cdqy0.1" onchange="cdqyxz()" type="checkbox" value="0" />主控舱段<span style="opacity: 0.3">（0）</span>
+    <br /><span>ㅤ┣</span>
+    <input id="cdqy0.2" onchange="cdqyxz()" type="checkbox" value="4" />基座舱段<span style="opacity: 0.3">（4）</span>
+    <br /><span>ㅤ┣</span>
+    <input id="cdqy0.3" onchange="cdqyxz(0.3)" type="checkbox" value="0" />收容舱段
+    <br /><span>ㅤ┃ㅤ┣</span>
+    <input id="cdqy0.3.1" onchange="cdqyxz()" type="checkbox" value="3" />收容舱段 2层<span style="opacity: 0.3">（3）</span>
+    <br /><span>ㅤ┃ㅤ┣</span>
+    <input id="cdqy0.3.2" onchange="cdqyxz()" type="checkbox" value="15" />收容舱段 1层<span style="opacity: 0.3">（15）</span>
+    <br /><span>ㅤ┃ㅤ┗</span>
+    <input id="cdqy0.3.3" onchange="cdqyxz()" type="checkbox" value="6" />收容舱段 -1层<span style="opacity: 0.3">（6）</span>
+    <br /><span>ㅤ┗</span>
+    <input id="cdqy0.4" onchange="cdqyxz(0.4)" type="checkbox" value="0" />支援舱段
+    <br /><span>ㅤㅤㅤ┣</span>
+    <input id="cdqy0.4.1" onchange="cdqyxz()" type="checkbox" value="17" />支援舱段 2层<span style="opacity: 0.3">（17）</span>
+    <br /><span>ㅤㅤㅤ┗</span>
+    <input id="cdqy0.4.2" onchange="cdqyxz()" type="checkbox" value="6" />支援舱段 1层<span style="opacity: 0.3">（6）</span>
+  </div>
+  <div class="box">
+    <input id="cdqy1" onchange="cdqyxz(1)" type="checkbox" value="0" />雅利洛-VI
+    <br /><span>ㅤ┣</span>
+    <input id="cdqy1.1" onchange="cdqyxz(1.1)" type="checkbox" value="0" />行政区
+    <br /><span>ㅤ┃ㅤ┣</span>
+    <input id="cdqy1.1.1" onchange="cdqyxz()" type="checkbox" value="0" />行政区 1层<span style="opacity: 0.3">（0）</span>
+    <br /><span>ㅤ┃ㅤ┗</span>
+    <input id="cdqy1.1.2" onchange="cdqyxz()" type="checkbox" value="0" />行政区 -1层<span style="opacity: 0.3">（0）</span>
+    <br /><span>ㅤ┣</span>
+    <input id="cdqy1.2" onchange="cdqyxz()" type="checkbox" value="19" />城郊雪原<span style="opacity: 0.3">（19）</span>
+    <br /><span>ㅤ┣</span>
+    <input id="cdqy1.3" onchange="cdqyxz()" type="checkbox" value="28" />边缘通路<span style="opacity: 0.3">（28）</span>
+    <br /><span>ㅤ┣</span>
+    <input id="cdqy1.4" onchange="cdqyxz()" type="checkbox" value="0" />铁卫禁区<span style="opacity: 0.3">（0）</span>
+    <br /><span>ㅤ┣</span>
+    <input id="cdqy1.5" onchange="cdqyxz()" type="checkbox" value="34" />残响回廊<span style="opacity: 0.3">（34）</span>
+    <br /><span>ㅤ┣</span>
+    <input id="cdqy1.6" onchange="cdqyxz()" type="checkbox" value="13" />永冬岭<span style="opacity: 0.3">（13）</span>
+    <br /><span>ㅤ┣</span>
+    <input id="cdqy1.7" onchange="cdqyxz()" type="checkbox" value="0" />磐岩镇<span style="opacity: 0.3">（0）</span>
+    <br /><span>ㅤ┣</span>
+    <input id="cdqy1.8" onchange="cdqyxz()" type="checkbox" value="42" />大矿区<span style="opacity: 0.3">（42）</span>
+    <br /><span>ㅤ┣</span>
+    <input id="cdqy1.9" onchange="cdqyxz(1.9)" type="checkbox" value="0" />铆钉镇
+    <br /><span>ㅤ┃ㅤ┣</span>
+    <input id="cdqy1.9.1" onchange="cdqyxz()" type="checkbox" value="0" />铆钉镇 2层<span style="opacity: 0.3">（0）</span>
+    <br /><span>ㅤ┃ㅤ┗</span>
+    <input id="cdqy1.9.2" onchange="cdqyxz()" type="checkbox" value="20" />铆钉镇 1层<span style="opacity: 0.3">（20）</span>
+    <br /><span>ㅤ┗</span>
+    <input id="cdqy1.10" onchange="cdqyxz('1.10')" type="checkbox" value="0" />机械聚落
+    <br /><span>ㅤㅤㅤ┣</span>
+    <input id="cdqy1.10.1" onchange="cdqyxz()" type="checkbox" value="0" />机械聚落 2层<span style="opacity: 0.3">（0）</span>
+    <br /><span>ㅤㅤㅤ┗</span>
+    <input id="cdqy1.10.2" onchange="cdqyxz()" type="checkbox" value="24" />机械聚落 1层<span style="opacity: 0.3">（24）</span>
+  </div>
+  <div class="box">
+    <input id="cdqy2" onchange="cdqyxz(2)" type="checkbox" value="0" />仙舟「罗浮」
+    <br /><span>ㅤ┣</span>
+    <input id="cdqy2.1" onchange="cdqyxz()" type="checkbox" value="0" />星槎海中枢<span style="opacity: 0.3">（0）</span>
+    <br /><span>ㅤ┣</span>
+    <input id="cdqy2.2" onchange="cdqyxz()" type="checkbox" value="0" />长乐天<span style="opacity: 0.3">（0）</span>
+    <br /><span>ㅤ┣</span>
+    <input id="cdqy2.3" onchange="cdqyxz(2.3)" type="checkbox" value="0" />流云渡
+    <br /><span>ㅤ┃ㅤ┣</span>
+    <input id="cdqy2.3.1" onchange="cdqyxz()" type="checkbox" value="7" />流云渡 2层<span style="opacity: 0.3">（7）</span>
+    <br /><span>ㅤ┃ㅤ┗</span>
+    <input id="cdqy2.3.2" onchange="cdqyxz()" type="checkbox" value="36" />流云渡 1层<span style="opacity: 0.3">（36）</span>
+    <br /><span>ㅤ┣</span>
+    <input id="cdqy2.4" onchange="cdqyxz(2.4)" type="checkbox" value="0" />迴星港
+    <br /><span>ㅤ┃ㅤ┣</span>
+    <input id="cdqy2.4.1" onchange="cdqyxz()" type="checkbox" value="16" />迴星港 2层<span style="opacity: 0.3">（16）</span>
+    <br /><span>ㅤ┃ㅤ┗</span>
+    <input id="cdqy2.4.2" onchange="cdqyxz()" type="checkbox" value="42" />迴星港 1层<span style="opacity: 0.3">（42）</span>
+    <br /><span>ㅤ┣</span>
+    <input id="cdqy2.5" onchange="cdqyxz(2.5)" type="checkbox" value="0" />太卜司
+    <br /><span>ㅤ┃ㅤ┣</span>
+    <input id="cdqy2.5.1" onchange="cdqyxz()" type="checkbox" value="21" />太卜司 2层<span style="opacity: 0.3">（21）</span>
+    <br /><span>ㅤ┃ㅤ┗</span>
+    <input id="cdqy2.5.2" onchange="cdqyxz()" type="checkbox" value="33" />太卜司 1层<span style="opacity: 0.3">（33）</span>
+    <br /><span>ㅤ┗</span>
+    <input id="cdqy2.6" onchange="cdqyxz()" type="checkbox" value="81+2" />工造司<span style="opacity: 0.3">（81 + 2）</span>
+  </div>
+  </div>
+  <div style="clear:both">
+    <hr />
+    <span>
+    锄地时长：
+    <input id="cdsc" readonly type="text" value="一坤年" />
+    </span>
+  </div>
+  <script type="text/javascript">
+    var jsdjjy = [0, 200, 300, 500, 600, 1050, 1670, 2320, 3060, 3860, 4740, 5710, 6730, 7830, 9000, 10240, 11550, 12920, 14360, 15870, 16580, 16840, 17100, 17370, 17640, 17910, 18190, 18480, 18760, 19040, 19340, 19630, 19930, 20220, 20530, 20840, 21140, 21450, 21760, 22080, 22390, 25550, 29140, 32830, 36600, 40470, 44430, 48480, 52630, 56870, 61190, 65620, 70130, 74740, 79450, 84240, 89120, 94110, 99190, 104350, 106240, 111830, 117530, 123320, 129210, 135200, 141290, 147480, 153780, 160170, 179260, 199920, 220920, 242260, 263930, 285950, 308300, 331000, 354040, 377420, 414350, 435740, 457450, 479460, 501770, 524380, 547310, 570550, 594100, 617950, 642120, 666600, 691380, 716490, 741900, 767620, 793660, 820020, 846690, 873660]
+    
+    function fun_jhdj() {
+      var jhdj = document.getElementById("jhdj").children[document.getElementById("jhdj").selectedIndex].innerHTML
+      var dgjy = document.getElementById("dgjy")
+      var sgsl = document.getElementById("sgsl")
+      var jssxjy = parseInt(document.getElementById("jssxjy").value)
+      dgjy.value = 36 + jhdj * 12 + "/" + parseInt(150 + jhdj * 50)
+      sgsl.value = Math.ceil(jssxjy / parseInt(dgjy.value.split("/")[0]))
+      cdsc()
+    }
+    
+    function jyjs() {
+      var jsdqdj = document.getElementById("jsdqdj").value
+      var jsmbdj = document.getElementById("jsmbdj").value
+      var jsdqjy = document.getElementById("jsdqjy").value
+      var jssxjy = document.getElementById("jssxjy")
+      if (jsdqdj >= 1 && jsdqdj <= jsdjjy.length && jsdqdj%1 === 0){
+        //console.log("角色当前等级：" + jsdqdj)
+      } else {
+        jssxjy.value = "角色当前等级有误"
+        return
+      }
+      if (jsmbdj >= 1 && jsmbdj <= jsdjjy.length && jsmbdj > jsdqdj && jsmbdj%1 === 0){
+        //console.log("角色目标等级：" + jsmbdj)
+      } else {
+        jssxjy.value = "角色目标等级有误"
+        return
+      }
+      
+      jssxjy.value = "0"
+      for (i = jsdqdj; i < jsmbdj; i++){
+        jssxjy.value = parseInt(jssxjy.value) + jsdjjy[i]
+      }
+      
+      if (jsdqjy >= 0 && jsdqjy <= jsdjjy[jsdqdj] && jsdqjy%1 === 0){
+        //console.log("角色当前经验：" + jsdqjy)
+        jssxjy.value = parseInt(jssxjy.value) - jsdqjy
+      } else {
+        jssxjy.value = "角色当前经验有误"
+        return
+      }
+      
+      var clxh = document.getElementById("clxh")
+      clxh.value = ""
+      let myzn = parseInt(parseInt(jssxjy.value)%20000)
+      if (parseInt(jssxjy.value) > 20000){
+        clxh.value = parseInt(parseInt(jssxjy.value)/20000) + "*漫游指南"
+      }
+      let mxjl = parseInt(myzn%5000)
+      if (myzn > 5000){
+        clxh.value = clxh.value + " + "
+        clxh.value = clxh.value + parseInt(myzn/5000) + "*冒险记录"
+      }
+      if (mxjl > 1000){
+        clxh.value = clxh.value + " + "
+        clxh.value = clxh.value + Math.ceil(mxjl/1000) + "*旅情见闻"
+      }
+      cdsc()
+      fun_jhdj()
+    }
+    
+    function cdsc() {
+      let cdqy0 = document.getElementById("cdqy0").parentNode.parentNode
+      var cdqy = []
+      for (let i in cdqy0.children){
+        let cdqy1 = cdqy0.children[i]
+        for (let j in cdqy1.children){
+          let cdqy2 = cdqy1.children[j]
+          if (cdqy2 == undefined) continue
+          if (cdqy2.tagName == "INPUT"){
+            cdqy.push(cdqy2)
+          }
+        }
+      }
+      let x = 0
+      var dgjy = document.getElementById("dgjy").value.split("/")
+      var jssxjy = parseInt(document.getElementById("jssxjy").value)
+      var cdsc = document.getElementById("cdsc")
+      for (let i in cdqy){
+        if (cdqy[i].checked){
+          if (cdqy[i].value.split("+").length > 1){
+            x = x + parseInt(cdqy[i].value.split("+")[0]) * dgjy[0] + parseInt(cdqy[i].value.split("+")[1]) * dgjy[1]
+          } else {
+            x = x + parseInt(cdqy[i].value) * dgjy[0]
+          }
+        }
+      }
+      cdsc.value = Math.ceil(jssxjy / x) + "天"
+      if (cdsc.value == "Infinity天") cdsc.value = "一坤年（计算失败）"
+    }
+    
+    function cdqyxz(n){
+      if (n != undefined){
+        let cdqy0 = document.getElementById("cdqy" + n)
+        let cdqy1 = []
+        let a = 1
+        while (true){
+          let b = document.getElementById("cdqy" + n + "." + a)
+          if (b == null) break
+          let c = 1
+          while (true){
+            let d = document.getElementById("cdqy" + n + "." + a + "." + c)
+            if (d == null) break
+            d.checked = cdqy0.checked
+            cdqy1.push(d)
+            c = c + 1
+          }
+          b.checked = cdqy0.checked
+          cdqy1.push(b)
+          a = a + 1
+        }
+      }
+      
+      let a = 0
+      while (true){
+        let d = document.getElementById("cdqy" + a)
+        if (d == null) break
+        let b = 1
+        let bn1 = 0
+        let bn2 = 0
+        while (true){
+          let e = document.getElementById("cdqy" + a + "." + b)
+          if (e == null) break
+          let c = 1
+          let cn1 = 0
+          let cn2 = 0
+          while (true){
+            let f = document.getElementById("cdqy" + a + "." + b + "." + c)
+            if (f == null) break
+            if (f.checked && !f.indeterminate){
+              cn1 = cn1 + 1
+            }
+            if (!f.checked && !f.indeterminate){
+              cn2 = cn2 + 1
+            }
+            if (f.indeterminate){
+              cn1 = cn1 + 1
+              cn2 = cn2 + 1
+            }
+            c = c + 1
+          }
+          if (cn1 > 0 && cn2 == 0){
+            e.indeterminate = false
+            e.checked = true
+          }
+          if (cn1 > 0 && cn2 > 0){
+            e.indeterminate = true
+            e.checked = false
+          }
+          if (cn1 == 0 && cn2 > 0){
+            e.indeterminate = false
+            e.checked = false
+          }
+          if (e.checked && !e.indeterminate){
+            bn1 = bn1 + 1
+          }
+          if (!e.checked && !e.indeterminate){
+            bn2 = bn2 + 1
+          }
+          if (e.indeterminate){
+            bn1 = bn1 + 1
+            bn2 = bn2 + 1
+          }
+          b = b + 1
+        }
+        if (bn1 > 0 && bn2 == 0){
+          d.indeterminate = false
+          d.checked = true
+        }
+        if (bn1 > 0 && bn2 > 0){
+          d.indeterminate = true
+          d.checked = false
+        }
+        if (bn1 == 0 && bn2 > 0){
+          d.indeterminate = false
+          d.checked = false
+        }
+        a = a + 1
+      }
+      
+      cdsc()
+    }
+    
+    onload=jyjs()
+  </script>
+</body>
+</html>
