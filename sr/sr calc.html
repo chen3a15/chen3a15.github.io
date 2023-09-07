@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    span {
+      font-size: 1.6vh;
+    }
+    input {
+      font-size: 1.6vh;
+    }
+    select {
+      font-size: 1.6vh;
+    }
+    .box {
+      background: rgba(0, 0, 0, 0.1);
+      margin: 5px 20px 20px 0;
+      border-style: dotted;
+      border-radius: 10px;
+      border-width: 2px;
+      padding: 5px;
+      font-size: 1.6vh;
+    }
+  </style>
+  <title>崩坏·星穹铁道 伤害计算</title>
+</head>
+<body>
+  <div id="input" onchange="dameage()">
+    <div class="box">
+      攻击区<input id="攻击区" oninput="atk()" type="text" value="0" /><span style="opacity: 0.3">=攻击白值+额外攻击</span>
+      <br /><span>ㅤ┣</span>攻击白值<input id="攻击区_1" type="text" value="0" /><span style="opacity: 0.3"></span>
+      <br /><span>ㅤ┗</span>额外攻击<input id="攻击区_2" type="text" value="0" /><span style="opacity: 0.3">包括各种攻击加成</span>
+    </div>
+    <div class="box">
+      倍率区<input id="倍率区" type="text" value="0" />%<span style="opacity: 0.3">技能倍率</span>
+    </div>
+    <div class="box">
+      爆伤区<input id="爆伤区" readonly=1 type="text" value="0" />%<span style="opacity: 0.3">本输入框自动计算</span>
+      <br /><span>ㅤ┣</span>暴击率<input id="暴击率" type="text" value="100" />%<span style="opacity: 0.3">暴击率为0时计算不暴击伤害，暴击率为100时计算暴击伤害，其他暴击率时计算暴击收益</span>
+      <br /><span>ㅤ┗</span>暴击伤害<input id="暴击伤害" type="text" value="0" />%<span style="opacity: 0.3"></span>
+    </div>
+    <div class="box">
+      增伤区<input id="增伤区" readonly=1 type="text" value="0" />%<span style="opacity: 0.3">本输入框自动计算</span>
+      <br /><span>ㅤ┗</span>增伤<input id="增伤区_1" type="text" value="0" />%<span style="opacity: 0.3">所有增伤之和</span>
+    </div>
+    <div class="box">
+      减伤区<input id="减伤区" readonly=1 type="text" value="0" />%<span style="opacity: 0.3">本输入框自动计算</span>
+      <br /><span>ㅤ┗</span>减伤<input id="减伤区_1" type="text" value="10" />%<span style="opacity: 0.3">韧性条之类的</span>
+    </div>
+    <div class="box">
+      易伤区<input id="易伤区" readonly=1 type="text" value="0" />%<span style="opacity: 0.3">本输入框自动计算</span>
+      <br /><span>ㅤ┗</span>易伤<input id="易伤区_1" type="text" value="0" />%<span style="opacity: 0.3"></span>
+    </div>
+    <div class="box">
+      抗性区<input id="抗性区" readonly=1 type="text" value="0" />%<span style="opacity: 0.3">本输入框自动计算</span>
+      <br /><span>ㅤ┣</span>抗性<input id="抗性" type="text" value="20" />%<span style="opacity: 0.3"></span>
+      <br /><span>ㅤ┗</span>穿透<input id="穿透" type="text" value="0" />%<span style="opacity: 0.3">对抗性的减少效果</span>
+    </div>
+    <div class="box">
+      防御区<input id="防御区" readonly=1 type="text" value="0" /><span style="opacity: 0.3">本输入框自动计算</span>
+      <br /><span>ㅤ┣</span>敌方等级<input id="敌方等级" type="text" value="70" /><span style="opacity: 0.3"></span>
+      <br /><span>ㅤ┗</span>我方等级<input id="我方等级" type="text" value="80" /><span style="opacity: 0.3"></span>
+    </div>
+  </div>
+  <div style="clear:both">
+    <hr />
+    <span>
+    最终伤害：
+    <input id="dameage" readonly type="text" value="一坤" />
+    </span>
+  </div>
+  <script type="text/javascript">
+    function atk(){
+      document.getElementById("攻击区_1").value = 0
+      document.getElementById("攻击区_2").value = document.getElementById("攻击区").value
+    }
+    
+    function check(){
+      console.log("开始检查数据")
+      let input = document.getElementById("input")
+      for (let i in input.children){
+        let box = input.children[i]
+        if (box.className == "box"){
+          for (let j in box.children){
+            let value = box.children[j]
+            if (value.tagName == "INPUT"){
+              if (value.value == ""){
+                value.value = 0
+              }
+              if (value.value >= 0){
+                // ok
+              } else {
+                value.value = value.value + "（值必须大于0）"
+                return "-1"
+              }
+              if (value.id == "cric" && value.value > 100){
+                value.value = value.value + "（值必须小于100）"
+                return "-1"
+              }
+            }
+          }
+        }
+      }
+    }
+    
+    
+    function dameage(){
+      console.log("开始计算伤害")
+      let dameage = document.getElementById("dameage")
+      let tips = check()
+      if (tips == -1){
+        dameage.value = "部分输入错误，请核对"
+        return
+      }
+      
+      let 攻击区 = document.getElementById("攻击区")
+      let 攻击区_1 = parseFloat(document.getElementById("攻击区_1").value)
+      let 攻击区_2 = parseFloat(document.getElementById("攻击区_2").value)
+      攻击区.value = 攻击区_1 + 攻击区_2
+      
+      let 爆伤区 = document.getElementById("爆伤区")
+      let 暴击率 = parseFloat(document.getElementById("暴击率").value)
+      let 暴击伤害 = parseFloat(document.getElementById("暴击伤害").value)
+      爆伤区.value = 100 + 暴击率 * 暴击伤害 / 100
+      
+      let 增伤区 = document.getElementById("增伤区")
+      let 增伤区_1 = parseFloat(document.getElementById("增伤区_1").value)
+      增伤区.value = 增伤区_1 + 100
+      
+      let 易伤区 = document.getElementById("易伤区")
+      let 易伤区_1 = parseFloat(document.getElementById("易伤区_1").value)
+      易伤区.value = 易伤区_1 + 100
+      
+      let 减伤区 = document.getElementById("减伤区")
+      let 减伤区_1 = parseFloat(document.getElementById("减伤区_1").value)
+      减伤区.value = 100 - 减伤区_1
+      
+      let 抗性区 = document.getElementById("抗性区")
+      let 抗性 = parseFloat(document.getElementById("抗性").value)
+      let 穿透 = parseFloat(document.getElementById("穿透").value)
+      抗性区.value = 100 - 抗性 + 穿透
+      
+      let 防御区 = document.getElementById("防御区")
+      let 敌方等级 = parseFloat(document.getElementById("敌方等级").value)
+      let 我方等级 = parseFloat(document.getElementById("我方等级").value)
+      防御区.value = (我方等级 * 10 + 200) / ((我方等级 * 10 + 200) + (敌方等级 * 10 + 200))
+      
+      攻击区 = parseFloat(document.getElementById("攻击区").value)
+      倍率区 = parseFloat(document.getElementById("倍率区").value) / 100
+      爆伤区 = parseFloat(document.getElementById("爆伤区").value) / 100
+      增伤区 = parseFloat(document.getElementById("增伤区").value) / 100
+      减伤区 = parseFloat(document.getElementById("减伤区").value) / 100
+      易伤区 = parseFloat(document.getElementById("易伤区").value) / 100
+      抗性区 = parseFloat(document.getElementById("抗性区").value) / 100
+      防御区 = parseFloat(document.getElementById("防御区").value)
+      dameage.value = 攻击区 * 倍率区 * 爆伤区 * 增伤区 * 减伤区 * 易伤区 * 抗性区 * 防御区
+    }
+    onload=dameage()
+  </script>
+</body>
+</html>
