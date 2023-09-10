@@ -1,6 +1,7 @@
+chcp 65001
 @echo off
 git add .
-set /p a="Ìá½»ÃèÊö£º"
+set /p a="æäº¤æè¿°ï¼š"
 git commit -m "%a%"
 git push
 pause
