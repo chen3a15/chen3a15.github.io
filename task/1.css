@@ -10,9 +10,29 @@
 
 #desktop div
 {
-  border-color: #999999;
+  border-color: #666666;
   border-style: dashed;
-  border-width: 0;
+  border-width: 1px;
   float: left;
-  margin: 5px;
+  margin: 12px;
+  overflow: auto;
+  text-align: center;
+}
+
+#desktop div img
+{
+  height: 10vh;
+  width: 10vh;
+}
+
+#desktop div span
+{
+  font-size: 3vh;
+}
+
+.window {
+  position: absolute;
+  max-height: 67vh;
+  max-width: 67vw;
+  overflow: auto;
 }

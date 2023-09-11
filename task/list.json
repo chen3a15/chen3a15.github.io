@@ -1,10 +1,10 @@
 {
     "日志": {
-        "icon": "./日志/icon.ico",
+        "icon": "./日志/icon.png",
         "description": "瞎jb写的"
     },
     "占位": {
-        "icon": "./日志/icon.ico",
+        "icon": "/favicon.ico",
         "description": "凑数的"
     }
 }
