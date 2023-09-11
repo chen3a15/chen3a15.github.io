@@ -1,66 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="stylesheet" type="text/css" href="1.css">
   <meta charset="UTF-8">
-  <style>
-    body {
-      background-color: #666666;
-    }
-    
-    .window {
-      background-color: #000000;
-      color: #FFFFFF;
-      height: 78vh;
-      left: 11vw;
-      width: 78vw;
-      position: absolute;
-      top: 11vh;
-      
-    }
-    
-    .window .title {
-      background-color: #FFFFFF;
-      color: #000000;
-      width: 100%
-    }
-    
-    .window .title img {
-      height: 1em;
-      
-    }
-    
-    .window .title span {
-      color: #B22222;
-      position: absolute;
-      right: 0.5em;
-    }
-    
-    @media only screen and (orientation: portrait) {
-      .window {
-        font-size: 3em;
-      }
-      
-    }
-    
-    @media only screen and (orientation: landscape) {
-      .window {
-        font-size: 1em;
-      }
-      
-    }
-  </style>
+  <script src="1.js"></script>
   <title>TASK!</title>
 </head>
-<body>
-  <div class="window">
-    <div class="title">
-      <img src="/icons/favicon.ico" alt="图标">
-      标题在此
-      <span>
-      ╳
-      </span>
-    </div>
-    asdf
+<body onload="loadAPP()">
+  <div id="desktop">
   </div>
 </body>
 </html>

@@ -1,0 +1,62 @@
+
+  <div class="window" id="1">
+    <div class="title">
+      <img src="/icons/favicon.ico" alt="图标">
+      <span>日志</span>
+      <span class="close" onclick="document.getElementById('1').style.display = 'none';">╳</span>
+    </div>
+    asdf
+  </div>
+
+
+  <style>
+    body {
+    }
+    
+    .window {
+      background-color: #000000;
+      color: #FFFFFF;
+      height: 78vh;
+      left: 11vw;
+      width: 78vw;
+      position: absolute;
+      top: 11vh;
+      
+    }
+    
+    .window .title {
+      background-color: #FFFFFF;
+      color: #000000;
+      height: 1.3em;
+      vertical-align: middle;
+      width: 100%
+    }
+    
+    .window .title img {
+      height: 60%;
+      margin-left: 0.2em;
+      vertical-align: middle;
+    }
+    
+    .window .title .close {
+      color: #B22222;
+      font-size: 100%;
+      position: absolute;
+      right: 0.5em;
+      vertical-align: middle;
+    }
+    
+    @media only screen and (orientation: portrait) {
+      .window {
+        font-size: 3em;
+      }
+      
+    }
+    
+    @media only screen and (orientation: landscape) {
+      .window {
+        font-size: 1em;
+      }
+      
+    }
+  </style>
