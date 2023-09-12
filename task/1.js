@@ -1,3 +1,16 @@
+console.log = (function (oriLogFunc) {
+  return function () {
+    //判断配置文件是否开启日志调试
+    if (true) {
+      try{
+        oriLogFunc.call(console, ...arguments);
+      }catch(e){
+        console.error('console.log error', e);
+      }
+    }
+  }
+})(console.log);
+
 function loadAPP(){
   console.log("开始加载桌面图标");
   var xhr = new XMLHttpRequest();
@@ -9,8 +22,7 @@ function loadAPP(){
   for (i in appList){
     let a = document.createElement("div");
     a.setAttribute("id", "icon_" + i);
-    a.setAttribute("onclick", "ready('" + i + "')");
-    a.setAttribute("ondblclick", "start('" + i + "')");
+    a.setAttribute("onclick", "start('" + i + "')");
     a.setAttribute("title", appList[i]["description"]);
     let b = document.createElement("img");
     b.setAttribute("src", appList[i]["icon"]);
@@ -24,10 +36,11 @@ function loadAPP(){
   }
 }
 
-function ready(id){
+function start(id){
   selectBorder(id)
   a = document.getElementById("window_" + id);
   if (a){
+    a.style.display = "";
     return true;
   }
   console.log("加载" + id);
@@ -35,15 +48,24 @@ function ready(id){
   b = document.createElement("div");
   b.setAttribute("class", "window");
   b.setAttribute("id", "window_" + id);
+  e = document.createElement("div");
+  e.setAttribute("class", "title");
+  f = document.createElement("span");
+  f.innerHTML = id;
+  e.appendChild(f);
+  d = document.createElement("span");
+  d.setAttribute("class", "close");
+  d.setAttribute("onclick", "document.getElementById('window_" + id + "').style.display = 'none';");
+  d.innerHTML = "╳";
+  e.appendChild(d);
+  b.appendChild(e);
   c = document.createElement("iframe");
-  c.setAttribute("src", "./" + id + "/index.html");
+  c.setAttribute("src", "./app/" + id + "/index.html");
   c.setAttribute("frameborder", "0");
+  c.style.height = appList[id]["height"];
+  c.style.width = appList[id]["width"];
   b.appendChild(c);
   a.appendChild(b);
-}
-
-function start(id){
-  console.log("启动" + id);
 }
 
 function selectBorder(id){
