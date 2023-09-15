@@ -1,0 +1,12 @@
+@media screen and (orientation: portrait) {
+  /* 竖屏 */
+  table {
+    font-size: 2.2em;
+  }
+}
+@media screen and (orientation: landscape) {
+  /* 横屏 */
+  table {
+    font-size: 1.3em;
+  }
+}
