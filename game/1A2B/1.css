@@ -18,3 +18,11 @@
     width: 4em;
   }
 }
+
+hr {
+  background-color: #000000;
+  border: none;
+  height: 0;
+  margin-bottom: 30px;
+  margin-top: 30px;
+}

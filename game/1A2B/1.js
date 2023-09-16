@@ -134,8 +134,6 @@ function loading(){
     二行一列.setAttribute("align", "center");
     二行一列.innerHTML = i;
     二行.appendChild(二行一列);
-    console.log(i)
-    console.log(数字位置[i])
     for (let j = 0; j < 4; j++){
       let 二行二列 = document.createElement("td");
       二行二列.setAttribute("align", "center");
