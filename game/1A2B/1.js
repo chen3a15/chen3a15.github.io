@@ -1,6 +1,6 @@
 function loading(){
   data = getQueryVariable("data")
-  if (data.length % 6 != 0 || data.length != parseInt(data).toString().length){
+  if (data.length % 6 != 0 || /^[^0-9]*$/.test(data)){
     let a = document.createElement("span");
     a.innerHTML = "参数解析错误"
     document.getElementsByTagName("body")[0].appendChild(a);
@@ -71,9 +71,8 @@ function loading(){
   
   let list1 = [];
   for (let i in list){
-    console.log(list[i])
+    let li = true
     for (let j in data){
-      console.log(data[j])
       let a = 0
       let b = 0
       for (let k = 0; k < 4; k++){
@@ -85,9 +84,12 @@ function loading(){
           b = b + 1
         }
       }
-      if (a == data[j][1] && b == data[j][2]){
-        list1.push(list[i])
-      }
+    if (a != data[j][1] || b != data[j][2]){
+      li = false
+    }
+    }
+    if (li){
+      list1.push(list[i])
     }
   }
   list = list1
