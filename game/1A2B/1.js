@@ -42,36 +42,65 @@ function loading(){
     a.appendChild(t2);
   }
   
+  a = document.createElement("table");
+  a.setAttribute("border", "1");
+  document.getElementsByTagName("body")[0].appendChild(a);
+  let t3 = document.createElement("tr");
+  let t3_1 = document.createElement("th");
+  t3_1.innerHTML = "possible";
+  t3.appendChild(t3_1);
+  a.appendChild(t3);
+  
   let list = []
   let b = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
   for (let i in b){
-    let c = b
-    c.splice(i, 1)
+    let c = b.concat([]);
+    c.splice(parseInt(i), 1)
     for (let j in c){
-      let d = c
-      d.splice(j, 1)
+      let d = c.concat([]);
+      d.splice(parseInt(j), 1)
       for (let k in d){
-        let e = d
-        e.splice(k, 1)
+        let e = d.concat([]);
+        e.splice(parseInt(k), 1)
         for (let l in e){
-          list.push(i + j + k + l)
+          list.push(b[i] + c[j] + d[k] + e[l])
         }
       }
     }
   }
   
-  let t3 = document.createElement("tr");
-  let t3_1 = document.createElement("thd");
-  t3_1.innerHTML = "可能的答案";
-  t3.appendChild(t3_1);
-  let t3_2 = document.createElement("td");
-  t3_2.innerHTML = "";
-  t3.appendChild(t3_2);
-  a.appendChild(t3);
+  let list1 = [];
+  for (let i in list){
+    console.log(list[i])
+    for (let j in data){
+      console.log(data[j])
+      let a = 0
+      let b = 0
+      for (let k = 0; k < 4; k++){
+       
+        if (list[i].slice(k, k + 1) == data[j][0].slice(k, k + 1)){
+          a = a + 1
+        }
+        else if (data[j][0].indexOf(list[i].slice(k, k + 1)) != -1){
+          b = b + 1
+        }
+      }
+      if (a == data[j][1] && b == data[j][2]){
+        list1.push(list[i])
+      }
+    }
+  }
+  list = list1
   
   
-  console.log(list.length)
-  console.log(list)
+  for (let i in list){
+    let t3 = document.createElement("tr");
+    let t3_1 = document.createElement("td");
+    t3_1.innerHTML = list[i];
+    t3.appendChild(t3_1);
+    a.appendChild(t3);
+  }
+  
 }
 
 function getQueryVariable(variable){
