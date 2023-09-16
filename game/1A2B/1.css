@@ -1,12 +1,20 @@
 @media screen and (orientation: portrait) {
   /* 竖屏 */
   table {
-    font-size: 2.2em;
+    font-size: 4vw;
+  }
+  
+  table th {
+    width: 18vw;
   }
 }
 @media screen and (orientation: landscape) {
   /* 横屏 */
   table {
-    font-size: 1.3em;
+    font-size: 1em;
+  }
+  
+  table th {
+    width: 4em;
   }
 }
