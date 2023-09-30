@@ -1,0 +1,14 @@
+c02_shu.png
+size:840,432
+filter:Linear,Linear
+叶子a
+bounds:790,202,229,49
+offsets:1,1,231,51
+rotate:90
+叶子b
+bounds:703,124,307,85
+offsets:1,1,309,87
+rotate:90
+树
+bounds:1,1,430,700
+rotate:90

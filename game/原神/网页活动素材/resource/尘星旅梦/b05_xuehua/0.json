@@ -1,0 +1,165 @@
+{
+    "skeleton": {
+        "hash": "FBd5c0JZlp8",
+        "spine": "4.0-from-4.1.23",
+        "x": -560,
+        "y": -235,
+        "width": 1120,
+        "height": 373
+    },
+    "bones": [
+        {
+            "name": "root"
+        },
+        {
+            "name": "xa",
+            "parent": "root",
+            "x": -529.5,
+            "y": -202
+        },
+        {
+            "name": "xb",
+            "parent": "root",
+            "x": 209.32,
+            "y": 83.74
+        },
+        {
+            "name": "xc",
+            "parent": "root",
+            "x": 512.46,
+            "y": 39.32
+        }
+    ],
+    "slots": [
+        {
+            "name": "xc",
+            "bone": "xc",
+            "attachment": "xc"
+        },
+        {
+            "name": "xb",
+            "bone": "xb",
+            "attachment": "xb"
+        },
+        {
+            "name": "xa",
+            "bone": "xa",
+            "attachment": "xa"
+        }
+    ],
+    "skins": [
+        {
+            "name": "default",
+            "attachments": {
+                "xa": {
+                    "xa": {
+                        "x": 3,
+                        "y": 1.5,
+                        "width": 67,
+                        "height": 69
+                    }
+                },
+                "xb": {
+                    "xb": {
+                        "x": 1.68,
+                        "y": -11.74,
+                        "width": 124,
+                        "height": 132
+                    }
+                },
+                "xc": {
+                    "xc": {
+                        "x": 3.04,
+                        "y": -1.32,
+                        "width": 89,
+                        "height": 86
+                    }
+                }
+            }
+        }
+    ],
+    "animations": {
+        "animation": {}
+    },
+    "extra": {
+        "xb": {
+            "rootBoneName": "xb",
+            "animation": {
+                "default": {
+                    "name": "default",
+                    "mode": 3,
+                    "moveXFreq": 5,
+                    "moveXAmp": 30,
+                    "moveXOctaves": 0,
+                    "moveXDelay": 0,
+                    "moveXCenter": 0,
+                    "moveYFreq": 7,
+                    "moveYAmp": 50,
+                    "moveYOctaves": 0,
+                    "moveYDelay": 0,
+                    "moveYCenter": 0,
+                    "scaleXFreq": 6,
+                    "scaleXAmp": 0.2,
+                    "scaleXOctaves": 0,
+                    "scaleXDelay": 0,
+                    "scaleXCenter": 0,
+                    "rotateSpeed": 0.1
+                }
+            }
+        },
+        "xc": {
+            "rootBoneName": "xc",
+            "animation": {
+                "default": {
+                    "name": "default",
+                    "mode": 3,
+                    "moveXFreq": 4,
+                    "moveXAmp": 20,
+                    "moveXOctaves": 0,
+                    "moveXDelay": 5.529904304801009,
+                    "moveXCenter": 0,
+                    "moveYFreq": 6,
+                    "moveYAmp": 30,
+                    "moveYOctaves": 0,
+                    "moveYDelay": 5.628619825931386,
+                    "moveYCenter": 0,
+                    "scaleXFreq": 5,
+                    "scaleXAmp": 0.15,
+                    "scaleXOctaves": 0,
+                    "scaleXDelay": -0.8901292276994662,
+                    "scaleXCenter": 0,
+                    "rotateSpeed": -0.07
+                }
+            }
+        },
+        "xa": {
+            "rootBoneName": "xa",
+            "animation": {
+                "default": {
+                    "name": "default",
+                    "mode": 3,
+                    "moveXFreq": 4,
+                    "moveXAmp": 20,
+                    "moveXOctaves": 0,
+                    "moveXDelay": -2.104260327588703,
+                    "moveXCenter": 0,
+                    "moveYFreq": 6,
+                    "moveYAmp": 30,
+                    "moveYOctaves": 0,
+                    "moveYDelay": -0.5512395079301362,
+                    "moveYCenter": 0,
+                    "scaleXFreq": 5,
+                    "scaleXAmp": 0.15,
+                    "scaleXOctaves": 0,
+                    "scaleXDelay": -3.6929353480602938,
+                    "scaleXCenter": 0,
+                    "rotateSpeed": -0.07
+                }
+            }
+        }
+    },
+    "extraSlot": {},
+    "extraConfig": {
+        "timeScale": 1
+    }
+}

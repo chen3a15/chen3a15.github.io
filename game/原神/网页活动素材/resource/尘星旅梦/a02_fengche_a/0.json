@@ -1,0 +1,59 @@
+{
+    "skeleton": {
+        "hash": "cXHo5CYyqPg",
+        "spine": "4.0-from-4.1.23",
+        "x": -147,
+        "y": -162,
+        "width": 294,
+        "height": 325
+    },
+    "bones": [
+        {
+            "name": "root"
+        }
+    ],
+    "slots": [
+        {
+            "name": "a02_fengche_a",
+            "bone": "root",
+            "attachment": "a02_fengche_a"
+        }
+    ],
+    "skins": [
+        {
+            "name": "default",
+            "attachments": {
+                "a02_fengche_a": {
+                    "a02_fengche_a": {
+                        "y": 0.5,
+                        "width": 294,
+                        "height": 325
+                    }
+                }
+            }
+        }
+    ],
+    "animations": {
+        "animation": {}
+    },
+    "extra": {
+        "root": {
+            "rootBoneName": "root",
+            "animation": {
+                "default": {
+                    "name": "default",
+                    "mode": 3,
+                    "rotateSpeed": 0.09,
+                    "rotateFreq": 6,
+                    "rotateAmp": 6,
+                    "rotateOctaves": 0,
+                    "rotateDelay": 0
+                }
+            }
+        }
+    },
+    "extraSlot": {},
+    "extraConfig": {
+        "timeScale": 1
+    }
+}

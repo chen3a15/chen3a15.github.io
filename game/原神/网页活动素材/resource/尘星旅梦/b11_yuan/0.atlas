@@ -1,0 +1,17 @@
+b11_yuan.png
+size:1870,1240
+filter:Linear,Linear
+scale:0.8
+bg
+bounds:1345,714,524,525
+圆
+bounds:1,1,1342,1238
+鸟a
+bounds:1409,665,44,47
+offsets:0,0,45,48
+鸟b
+bounds:1345,545,52,69
+offsets:1,0,53,70
+鸟c
+bounds:1345,616,62,96
+offsets:0,1,62,98

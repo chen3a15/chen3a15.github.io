@@ -1,0 +1,14 @@
+c05_yuan_a.png
+size:1231,468
+filter:Linear,Linear
+scale:0.33
+a
+bounds:511,2,426,465
+offsets:0,1,431,466
+b
+bounds:939,1,466,291
+offsets:0,0,467,291
+rotate:90
+c
+bounds:1,45,508,422
+offsets:29,0,537,422

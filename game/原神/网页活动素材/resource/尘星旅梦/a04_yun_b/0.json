@@ -1,0 +1,234 @@
+{
+    "skeleton": {
+        "hash": "8AXYLEBOrtY",
+        "spine": "4.0-from-4.1.23",
+        "x": -433,
+        "y": -118,
+        "width": 866,
+        "height": 237
+    },
+    "bones": [
+        {
+            "name": "root"
+        },
+        {
+            "name": "a04_yun_a",
+            "parent": "root",
+            "x": 136.41,
+            "y": 30.51
+        },
+        {
+            "name": "a04_yun_a2",
+            "parent": "a04_yun_a",
+            "x": -252.6,
+            "y": 31.26
+        },
+        {
+            "name": "a04_yun_a3",
+            "parent": "a04_yun_a",
+            "x": 212.05,
+            "y": -45.62
+        }
+    ],
+    "slots": [
+        {
+            "name": "a04_yun_a",
+            "bone": "a04_yun_a",
+            "attachment": "a04_yun_b"
+        }
+    ],
+    "skins": [
+        {
+            "name": "default",
+            "attachments": {
+                "a04_yun_a": {
+                    "a04_yun_b": {
+                        "type": "mesh",
+                        "uvs": [
+                            0,
+                            0,
+                            0,
+                            0.7619,
+                            0.61166,
+                            0.7619,
+                            0.60874,
+                            0.46604,
+                            0.71897,
+                            0.46247,
+                            0.71995,
+                            1,
+                            1,
+                            1,
+                            1,
+                            0.2379,
+                            0.71995,
+                            0.29494,
+                            0.60484,
+                            0.2985,
+                            0.60093,
+                            0
+                        ],
+                        "triangles": [
+                            1,
+                            3,
+                            2,
+                            8,
+                            3,
+                            9,
+                            9,
+                            0,
+                            10,
+                            9,
+                            1,
+                            0,
+                            1,
+                            9,
+                            3,
+                            6,
+                            4,
+                            7,
+                            6,
+                            5,
+                            4,
+                            7,
+                            4,
+                            8,
+                            4,
+                            3,
+                            8
+                        ],
+                        "vertices": [
+                            1,
+                            2,
+                            -316.81,
+                            57.23,
+                            1,
+                            1,
+                            2,
+                            -316.81,
+                            -123.34,
+                            1,
+                            1,
+                            2,
+                            212.89,
+                            -123.34,
+                            1,
+                            1,
+                            2,
+                            210.36,
+                            -53.22,
+                            1,
+                            1,
+                            3,
+                            -158.82,
+                            24.5,
+                            1,
+                            1,
+                            3,
+                            -157.98,
+                            -102.89,
+                            1,
+                            1,
+                            3,
+                            84.54,
+                            -102.89,
+                            1,
+                            1,
+                            3,
+                            84.54,
+                            77.72,
+                            1,
+                            1,
+                            3,
+                            -157.98,
+                            64.21,
+                            1,
+                            1,
+                            2,
+                            206.98,
+                            -13.52,
+                            1,
+                            1,
+                            2,
+                            203.6,
+                            57.23,
+                            1
+                        ],
+                        "hull": 11
+                    }
+                }
+            }
+        }
+    ],
+    "animations": {
+        "animation": {}
+    },
+    "extra": {
+        "a04_yun_a": {
+            "rootBoneName": "a04_yun_a",
+            "animation": {
+                "default": {
+                    "name": "default",
+                    "mode": 3,
+                    "moveXFreq": 8,
+                    "moveXAmp": 30,
+                    "moveXOctaves": 0,
+                    "moveXDelay": 2.4901939244840223,
+                    "moveXCenter": 0,
+                    "moveYFreq": 7,
+                    "moveYAmp": 10,
+                    "moveYOctaves": 0,
+                    "moveYDelay": 1.8020841845514173,
+                    "moveYCenter": 0,
+                    "scaleXFreq": 5,
+                    "scaleXAmp": 0.02,
+                    "scaleXOctaves": 0,
+                    "scaleXDelay": -5.522833167849232,
+                    "scaleXCenter": 0
+                }
+            }
+        },
+        "a04_yun_a2": {
+            "rootBoneName": "a04_yun_a2",
+            "animation": {
+                "default": {
+                    "name": "default",
+                    "mode": 3,
+                    "moveXFreq": 5,
+                    "moveXAmp": 15,
+                    "moveXOctaves": 0,
+                    "moveXDelay": -3.8357826037611904,
+                    "moveXCenter": 0,
+                    "moveYFreq": 1,
+                    "moveYAmp": 0,
+                    "moveYOctaves": 0,
+                    "moveYDelay": 0.7376272118852257,
+                    "moveYCenter": 0
+                }
+            }
+        },
+        "a04_yun_a3": {
+            "rootBoneName": "a04_yun_a3",
+            "animation": {
+                "default": {
+                    "name": "default",
+                    "mode": 3,
+                    "moveXFreq": 5,
+                    "moveXAmp": 15,
+                    "moveXOctaves": 0,
+                    "moveXDelay": -5.0473706257359865,
+                    "moveXCenter": 0,
+                    "moveYFreq": 1,
+                    "moveYAmp": 0,
+                    "moveYOctaves": 0,
+                    "moveYDelay": 4.388728097235144,
+                    "moveYCenter": 0
+                }
+            }
+        }
+    },
+    "extraSlot": {},
+    "extraConfig": {
+        "timeScale": 1
+    }
+}

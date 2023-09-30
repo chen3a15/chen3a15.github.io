@@ -1,0 +1,147 @@
+{
+    "skeleton": {
+        "hash": "WK3NIt49rRk",
+        "spine": "4.0-from-4.1.23",
+        "x": -180.82,
+        "y": -87.75,
+        "width": 361.64,
+        "height": 175.49
+    },
+    "bones": [
+        {
+            "name": "root",
+            "scaleX": 0.333,
+            "scaleY": 0.333
+        },
+        {
+            "name": "b",
+            "parent": "root",
+            "x": 202.83,
+            "y": 128
+        },
+        {
+            "name": "a",
+            "parent": "root",
+            "x": 363.71,
+            "y": 34.51
+        },
+        {
+            "name": "a2",
+            "parent": "a"
+        },
+        {
+            "name": "b2",
+            "parent": "b"
+        }
+    ],
+    "slots": [
+        {
+            "name": "aa",
+            "bone": "root",
+            "attachment": "aa"
+        },
+        {
+            "name": "bb",
+            "bone": "root",
+            "attachment": "bb"
+        },
+        {
+            "name": "a",
+            "bone": "a2",
+            "attachment": "a"
+        },
+        {
+            "name": "b",
+            "bone": "b2",
+            "attachment": "b"
+        },
+        {
+            "name": "草1",
+            "bone": "root",
+            "attachment": "草1"
+        }
+    ],
+    "skins": [
+        {
+            "name": "default",
+            "attachments": {
+                "a": {
+                    "a": {
+                        "x": -7.71,
+                        "y": -2.51,
+                        "width": 202,
+                        "height": 207
+                    }
+                },
+                "aa": {
+                    "aa": {
+                        "x": 206,
+                        "y": -17.5,
+                        "width": 24,
+                        "height": 278
+                    }
+                },
+                "b": {
+                    "b": {
+                        "x": 3.67,
+                        "y": 9.5,
+                        "width": 257,
+                        "height": 252
+                    }
+                },
+                "bb": {
+                    "bb": {
+                        "x": 363.5,
+                        "y": -129.5,
+                        "width": 23,
+                        "height": 268
+                    }
+                },
+                "草1": {
+                    "草1": {
+                        "y": -100.5,
+                        "width": 1086,
+                        "height": 198
+                    }
+                }
+            }
+        }
+    ],
+    "animations": {
+        "animation": {}
+    },
+    "extra": {
+        "b": {
+            "rootBoneName": "b",
+            "animation": {
+                "default": {
+                    "name": "default",
+                    "mode": 3,
+                    "rotateSpeed": 0.4,
+                    "rotateFreq": 5,
+                    "rotateAmp": 100,
+                    "rotateOctaves": 0,
+                    "rotateDelay": 0
+                }
+            }
+        },
+        "a": {
+            "rootBoneName": "a",
+            "animation": {
+                "default": {
+                    "name": "default",
+                    "mode": 3,
+                    "rotateSpeed": 0.6,
+                    "rotateFreq": 5,
+                    "rotateAmp": 100,
+                    "rotateOctaves": 0,
+                    "rotateDelay": -0.22
+                }
+            }
+        }
+    },
+    "extraSlot": {},
+    "extraConfig": {
+        "timeScale": 1
+    }
+}

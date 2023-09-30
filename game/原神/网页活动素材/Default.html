@@ -11,6 +11,8 @@
   <hr style="clear: both;">
   <div id="素材选择">先选择活动</div>
   <hr style="clear: both;">
+  <div id="动作选择">先选择对象</div>
+  <hr style="clear: both;">
   <div id="player-container"></div>
   <script>
     let xhr = new XMLHttpRequest();
@@ -42,18 +44,18 @@
   
   <script>
     function 加载素材列表(资源目录){
+      let 素材选择 = document.getElementById("素材选择");
+      while (素材选择.childNodes.length > 0){
+        素材选择.removeChild(素材选择.childNodes[0])
+      }
       let xhr = new XMLHttpRequest();
       xhr.open(method="get", url=资源目录 + "/list.json", async=false);
       xhr.send(null);
       let 素材列表 = JSON.parse(xhr.responseText);
-      let 素材选择 = document.getElementById("素材选择");
-      for (let i = 0; i < 素材选择.childNodes.length; i++){
-        素材选择.removeChild(素材选择.childNodes[0])
-      }
       for (let i in 素材列表){
         let button = document.createElement("button");
-        button.innerHTML = 素材列表[i];
-        button.setAttribute("onclick", "加载素材('" + 资源目录 + "/" + 素材列表[i] + "/')");
+        button.innerHTML = i;
+        button.setAttribute("onclick", "加载素材('" + 资源目录 + "/" + 素材列表[i] + "')");
         button.setAttribute("style", "float: left; margin: 5px;");
         素材选择.appendChild(button);
       }
@@ -62,15 +64,36 @@
   
   <script>
     function 加载素材(资源目录){
+      let 动作选择 = document.getElementById("动作选择");
+      while (动作选择.childNodes.length > 0){
+        动作选择.removeChild(动作选择.childNodes[0])
+      }
+      let xhr = new XMLHttpRequest();
+      xhr.open(method="get", url=资源目录 + "/0.json", async=false);
+      xhr.send(null);
+      let 动作列表 = JSON.parse(xhr.responseText);
+      for (let i in 动作列表["animations"]){
+        let button = document.createElement("button");
+        button.innerHTML = i;
+        button.setAttribute("onclick", "play('" + 资源目录 + "', '" + i + "')");
+        button.setAttribute("style", "float: left; margin: 5px;");
+        动作选择.appendChild(button);
+      }
+      动作选择.children[0].click()
+    }
+  </script>
+  <script>
+    function play(资源目录, animation){
       let player_container = document.getElementById("player-container");
-      for (let i = 0; i < player_container.childNodes.length; i++){
+      while (player_container.childNodes.length > 0){
         player_container.removeChild(player_container.childNodes[0])
       }
       new spine.SpinePlayer(
         "player-container",
         {
-          jsonUrl: 资源目录 + "0.json",
-          atlasUrl: 资源目录 + "0.atlas",
+          showControls: true,
+          jsonUrl: 资源目录 + "/0.json",
+          atlasUrl: 资源目录 + "/0.atlas",
           debug: {
             bones: false,
             regions: false,
@@ -80,6 +103,9 @@
             clipping: false,
             points: false,
             hulls: false
+          },
+          success: function (player) {
+            player.setAnimation(animation, false)
           }
       });
     }

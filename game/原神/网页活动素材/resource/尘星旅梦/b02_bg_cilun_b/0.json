@@ -1,0 +1,54 @@
+{
+    "skeleton": {
+        "hash": "thbopvmLIWU",
+        "spine": "4.0-from-4.1.23",
+        "x": -423,
+        "y": -423,
+        "width": 846,
+        "height": 846
+    },
+    "bones": [
+        {
+            "name": "root"
+        }
+    ],
+    "slots": [
+        {
+            "name": "b02_bg_cilun_b",
+            "bone": "root",
+            "attachment": "b02_bg_cilun_b"
+        }
+    ],
+    "skins": [
+        {
+            "name": "default",
+            "attachments": {
+                "b02_bg_cilun_b": {
+                    "b02_bg_cilun_b": {
+                        "width": 846,
+                        "height": 846
+                    }
+                }
+            }
+        }
+    ],
+    "animations": {
+        "animation": {}
+    },
+    "extra": {
+        "root": {
+            "rootBoneName": "root",
+            "animation": {
+                "default": {
+                    "name": "default",
+                    "mode": 3,
+                    "rotateSpeed": 0.1
+                }
+            }
+        }
+    },
+    "extraSlot": {},
+    "extraConfig": {
+        "timeScale": 1
+    }
+}

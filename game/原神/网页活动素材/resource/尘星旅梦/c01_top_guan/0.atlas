@@ -1,0 +1,16 @@
+c01_top_guan.png
+size:1163,249
+filter:Linear,Linear
+scale:0.4
+a
+bounds:1,1,121,688
+offsets:1,50,128,739
+rotate:90
+b
+bounds:1,124,32,806
+offsets:1,54,36,861
+rotate:90
+c
+bounds:1,158,90,1161
+offsets:1,2,94,1164
+rotate:90

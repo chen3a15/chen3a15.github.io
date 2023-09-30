@@ -1,0 +1,218 @@
+{
+    "skeleton": {
+        "hash": "O2UmciMlM/0",
+        "spine": "4.0-from-4.1.23",
+        "x": -332,
+        "y": -162,
+        "width": 664,
+        "height": 324
+    },
+    "bones": [
+        {
+            "name": "root"
+        },
+        {
+            "name": "e04_guanmu_a",
+            "parent": "root",
+            "x": 50,
+            "y": -140
+        },
+        {
+            "name": "e04_guanmu_a2",
+            "parent": "e04_guanmu_a",
+            "length": 515.74,
+            "rotation": -1.02,
+            "x": -261.57,
+            "y": -3.35
+        },
+        {
+            "name": "e04_guanmu_a3",
+            "parent": "e04_guanmu_a",
+            "length": 196.31,
+            "rotation": 89.03,
+            "x": -0.42,
+            "y": 9.12
+        }
+    ],
+    "slots": [
+        {
+            "name": "e04_guanmu_a",
+            "bone": "e04_guanmu_a",
+            "attachment": "e04_guanmu_a"
+        }
+    ],
+    "skins": [
+        {
+            "name": "default",
+            "attachments": {
+                "e04_guanmu_a": {
+                    "e04_guanmu_a": {
+                        "type": "mesh",
+                        "uvs": [
+                            0,
+                            1,
+                            0.06112,
+                            0.53686,
+                            0.1989,
+                            0.13384,
+                            0.38428,
+                            0,
+                            0.64857,
+                            0,
+                            0.87529,
+                            0.10304,
+                            1,
+                            0.3392,
+                            1,
+                            0.71655,
+                            1,
+                            1,
+                            0.57217,
+                            1
+                        ],
+                        "triangles": [
+                            9,
+                            7,
+                            8,
+                            0,
+                            1,
+                            9,
+                            1,
+                            2,
+                            9,
+                            2,
+                            3,
+                            9,
+                            9,
+                            5,
+                            7,
+                            9,
+                            4,
+                            5,
+                            9,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7
+                        ],
+                        "vertices": [
+                            1,
+                            2,
+                            -120.08,
+                            -20.78,
+                            1,
+                            2,
+                            2,
+                            -82.16,
+                            129.97,
+                            0.87256,
+                            3,
+                            113.14,
+                            342.97,
+                            0.12744,
+                            2,
+                            2,
+                            6.99,
+                            262.15,
+                            0.50157,
+                            3,
+                            245.25,
+                            253.71,
+                            0.49843,
+                            2,
+                            2,
+                            129.3,
+                            307.7,
+                            0.18375,
+                            3,
+                            290.69,
+                            131.37,
+                            0.81625,
+                            2,
+                            2,
+                            304.76,
+                            310.81,
+                            0.01371,
+                            3,
+                            293.67,
+                            -44.1,
+                            0.98629,
+                            2,
+                            2,
+                            455.87,
+                            280.1,
+                            0.29911,
+                            3,
+                            262.84,
+                            -195.18,
+                            0.70089,
+                            2,
+                            2,
+                            540.02,
+                            205.06,
+                            0.54578,
+                            3,
+                            187.74,
+                            -279.28,
+                            0.45422,
+                            2,
+                            2,
+                            542.19,
+                            82.82,
+                            0.85627,
+                            3,
+                            65.49,
+                            -281.35,
+                            0.14373,
+                            1,
+                            2,
+                            543.82,
+                            -9,
+                            1,
+                            1,
+                            2,
+                            259.78,
+                            -14.04,
+                            1
+                        ],
+                        "hull": 10
+                    }
+                }
+            }
+        }
+    ],
+    "animations": {
+        "animation": {}
+    },
+    "extra": {
+        "e04_guanmu_a3": {
+            "rootBoneName": "e04_guanmu_a3",
+            "animation": {
+                "default": {
+                    "name": "default",
+                    "mode": 1,
+                    "rotateCenter": 0,
+                    "rotateTime": 3,
+                    "rotateRange": 3,
+                    "rotateOffset": 0,
+                    "childOffset": 0.25,
+                    "spring": 0,
+                    "affectByLevel": 0.1,
+                    "springLevel": 0,
+                    "scaleYRange": 0.02,
+                    "scaleYTime": 2,
+                    "scaleYOffset": 0,
+                    "scaleYChildOffset": 0.25,
+                    "scaleYCenter": 0,
+                    "scaleYSpring": 0,
+                    "scaleYAffectByLevel": 0.1
+                }
+            }
+        }
+    },
+    "extraSlot": {},
+    "extraConfig": {
+        "timeScale": 1
+    }
+}

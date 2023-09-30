@@ -1,0 +1,95 @@
+{
+    "skeleton": {
+        "hash": "U+rlqPjN+lw",
+        "spine": "4.0-from-4.1.23",
+        "x": -266.5,
+        "y": -266.5,
+        "width": 533,
+        "height": 533
+    },
+    "bones": [
+        {
+            "name": "root"
+        },
+        {
+            "name": "bone",
+            "parent": "root"
+        },
+        {
+            "name": "bone2",
+            "parent": "bone"
+        }
+    ],
+    "slots": [
+        {
+            "name": "qb",
+            "bone": "bone",
+            "attachment": "qb"
+        },
+        {
+            "name": "qa",
+            "bone": "bone2",
+            "attachment": "qa"
+        }
+    ],
+    "skins": [
+        {
+            "name": "default",
+            "attachments": {
+                "qa": {
+                    "qa": {
+                        "width": 533,
+                        "height": 533
+                    }
+                },
+                "qb": {
+                    "qb": {
+                        "x": 1,
+                        "y": 1,
+                        "width": 467,
+                        "height": 467
+                    }
+                }
+            }
+        }
+    ],
+    "animations": {
+        "animation": {}
+    },
+    "extra": {
+        "bone2": {
+            "rootBoneName": "bone2",
+            "animation": {
+                "default": {
+                    "name": "default",
+                    "mode": 3,
+                    "rotateSpeed": -0.03
+                }
+            }
+        },
+        "bone": {
+            "rootBoneName": "bone",
+            "animation": {
+                "default": {
+                    "name": "default",
+                    "mode": 3,
+                    "moveXFreq": 5,
+                    "moveXAmp": 20,
+                    "moveXOctaves": 0,
+                    "moveXDelay": 0,
+                    "moveXCenter": 0,
+                    "moveXSeed": 2401,
+                    "scaleXFreq": 6,
+                    "scaleXAmp": 0.05,
+                    "scaleXOctaves": 0,
+                    "scaleXDelay": 0,
+                    "scaleXCenter": 0
+                }
+            }
+        }
+    },
+    "extraSlot": {},
+    "extraConfig": {
+        "timeScale": 1
+    }
+}

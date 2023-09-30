@@ -1,0 +1,69 @@
+{
+    "skeleton": {
+        "hash": "mEVgP1OJ72k",
+        "spine": "4.0-from-4.1.23",
+        "x": -1086,
+        "y": -207,
+        "width": 2173,
+        "height": 414
+    },
+    "bones": [
+        {
+            "name": "root"
+        }
+    ],
+    "slots": [
+        {
+            "name": "a03_yun_e",
+            "bone": "root",
+            "attachment": "a03_yun_e"
+        }
+    ],
+    "skins": [
+        {
+            "name": "default",
+            "attachments": {
+                "a03_yun_e": {
+                    "a03_yun_e": {
+                        "x": 0.5,
+                        "width": 2173,
+                        "height": 414
+                    }
+                }
+            }
+        }
+    ],
+    "animations": {
+        "animation": {}
+    },
+    "extra": {
+        "root": {
+            "rootBoneName": "root",
+            "animation": {
+                "default": {
+                    "name": "default",
+                    "mode": 3,
+                    "moveXFreq": 10,
+                    "moveXAmp": 30,
+                    "moveXOctaves": 0,
+                    "moveXDelay": -2.316532675196691,
+                    "moveXCenter": 0,
+                    "moveYFreq": 7,
+                    "moveYAmp": 10,
+                    "moveYOctaves": 0,
+                    "moveYDelay": 1.1099661499852316,
+                    "moveYCenter": 0,
+                    "scaleXFreq": 5,
+                    "scaleXAmp": 0.02,
+                    "scaleXOctaves": 0,
+                    "scaleXDelay": -0.6750773685781167,
+                    "scaleXCenter": 0
+                }
+            }
+        }
+    },
+    "extraSlot": {},
+    "extraConfig": {
+        "timeScale": 1
+    }
+}

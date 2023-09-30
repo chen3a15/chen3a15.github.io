@@ -1,0 +1,153 @@
+{
+    "skeleton": {
+        "hash": "ZoeQIKgqgBw",
+        "spine": "4.0-from-4.1.23",
+        "x": -150.5,
+        "y": -149.5,
+        "width": 301,
+        "height": 299
+    },
+    "bones": [
+        {
+            "name": "root"
+        },
+        {
+            "name": "a",
+            "parent": "root",
+            "x": -91.85,
+            "y": 83.15
+        },
+        {
+            "name": "b",
+            "parent": "root",
+            "x": 30.69,
+            "y": -28.68
+        },
+        {
+            "name": "c",
+            "parent": "root",
+            "x": 118.32,
+            "y": -115.52
+        }
+    ],
+    "slots": [
+        {
+            "name": "c",
+            "bone": "c",
+            "attachment": "c"
+        },
+        {
+            "name": "b",
+            "bone": "b",
+            "attachment": "b"
+        },
+        {
+            "name": "a",
+            "bone": "a",
+            "attachment": "a"
+        }
+    ],
+    "skins": [
+        {
+            "name": "default",
+            "attachments": {
+                "a": {
+                    "a": {
+                        "x": 1.85,
+                        "y": 2.85,
+                        "width": 121,
+                        "height": 127
+                    }
+                },
+                "b": {
+                    "b": {
+                        "x": 3.31,
+                        "y": 0.68,
+                        "width": 93,
+                        "height": 93
+                    }
+                },
+                "c": {
+                    "c": {
+                        "x": -0.32,
+                        "y": 0.02,
+                        "width": 65,
+                        "height": 68
+                    }
+                }
+            }
+        }
+    ],
+    "animations": {
+        "animation": {}
+    },
+    "extra": {
+        "a": {
+            "rootBoneName": "a",
+            "animation": {
+                "default": {
+                    "name": "default",
+                    "mode": 3,
+                    "moveXFreq": 4,
+                    "moveXAmp": 15,
+                    "moveXOctaves": 0,
+                    "moveXDelay": 0,
+                    "moveXCenter": 0,
+                    "moveXSeed": 5558,
+                    "scaleXFreq": 5,
+                    "scaleXAmp": 0.1,
+                    "scaleXOctaves": 0,
+                    "scaleXDelay": 0,
+                    "scaleXCenter": 0,
+                    "rotateSpeed": 0.1
+                }
+            }
+        },
+        "b": {
+            "rootBoneName": "b",
+            "animation": {
+                "default": {
+                    "name": "default",
+                    "mode": 3,
+                    "moveXFreq": 4.5,
+                    "moveXAmp": 10,
+                    "moveXOctaves": 0,
+                    "moveXDelay": -1.4692290531827137,
+                    "moveXCenter": 0,
+                    "moveXSeed": 5563.588740174604,
+                    "scaleXFreq": 5,
+                    "scaleXAmp": 0.1,
+                    "scaleXOctaves": 0,
+                    "scaleXDelay": 5.019767247634321,
+                    "scaleXCenter": 0,
+                    "rotateSpeed": 0.1
+                }
+            }
+        },
+        "c": {
+            "rootBoneName": "c",
+            "animation": {
+                "default": {
+                    "name": "default",
+                    "mode": 3,
+                    "moveXFreq": 4.5,
+                    "moveXAmp": 10,
+                    "moveXOctaves": 0,
+                    "moveXDelay": -5.925314999432007,
+                    "moveXCenter": 0,
+                    "moveXSeed": 5556.5728098806685,
+                    "scaleXFreq": 5,
+                    "scaleXAmp": 0.1,
+                    "scaleXOctaves": 0,
+                    "scaleXDelay": -2.231853677944921,
+                    "scaleXCenter": 0,
+                    "rotateSpeed": 0.1
+                }
+            }
+        }
+    },
+    "extraSlot": {},
+    "extraConfig": {
+        "timeScale": 1
+    }
+}

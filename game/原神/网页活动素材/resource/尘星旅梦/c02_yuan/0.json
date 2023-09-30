@@ -1,0 +1,73 @@
+{
+    "skeleton": {
+        "hash": "w3I5QGkXTOA",
+        "spine": "4.0-from-4.1.23",
+        "x": -1067,
+        "y": -400.5,
+        "width": 1744,
+        "height": 812
+    },
+    "bones": [
+        {
+            "name": "root"
+        },
+        {
+            "name": "bone",
+            "parent": "root",
+            "x": -24,
+            "y": 3.5
+        }
+    ],
+    "slots": [
+        {
+            "name": "b",
+            "bone": "root",
+            "attachment": "b"
+        },
+        {
+            "name": "a",
+            "bone": "bone",
+            "attachment": "a"
+        }
+    ],
+    "skins": [
+        {
+            "name": "default",
+            "attachments": {
+                "a": {
+                    "a": {
+                        "width": 816,
+                        "height": 808
+                    }
+                },
+                "b": {
+                    "b": {
+                        "x": -195,
+                        "y": 62,
+                        "width": 1744,
+                        "height": 699
+                    }
+                }
+            }
+        }
+    ],
+    "animations": {
+        "animation": {}
+    },
+    "extra": {
+        "bone": {
+            "rootBoneName": "bone",
+            "animation": {
+                "default": {
+                    "name": "default",
+                    "mode": 3,
+                    "rotateSpeed": 0.05
+                }
+            }
+        }
+    },
+    "extraSlot": {},
+    "extraConfig": {
+        "timeScale": 1
+    }
+}

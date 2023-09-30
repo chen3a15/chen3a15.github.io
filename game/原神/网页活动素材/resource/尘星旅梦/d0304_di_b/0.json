@@ -1,0 +1,146 @@
+{
+    "skeleton": {
+        "hash": "00tXjIol/BY",
+        "spine": "4.0-from-4.1.23",
+        "x": -760,
+        "y": -803.08,
+        "width": 1520,
+        "height": 1599.08
+    },
+    "bones": [
+        {
+            "name": "root"
+        },
+        {
+            "name": "bone",
+            "parent": "root",
+            "y": -43.08
+        },
+        {
+            "name": "z",
+            "parent": "bone"
+        },
+        {
+            "name": "z2",
+            "parent": "bone",
+            "rotation": 90
+        },
+        {
+            "name": "z3",
+            "parent": "bone",
+            "rotation": -90
+        },
+        {
+            "name": "z4",
+            "parent": "bone",
+            "rotation": 180
+        }
+    ],
+    "slots": [
+        {
+            "name": "不动",
+            "bone": "root",
+            "attachment": "不动"
+        },
+        {
+            "name": "z",
+            "bone": "z",
+            "attachment": "z"
+        },
+        {
+            "name": "z2",
+            "bone": "z2",
+            "attachment": "z"
+        },
+        {
+            "name": "z3",
+            "bone": "z3",
+            "attachment": "z"
+        },
+        {
+            "name": "z4",
+            "bone": "z4",
+            "attachment": "z"
+        }
+    ],
+    "skins": [
+        {
+            "name": "default",
+            "attachments": {
+                "z": {
+                    "z": {
+                        "x": -380,
+                        "y": 380,
+                        "width": 760,
+                        "height": 760
+                    }
+                },
+                "z2": {
+                    "z": {
+                        "x": -380,
+                        "y": 380,
+                        "width": 760,
+                        "height": 760
+                    }
+                },
+                "z3": {
+                    "z": {
+                        "x": -380,
+                        "y": 380,
+                        "width": 760,
+                        "height": 760
+                    }
+                },
+                "z4": {
+                    "z": {
+                        "x": -380,
+                        "y": 380,
+                        "width": 760,
+                        "height": 760
+                    }
+                },
+                "不动": {
+                    "不动": {
+                        "x": -14.5,
+                        "y": 660.5,
+                        "width": 1254,
+                        "height": 271
+                    }
+                }
+            }
+        }
+    ],
+    "animations": {
+        "animation": {}
+    },
+    "extra": {
+        "bone": {
+            "rootBoneName": "bone",
+            "animation": {
+                "default": {
+                    "name": "default",
+                    "mode": 3,
+                    "rotateSpeed": 0.03
+                }
+            }
+        },
+        "root": {
+            "rootBoneName": "root",
+            "animation": {
+                "default": {
+                    "name": "default",
+                    "mode": 3,
+                    "moveYFreq": 4,
+                    "moveYAmp": 5,
+                    "moveYOctaves": 0,
+                    "moveYDelay": 0,
+                    "moveYCenter": 0
+                }
+            }
+        }
+    },
+    "extraSlot": {},
+    "extraConfig": {
+        "timeScale": 1
+    }
+}

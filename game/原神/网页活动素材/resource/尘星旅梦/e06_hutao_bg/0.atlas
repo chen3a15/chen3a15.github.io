@@ -1,0 +1,15 @@
+e06_hutao_bg.png
+size:1424,1550
+filter:Linear,Linear
+scale:0.7
+外圈
+bounds:1,753,796,796
+山
+bounds:1,1,751,750
+海浪
+bounds:799,864,685,249
+rotate:90
+鸟
+bounds:754,67,684,669
+offsets:1,0,686,670
+rotate:90

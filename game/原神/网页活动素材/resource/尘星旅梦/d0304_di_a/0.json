@@ -1,0 +1,152 @@
+{
+    "skeleton": {
+        "hash": "JFgXZ+HmHXE",
+        "spine": "4.0-from-4.1.23",
+        "x": -593.5,
+        "y": -456.9,
+        "width": 1187,
+        "height": 912.4
+    },
+    "bones": [
+        {
+            "name": "root"
+        },
+        {
+            "name": "bone",
+            "parent": "root",
+            "x": 117.22,
+            "y": -95.9
+        },
+        {
+            "name": "a",
+            "parent": "bone"
+        },
+        {
+            "name": "a2",
+            "parent": "bone",
+            "rotation": 90,
+            "x": -1,
+            "y": 1
+        },
+        {
+            "name": "a3",
+            "parent": "bone",
+            "rotation": -90,
+            "x": -1,
+            "y": -1
+        },
+        {
+            "name": "a4",
+            "parent": "bone",
+            "rotation": 180,
+            "x": -2,
+            "y": 1
+        }
+    ],
+    "slots": [
+        {
+            "name": "不动",
+            "bone": "root",
+            "attachment": "不动"
+        },
+        {
+            "name": "a2",
+            "bone": "a",
+            "attachment": "a"
+        },
+        {
+            "name": "a4",
+            "bone": "a3",
+            "attachment": "a"
+        },
+        {
+            "name": "a5",
+            "bone": "a4",
+            "attachment": "a"
+        },
+        {
+            "name": "a3",
+            "bone": "a2",
+            "attachment": "a"
+        }
+    ],
+    "skins": [
+        {
+            "name": "default",
+            "attachments": {
+                "a2": {
+                    "a": {
+                        "x": -181,
+                        "y": 181,
+                        "width": 362,
+                        "height": 361
+                    }
+                },
+                "a3": {
+                    "a": {
+                        "x": -181,
+                        "y": 181,
+                        "width": 362,
+                        "height": 361
+                    }
+                },
+                "a4": {
+                    "a": {
+                        "x": -181,
+                        "y": 181,
+                        "width": 362,
+                        "height": 361
+                    }
+                },
+                "a5": {
+                    "a": {
+                        "x": -181,
+                        "y": 181,
+                        "width": 362,
+                        "height": 361
+                    }
+                },
+                "不动": {
+                    "不动": {
+                        "y": 262,
+                        "width": 1187,
+                        "height": 387
+                    }
+                }
+            }
+        }
+    ],
+    "animations": {
+        "animation": {}
+    },
+    "extra": {
+        "bone": {
+            "rootBoneName": "bone",
+            "animation": {
+                "default": {
+                    "name": "default",
+                    "mode": 3,
+                    "rotateSpeed": -0.03
+                }
+            }
+        },
+        "root": {
+            "rootBoneName": "root",
+            "animation": {
+                "default": {
+                    "name": "default",
+                    "mode": 3,
+                    "moveYFreq": 4,
+                    "moveYAmp": 5,
+                    "moveYOctaves": 0,
+                    "moveYDelay": 0,
+                    "moveYCenter": 0
+                }
+            }
+        }
+    },
+    "extraSlot": {},
+    "extraConfig": {
+        "timeScale": 1
+    }
+}

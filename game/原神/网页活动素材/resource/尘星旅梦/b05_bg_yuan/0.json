@@ -1,0 +1,265 @@
+{
+    "skeleton": {
+        "hash": "QUokZYjD3GU",
+        "spine": "4.0-from-4.1.23",
+        "x": -895.5,
+        "y": -876,
+        "width": 1770,
+        "height": 1810.39
+    },
+    "bones": [
+        {
+            "name": "root"
+        },
+        {
+            "name": "zuang",
+            "parent": "root"
+        },
+        {
+            "name": "bone",
+            "parent": "root",
+            "y": -3.11
+        }
+    ],
+    "slots": [
+        {
+            "name": "b",
+            "bone": "bone",
+            "attachment": "b"
+        },
+        {
+            "name": "a",
+            "bone": "bone",
+            "color": "ffffff00",
+            "attachment": "a"
+        },
+        {
+            "name": "转圈b",
+            "bone": "zuang",
+            "attachment": "转圈b"
+        },
+        {
+            "name": "转圈a",
+            "bone": "zuang",
+            "color": "ffffff00",
+            "attachment": "转圈a"
+        }
+    ],
+    "skins": [
+        {
+            "name": "default",
+            "attachments": {
+                "a": {
+                    "a": {
+                        "x": -11,
+                        "y": 312.5,
+                        "width": 1769,
+                        "height": 1250
+                    }
+                },
+                "b": {
+                    "b": {
+                        "y": 280,
+                        "width": 1749,
+                        "height": 1191
+                    }
+                },
+                "转圈a": {
+                    "转圈a": {
+                        "width": 1746,
+                        "height": 1742
+                    }
+                },
+                "转圈b": {
+                    "转圈b": {
+                        "width": 1749,
+                        "height": 1752
+                    }
+                }
+            }
+        }
+    ],
+    "animations": {
+        "a": {
+            "slots": {
+                "转圈b": {
+                    "attachment": [
+                        {
+                            "name": "转圈b"
+                        }
+                    ]
+                }
+            }
+        },
+        "a2b": {
+            "slots": {
+                "a": {
+                    "rgba": [
+                        {
+                            "color": "ffffff00",
+                            "curve": [
+                                0.222,
+                                1,
+                                0.444,
+                                1,
+                                0.222,
+                                1,
+                                0.444,
+                                1,
+                                0.222,
+                                1,
+                                0.444,
+                                1,
+                                0.222,
+                                0,
+                                0.444,
+                                1
+                            ]
+                        },
+                        {
+                            "time": 0.6667,
+                            "color": "ffffffff"
+                        }
+                    ]
+                },
+                "b": {
+                    "rgba": [
+                        {
+                            "time": 0.6667,
+                            "color": "ffffffff",
+                            "curve": [
+                                0.889,
+                                1,
+                                1.111,
+                                1,
+                                0.889,
+                                1,
+                                1.111,
+                                1,
+                                0.889,
+                                1,
+                                1.111,
+                                1,
+                                0.889,
+                                1,
+                                1.111,
+                                0
+                            ]
+                        },
+                        {
+                            "time": 1.3333,
+                            "color": "ffffff00"
+                        }
+                    ]
+                },
+                "转圈a": {
+                    "rgba": [
+                        {
+                            "color": "ffffff00",
+                            "curve": [
+                                0.222,
+                                1,
+                                0.444,
+                                1,
+                                0.222,
+                                1,
+                                0.444,
+                                1,
+                                0.222,
+                                1,
+                                0.444,
+                                1,
+                                0.222,
+                                0,
+                                0.444,
+                                1
+                            ]
+                        },
+                        {
+                            "time": 0.6667,
+                            "color": "ffffffff"
+                        }
+                    ]
+                },
+                "转圈b": {
+                    "rgba": [
+                        {
+                            "time": 0.6667,
+                            "color": "ffffffff",
+                            "curve": [
+                                0.889,
+                                1,
+                                1.111,
+                                1,
+                                0.889,
+                                1,
+                                1.111,
+                                1,
+                                0.889,
+                                1,
+                                1.111,
+                                1,
+                                0.889,
+                                1,
+                                1.111,
+                                0
+                            ]
+                        },
+                        {
+                            "time": 1.3333,
+                            "color": "ffffff00"
+                        }
+                    ]
+                }
+            }
+        },
+        "b": {
+            "slots": {
+                "a": {
+                    "rgba": [
+                        {
+                            "color": "fffffffe"
+                        }
+                    ]
+                },
+                "b": {
+                    "rgba": [
+                        {
+                            "color": "ffffff00"
+                        }
+                    ]
+                },
+                "转圈a": {
+                    "rgba": [
+                        {
+                            "color": "ffffffff"
+                        }
+                    ]
+                },
+                "转圈b": {
+                    "rgba": [
+                        {
+                            "color": "ffffff00"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "extra": {
+        "zuang": {
+            "rootBoneName": "zuang",
+            "animation": {
+                "default": {
+                    "name": "default",
+                    "mode": 3,
+                    "rotateSpeed": 0.02
+                }
+            }
+        }
+    },
+    "extraSlot": {},
+    "extraConfig": {
+        "timeScale": 1
+    }
+}

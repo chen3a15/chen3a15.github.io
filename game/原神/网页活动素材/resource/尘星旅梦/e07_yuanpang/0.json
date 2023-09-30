@@ -1,0 +1,75 @@
+{
+    "skeleton": {
+        "hash": "JfQVf4yAx9w",
+        "spine": "4.0-from-4.1.23",
+        "x": -319,
+        "y": -319,
+        "width": 638,
+        "height": 638,
+        "images": "./e06_yun/",
+        "audio": ""
+    },
+    "bones": [
+        {
+            "name": "root"
+        },
+        {
+            "name": "e07_yuanpang",
+            "parent": "root",
+            "x": 3.84,
+            "y": -6.39
+        }
+    ],
+    "slots": [
+        {
+            "name": "e07_yuanpang",
+            "bone": "e07_yuanpang",
+            "attachment": "e07_yuanpang"
+        }
+    ],
+    "skins": [
+        {
+            "name": "default",
+            "attachments": {
+                "e07_yuanpang": {
+                    "e07_yuanpang": {
+                        "x": -3.84,
+                        "y": 6.39,
+                        "width": 638,
+                        "height": 638
+                    }
+                }
+            }
+        }
+    ],
+    "animations": {
+        "animation": {}
+    },
+    "extra": {
+        "e07_yuanpang": {
+            "rootBoneName": "e07_yuanpang",
+            "animation": {
+                "default": {
+                    "name": "default",
+                    "mode": 3,
+                    "moveXFreq": 6,
+                    "moveXAmp": 30,
+                    "moveXOctaves": 0,
+                    "moveXDelay": 0,
+                    "moveXCenter": 0,
+                    "moveXSeed": 8700,
+                    "scaleXFreq": 3,
+                    "scaleXAmp": 0.04,
+                    "scaleXOctaves": 0,
+                    "scaleXDelay": 0,
+                    "scaleXCenter": 0,
+                    "rotateSpeed": 0.07
+                }
+            }
+        }
+    },
+    "extraSlot": {},
+    "extraConfig": {
+        "timeScale": 1
+    }
+}

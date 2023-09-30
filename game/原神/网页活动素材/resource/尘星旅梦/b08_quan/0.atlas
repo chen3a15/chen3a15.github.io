@@ -1,0 +1,13 @@
+b08_quan.png
+size:510,382
+filter:Linear,Linear
+b08_quan_a
+bounds:1,85,296,296
+offsets:1,2,298,299
+b08_quan_b
+bounds:299,171,210,210
+offsets:1,1,212,212
+b08_quan_c
+bounds:299,1,168,169
+offsets:1,1,170,171
+rotate:90

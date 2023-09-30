@@ -1,0 +1,209 @@
+{
+    "skeleton": {
+        "hash": "3fsDMT1FCkQ",
+        "spine": "4.0-from-4.1.23",
+        "x": -103,
+        "y": -102,
+        "width": 206,
+        "height": 204
+    },
+    "bones": [
+        {
+            "name": "root"
+        },
+        {
+            "name": "zhuang",
+            "parent": "root",
+            "x": -14.5,
+            "y": -3
+        }
+    ],
+    "slots": [
+        {
+            "name": "b04_ quan",
+            "bone": "zhuang",
+            "attachment": "b04_ quan"
+        },
+        {
+            "name": "b05_ quan",
+            "bone": "zhuang",
+            "attachment": "b05_ quan"
+        },
+        {
+            "name": "b05_ tex_bg",
+            "bone": "root",
+            "attachment": "b05_ tex_bg"
+        },
+        {
+            "name": "b04_ tex_bg",
+            "bone": "root",
+            "attachment": "b04_ tex_bg"
+        },
+        {
+            "name": "满级",
+            "bone": "root",
+            "attachment": "满级"
+        }
+    ],
+    "skins": [
+        {
+            "name": "default",
+            "attachments": {
+                "b04_ quan": {
+                    "b04_ quan": {
+                        "width": 177,
+                        "height": 176
+                    }
+                },
+                "b04_ tex_bg": {
+                    "b04_ tex_bg": {
+                        "x": -14,
+                        "y": -85,
+                        "width": 100,
+                        "height": 34
+                    }
+                },
+                "b05_ quan": {
+                    "b05_ quan": {
+                        "width": 177,
+                        "height": 176
+                    }
+                },
+                "b05_ tex_bg": {
+                    "b05_ tex_bg": {
+                        "x": -14,
+                        "y": -85,
+                        "width": 100,
+                        "height": 34
+                    }
+                },
+                "满级": {
+                    "满级": {
+                        "x": 58.5,
+                        "y": 79.5,
+                        "width": 89,
+                        "height": 45
+                    }
+                }
+            }
+        }
+    ],
+    "animations": {
+        "白": {
+            "slots": {
+                "b04_ tex_bg": {
+                    "rgba": [
+                        {
+                            "color": "ffffff00"
+                        }
+                    ]
+                },
+                "b05_ quan": {
+                    "rgba": [
+                        {
+                            "color": "ffffff00"
+                        }
+                    ]
+                },
+                "满级": {
+                    "rgba": [
+                        {
+                            "color": "ffffff00"
+                        }
+                    ]
+                }
+            }
+        },
+        "白_满级": {
+            "slots": {
+                "b04_ tex_bg": {
+                    "rgba": [
+                        {
+                            "color": "ffffff00"
+                        }
+                    ]
+                },
+                "b05_ quan": {
+                    "rgba": [
+                        {
+                            "color": "ffffff00"
+                        }
+                    ]
+                },
+                "满级": {
+                    "rgba": [
+                        {
+                            "color": "ffffff00"
+                        }
+                    ]
+                }
+            }
+        },
+        "黄": {
+            "slots": {
+                "b04_ quan": {
+                    "rgba": [
+                        {
+                            "color": "ffffff00"
+                        }
+                    ]
+                },
+                "b05_ tex_bg": {
+                    "rgba": [
+                        {
+                            "color": "ffffff00"
+                        }
+                    ]
+                },
+                "满级": {
+                    "rgba": [
+                        {
+                            "color": "ffffff00"
+                        }
+                    ]
+                }
+            }
+        },
+        "黄_满级": {
+            "slots": {
+                "b04_ quan": {
+                    "rgba": [
+                        {
+                            "color": "ffffff00"
+                        }
+                    ]
+                },
+                "b05_ tex_bg": {
+                    "rgba": [
+                        {
+                            "color": "ffffff00"
+                        }
+                    ]
+                },
+                "满级": {
+                    "rgba": [
+                        {
+                            "color": "ffffff00"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "extra": {
+        "zhuang": {
+            "rootBoneName": "zhuang",
+            "animation": {
+                "default": {
+                    "name": "default",
+                    "mode": 3,
+                    "rotateSpeed": 0.1
+                }
+            }
+        }
+    },
+    "extraSlot": {},
+    "extraConfig": {
+        "timeScale": 1
+    }
+}
