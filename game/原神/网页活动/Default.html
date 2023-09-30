@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script src="https://unpkg.com/@esotericsoftware/spine-player@4.1.23/dist/iife/spine-player.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/@esotericsoftware/spine-player@4.1.23/dist/spine-player.css">
+  <title>原神/网页活动</title>
+</head>
+<body>
+  <div id="player-container" style="width: 640px; height: 480px;"></div>
+  <script>
+new spine.SpinePlayer("player-container", {
+      jsonUrl: "./4.1/keli.json",
+      atlasUrl: "./4.1/keli.atlas",
+      debug: {
+    bones: true, 
+    regions: true,
+    meshes: true,
+    bounds: true,
+    paths: true,
+    clipping: true,
+    points: true,
+    hulls: true
+ }
+});
+</script>
+</body>
+</html>
