@@ -91,7 +91,8 @@
       new spine.SpinePlayer(
         "player-container",
         {
-          showControls: true,
+          animation: animation,
+          showControls: false,
           jsonUrl: 资源目录 + "/0.json",
           atlasUrl: 资源目录 + "/0.atlas",
           debug: {
@@ -103,9 +104,6 @@
             clipping: false,
             points: false,
             hulls: false
-          },
-          success: function (player) {
-            player.setAnimation(animation, false)
           }
       });
     }
