@@ -88,7 +88,7 @@
       while (player_container.childNodes.length > 0){
         player_container.removeChild(player_container.childNodes[0])
       }
-      new spine.SpinePlayer(
+      window.player = new spine.SpinePlayer(
         "player-container",
         {
           animation: animation,
@@ -104,6 +104,10 @@
             clipping: false,
             points: false,
             hulls: false
+          },
+          success: function (player){
+            console.log(player)
+            console.log(player.animationState.data.skeletonData.animations[0].name)
           }
       });
     }
