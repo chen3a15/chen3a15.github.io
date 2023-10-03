@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <style>
+    #text {
+      border-style: dotted;
+      border-width: 5px;
+      font-size: 1.6vh;
+      padding: 20px;
+    }
+  </style>
+  <title>调色板</title>
+ </head>
+ <body>
+  <div id="text">
+    <h1>Simple float example</h1>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla luctus aliquam dolor, eu lacinia lorem placerat vulputate. Duis felis orci, pulvinar id metus ut, rutrum luctus orci. Cras porttitor imperdiet nunc, at ultricies tellus laoreet sit amet.
+    </p>
+    <p>
+      Sed auctor cursus massa at porta. Integer ligula ipsum, tristique sit amet orci vel, viverra egestas ligula. Curabitur vehicula tellus neque, ac ornare ex malesuada et. In vitae convallis lacus. Aliquam erat volutpat. Suspendisse ac imperdiet turpis. Aenean finibus sollicitudin eros pharetra congue. Duis ornare egestas augue ut luctus. Proin blandit quam nec lacus varius commodo et a urna. Ut id ornare felis, eget fermentum sapien.
+    </p>
+    <p>
+      Nam vulputate diam nec tempor bibendum. Donec luctus augue eget malesuada ultrices. Phasellus turpis est, posuere sit amet dapibus ut, facilisis sed est. Nam id risus quis ante semper consectetur eget aliquam lorem. Vivamus tristique elit dolor, sed pretium metus suscipit vel. Mauris ultricies lectus sed lobortis finibus. Vivamus eu urna eget velit cursus viverra quis vestibulum sem. Aliquam tincidunt eget purus in interdum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+    </p>
+  </div>
+
+  <div>
+    <div>
+    背景色:
+    <br>a（透明度）:
+    <input id="b_a" type="text" value="0">
+    <br>r（红色）:
+    <input id="b_r" type="text" value="0">
+    <br>g（绿色）:
+    <input id="b_g" type="text" value="0">
+    <br>b（蓝色）:
+    <input id="b_b" type="text" value="0">
+    </div>
+    <div>
+    <br>前景色:
+    <br>a（透明度）:
+    <input id="t_a" type="text" value="1">
+    <br>r（红色）:
+    <input id="t_r" type="text" value="0">
+    <br>g（绿色）:
+    <input id="t_g" type="text" value="0">
+    <br>b（蓝色）:
+    <input id="t_b" type="text" value="0">
+    </div>
+    <button onclick="change2()">互换</button>
+    <button onclick="change()">提交</button>
+  </div>
+  <script>
+    let color = window.location.search.slice(1).split("&");
+    let b_a = document.getElementById("b_a")
+    let b_r = document.getElementById("b_r")
+    let b_g = document.getElementById("b_g")
+    let b_b = document.getElementById("b_b")
+    let t_a = document.getElementById("t_a")
+    let t_r = document.getElementById("t_r")
+    let t_g = document.getElementById("t_g")
+    let t_b = document.getElementById("t_b")
+    let text = document.getElementById("text")
+    for (let i=0;i<color.length;i++) {
+      let pair = color[i].split("=");
+      
+      if (Number(pair[1]) > 255 || Number(pair[1]) < 0) {
+        alert("取值范围为：0-255");
+      }
+      
+      if (pair[0] == "b_r"){
+        b_r.value = pair[1];
+      } else if (pair[0] == "b_g"){
+        b_g.value = pair[1];
+      } else if (pair[0] == "b_b"){
+        b_b.value = pair[1];
+      } else if (pair[0] == "b_a"){
+        b_a.value = pair[1];
+      } else if (pair[0] == "t_r"){
+        t_r.value = pair[1];
+      } else if (pair[0] == "t_g"){
+        t_g.value = pair[1];
+      } else if (pair[0] == "t_b"){
+        t_b.value = pair[1];
+      } else if (pair[0] == "t_a"){
+        t_a.value = pair[1];
+      } else {
+        alert("未知参数：" + color[i]);
+      }
+    }
+    
+    text.setAttribute("style", "background-color:rgb(" + b_r.value + "," + b_g.value + "," + b_b.value + "," + b_a.value + ");color:rgb(" + t_r.value + "," + t_g.value + "," + t_b.value + "," + t_a.value + ")")
+    
+    function change(){
+      window.location.search = "?b_r=" + b_r.value + "&b_g=" + b_g.value + "&b_b=" + b_b.value + "&b_a=" + b_a.value + "&t_r=" + t_r.value + "&t_g=" + t_g.value + "&t_b=" + t_b.value + "&t_a=" + t_a.value;
+    }
+    
+    function change2(){
+      window.location.search = "?t_r=" + b_r.value + "&t_g=" + b_g.value + "&t_b=" + b_b.value + "&t_a=" + b_a.value + "&b_r=" + t_r.value + "&b_g=" + t_g.value + "&b_b=" + t_b.value + "&b_a=" + t_a.value;
+    }
+  </script>
+</body>
+</html>

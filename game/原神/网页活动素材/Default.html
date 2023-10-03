@@ -7,38 +7,43 @@
   <title>原神网页活动素材整理</title>
  </head>
  <body>
+  <h3>选择活动</h3>
   <div id="活动选择"></div>
   <hr style="clear: both;">
+  <h3>选择对象</h3>
   <div id="素材选择">先选择活动</div>
   <hr style="clear: both;">
+  <h3>选择动作</h3>
   <div id="动作选择">先选择对象</div>
   <hr style="clear: both;">
   <div id="player-container"></div>
   <script>
     let xhr = new XMLHttpRequest();
-    xhr.open(method="get", url="./list.json", async=false);
+    xhr.open(method="get", url="./list.json");
     xhr.send(null);
-    let 活动列表 = JSON.parse(xhr.responseText);
-    let 活动选择 = document.getElementById("活动选择");
-    for (let i in 活动列表){
-      let div = document.createElement("div");
-      div.setAttribute("onclick", "加载素材列表('" + 活动列表[i]["资源位置"] + "')");
-      div.setAttribute("style", "float: left; margin: 5px; border-style: dotted; border-width: 1px; padding: 5px;");
-      活动选择.appendChild(div);
-      let ul = document.createElement("ul");
-      div.appendChild(ul);
-      let li = document.createElement("li");
-      li.innerHTML = 活动列表[i]["名字"];
-      ul.appendChild(li);
-      li = document.createElement("li");
-      li.innerHTML = "版本：" + 活动列表[i]["版本"];
-      ul.appendChild(li);
-      li = document.createElement("li");
-      li.innerHTML = "起：" + 活动列表[i]["开始时间"];
-      ul.appendChild(li);
-      li = document.createElement("li");
-      li.innerHTML = "止：" + 活动列表[i]["结束时间"];
-      ul.appendChild(li);
+    xhr.onload = function (e){
+      let 活动列表 = JSON.parse(xhr.responseText);
+      let 活动选择 = document.getElementById("活动选择");
+      for (let i in 活动列表){
+        let div = document.createElement("div");
+        div.setAttribute("onclick", "加载素材列表('" + 活动列表[i]["资源位置"] + "')");
+        div.setAttribute("style", "float: left; margin: 5px; border-style: dotted; border-width: 1px; padding: 5px;");
+        活动选择.appendChild(div);
+        let ul = document.createElement("ul");
+        div.appendChild(ul);
+        let li = document.createElement("li");
+        li.innerHTML = 活动列表[i]["名字"];
+        ul.appendChild(li);
+        li = document.createElement("li");
+        li.innerHTML = "版本：" + 活动列表[i]["版本"];
+        ul.appendChild(li);
+        li = document.createElement("li");
+        li.innerHTML = "起：" + 活动列表[i]["开始时间"];
+        ul.appendChild(li);
+        li = document.createElement("li");
+        li.innerHTML = "止：" + 活动列表[i]["结束时间"];
+        ul.appendChild(li);
+      }
     }
   </script>
   
@@ -49,15 +54,17 @@
         素材选择.removeChild(素材选择.childNodes[0])
       }
       let xhr = new XMLHttpRequest();
-      xhr.open(method="get", url=资源目录 + "/list.json", async=false);
+      xhr.open(method="get", url=资源目录 + "/list.json");
       xhr.send(null);
-      let 素材列表 = JSON.parse(xhr.responseText);
-      for (let i in 素材列表){
-        let button = document.createElement("button");
-        button.innerHTML = i;
-        button.setAttribute("onclick", "加载素材('" + 资源目录 + "/" + 素材列表[i] + "')");
-        button.setAttribute("style", "float: left; margin: 5px;");
-        素材选择.appendChild(button);
+      xhr.onload = function (e){
+        let 素材列表 = JSON.parse(xhr.responseText);
+        for (let i in 素材列表){
+          let button = document.createElement("button");
+          button.innerHTML = i;
+          button.setAttribute("onclick", "加载素材('" + 资源目录 + "/" + 素材列表[i] + "')");
+          button.setAttribute("style", "float: left; margin: 5px;");
+          素材选择.appendChild(button);
+        }
       }
     }
   </script>
@@ -84,17 +91,21 @@
   </script>
   <script>
     function play(资源目录, animation){
+    }
+  </script>
+  
+  <script>
       let player_container = document.getElementById("player-container");
       while (player_container.childNodes.length > 0){
         player_container.removeChild(player_container.childNodes[0])
       }
-      window.player = new spine.SpinePlayer(
+      self.player = new spine.SpinePlayer(
         "player-container",
         {
-          animation: animation,
+          animation: "run",
           showControls: false,
-          jsonUrl: 资源目录 + "/0.json",
-          atlasUrl: 资源目录 + "/0.atlas",
+          jsonUrl: "./resource/尘星旅梦/b08_diaona/0.json",
+          atlasUrl: "./resource/尘星旅梦/b08_diaona/0.atlas",
           debug: {
             bones: false,
             regions: false,
@@ -106,11 +117,10 @@
             hulls: false
           },
           success: function (player){
-            console.log(player)
+            console.log(self.player)
             console.log(player.animationState.data.skeletonData.animations[0].name)
           }
       });
-    }
   </script>
  </body>
 </html>
