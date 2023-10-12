@@ -3,7 +3,7 @@
     <th>LIST</th>
   </tr>
   <tr>
-    <td>[表情包](./表情包/Default.html)</td>
+    <td><a href="./表情包/Default.html">表情包</a></td>
   </tr>
   <tr>
     <td rowspan="2">工具</td>
