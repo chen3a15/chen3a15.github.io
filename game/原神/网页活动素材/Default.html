@@ -70,42 +70,15 @@
   </script>
   
   <script>
-    function 加载素材(资源目录){
-      let 动作选择 = document.getElementById("动作选择");
-      while (动作选择.childNodes.length > 0){
-        动作选择.removeChild(动作选择.childNodes[0])
-      }
-      let xhr = new XMLHttpRequest();
-      xhr.open(method="get", url=资源目录 + "/0.json", async=false);
-      xhr.send(null);
-      let 动作列表 = JSON.parse(xhr.responseText);
-      for (let i in 动作列表["animations"]){
-        let button = document.createElement("button");
-        button.innerHTML = i;
-        button.setAttribute("onclick", "play('" + 资源目录 + "', '" + i + "')");
-        button.setAttribute("style", "float: left; margin: 5px;");
-        动作选择.appendChild(button);
-      }
-      动作选择.children[0].click()
-    }
-  </script>
-  <script>
-    function play(资源目录, animation){
-    }
-  </script>
-  
-  <script>
+    function 加载素材(资源目录, 动作){
       let player_container = document.getElementById("player-container");
       while (player_container.childNodes.length > 0){
         player_container.removeChild(player_container.childNodes[0])
       }
-      self.player = new spine.SpinePlayer(
-        "player-container",
-        {
-          animation: "run",
+      参数 = {
           showControls: false,
-          jsonUrl: "./resource/尘星旅梦/b08_diaona/0.json",
-          atlasUrl: "./resource/尘星旅梦/b08_diaona/0.atlas",
+          jsonUrl: 资源目录 + "/0.json",
+          atlasUrl: 资源目录 + "/0.atlas",
           debug: {
             bones: false,
             regions: false,
@@ -118,9 +91,27 @@
           },
           success: function (player){
             console.log(self.player)
-            console.log(player.animationState.data.skeletonData.animations[0].name)
+            animations = player.animationState.data.skeletonData.animations
+            let 动作选择 = document.getElementById("动作选择");
+            while (动作选择.childNodes.length > 0){
+              动作选择.removeChild(动作选择.childNodes[0])
+            }
+            for (let i in animations){
+              
+              let button = document.createElement("button");
+              button.innerHTML = animations[i]["name"];
+              button.setAttribute("onclick", "加载素材('" + 资源目录 + "', '" + animations[i]["name"] + "')");
+              button.setAttribute("style", "float: left; margin: 5px;");
+              动作选择.appendChild(button);
+            }
           }
-      });
+      }
+      if (动作){
+        参数["animation"] = 动作
+      }
+      self.player = new spine.SpinePlayer(
+        "player-container", 参数);
+    }
   </script>
  </body>
 </html>
