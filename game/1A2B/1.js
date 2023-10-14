@@ -34,6 +34,8 @@ async function loading(){
   历史表格.setAttribute("border", "1");
   body.appendChild(历史表格);
   
+  body.removeChild(document.getElementById("加载中"))
+  
   let 一行 = document.createElement("tr");
   let 一行一列 = document.createElement("th");
   一行一列.innerHTML = "玩家";
@@ -65,24 +67,6 @@ async function loading(){
   预测位置.id = "预测位置";
   body.appendChild(预测位置);
   
-  一行 = document.createElement("tr");
-  一行一列 = document.createElement("th");
-  一行一列.innerHTML = "数字";
-  一行.appendChild(一行一列);
-  一行二列 = document.createElement("th");
-  一行二列.innerHTML = "第一位";
-  一行.appendChild(一行二列);
-  一行三列 = document.createElement("th");
-  一行三列.innerHTML = "第二位";
-  一行.appendChild(一行三列);
-  一行四列 = document.createElement("th");
-  一行四列.innerHTML = "第三位";
-  一行.appendChild(一行四列);
-  一行五列 = document.createElement("th");
-  一行五列.innerHTML = "第四位";
-  一行.appendChild(一行五列);
-  预测位置.appendChild(一行);
-  
   筛选列表 = []
   let b = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
   for (let i in b){
@@ -100,6 +84,7 @@ async function loading(){
       }
     }
   }
+  
   requestIdleCallback(() => {位置表格()})
 }
 
@@ -129,11 +114,10 @@ function 渲染(参数, n){
   
   筛选列表.push(n)
   
-  分割线 = document.createElement("hr");
-  body.appendChild(分割线);
-  
   let 预测表格 = document.getElementById("预测表格")
   if (预测表格 == null){
+    分割线 = document.createElement("hr");
+    body.appendChild(分割线);
     预测表格 = document.createElement("table");
     预测表格.setAttribute("border", "1");
     预测表格.id = "预测表格";
@@ -154,13 +138,26 @@ function 渲染(参数, n){
 }
 
 function 位置表格(){
-  console.log(筛选列表)
   let body = document.getElementsByTagName("body")[0]
-  
-  let 分割线 = document.createElement("hr");
-  body.appendChild(分割线);
-  
   let 预测位置 = document.getElementById("预测位置")
+  
+  一行 = document.createElement("tr");
+  一行一列 = document.createElement("th");
+  一行一列.innerHTML = "数字";
+  一行.appendChild(一行一列);
+  一行二列 = document.createElement("th");
+  一行二列.innerHTML = "第一位";
+  一行.appendChild(一行二列);
+  一行三列 = document.createElement("th");
+  一行三列.innerHTML = "第二位";
+  一行.appendChild(一行三列);
+  一行四列 = document.createElement("th");
+  一行四列.innerHTML = "第三位";
+  一行.appendChild(一行四列);
+  一行五列 = document.createElement("th");
+  一行五列.innerHTML = "第四位";
+  一行.appendChild(一行五列);
+  预测位置.appendChild(一行);
   
   let 数字位置 = []
   for (let i in 筛选列表){
