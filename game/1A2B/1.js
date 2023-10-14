@@ -1,4 +1,9 @@
-function loading(){
+
+async function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function loading(){
   let body = document.getElementsByTagName("body")[0]
   let data = getQueryVariable("data")
   if (data.length % 6 != 0){
@@ -51,54 +56,15 @@ function loading(){
     历史表格.appendChild(二行);
   }
   
-  let 组合列表 = []
-  let b = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
-  for (let i in b){
-    let c = b.concat([]);
-    c.splice(parseInt(i), 1)
-    for (let j in c){
-      let d = c.concat([]);
-      d.splice(parseInt(j), 1)
-      for (let k in d){
-        let e = d.concat([]);
-        e.splice(parseInt(k), 1)
-        for (let l in e){
-          组合列表.push(b[i] + c[j] + d[k] + e[l])
-        }
-      }
-    }
-  }
-  
-  let 筛选列表 = [];
-  for (let i in 组合列表){
-    let li = true
-    for (let j in 参数){
-      let a = 0
-      let b = 0
-      for (let k = 0; k < 4; k++){
-       
-        if (组合列表[i].slice(k, k + 1) == 参数[j][0].slice(k, k + 1)){
-          a = a + 1
-        }
-        else if (参数[j][0].indexOf(组合列表[i].slice(k, k + 1)) != -1){
-          b = b + 1
-        }
-      }
-    if (a != 参数[j][1] || b != 参数[j][2]){
-      li = false
-    }
-    }
-    if (li){
-      筛选列表.push(组合列表[i])
-    }
-  }
-  
   let 分割线 = document.createElement("hr");
   body.appendChild(分割线);
   
-  let 预测位置 = document.createElement("table");
+  let 预测位置 = document.getElementById("预测位置")
+  预测位置 = document.createElement("table");
   预测位置.setAttribute("border", "1");
+  预测位置.id = "预测位置";
   body.appendChild(预测位置);
+  
   一行 = document.createElement("tr");
   一行一列 = document.createElement("th");
   一行一列.innerHTML = "数字";
@@ -116,6 +82,85 @@ function loading(){
   一行五列.innerHTML = "第四位";
   一行.appendChild(一行五列);
   预测位置.appendChild(一行);
+  
+  筛选列表 = []
+  let b = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+  for (let i in b){
+    let c = b.concat([]);
+    c.splice(parseInt(i), 1)
+    for (let j in c){
+      let d = c.concat([]);
+      d.splice(parseInt(j), 1)
+      for (let k in d){
+        let e = d.concat([]);
+        e.splice(parseInt(k), 1)
+        for (let l in e){
+          requestIdleCallback(() => {渲染(参数, b[i] + c[j] + d[k] + e[l])})
+        }
+      }
+    }
+  }
+  requestIdleCallback(() => {位置表格()})
+}
+
+function 渲染(参数, n){
+  let body = document.getElementsByTagName("body")[0]
+  
+  let li = true
+  for (let j in 参数){
+    let a = 0
+    let b = 0
+    for (let k = 0; k < 4; k++){
+      if (n.slice(k, k + 1) == 参数[j][0].slice(k, k + 1)){
+        a = a + 1
+      }
+      else if (参数[j][0].indexOf(n.slice(k, k + 1)) != -1){
+        b = b + 1
+      }
+    }
+    if (a != 参数[j][1] || b != 参数[j][2]){
+      li = false
+    }
+  }
+  
+  if (li == false){
+    return
+  }
+  
+  筛选列表.push(n)
+  
+  分割线 = document.createElement("hr");
+  body.appendChild(分割线);
+  
+  let 预测表格 = document.getElementById("预测表格")
+  if (预测表格 == null){
+    预测表格 = document.createElement("table");
+    预测表格.setAttribute("border", "1");
+    预测表格.id = "预测表格";
+    body.appendChild(预测表格);
+    一行 = document.createElement("tr");
+    一行一列 = document.createElement("th");
+    一行一列.innerHTML = "预测";
+    一行.appendChild(一行一列);
+    预测表格.appendChild(一行);
+  }
+  
+  let 二行 = document.createElement("tr");
+  let 二行一列 = document.createElement("td");
+  二行一列.setAttribute("align", "center");
+  二行一列.innerHTML = n;
+  二行.appendChild(二行一列);
+  预测表格.appendChild(二行);
+}
+
+function 位置表格(){
+  console.log(筛选列表)
+  let body = document.getElementsByTagName("body")[0]
+  
+  let 分割线 = document.createElement("hr");
+  body.appendChild(分割线);
+  
+  let 预测位置 = document.getElementById("预测位置")
   
   let 数字位置 = []
   for (let i in 筛选列表){
@@ -147,27 +192,6 @@ function loading(){
     }
     预测位置.appendChild(二行);
   }
-  
-  分割线 = document.createElement("hr");
-  body.appendChild(分割线);
-  
-  let 预测表格 = document.createElement("table");
-  预测表格.setAttribute("border", "1");
-  body.appendChild(预测表格);
-  一行 = document.createElement("tr");
-  一行一列 = document.createElement("th");
-  一行一列.innerHTML = "预测";
-  一行.appendChild(一行一列);
-  预测表格.appendChild(一行);
-  for (let i in 筛选列表){
-    let 二行 = document.createElement("tr");
-    let 二行一列 = document.createElement("td");
-    二行一列.setAttribute("align", "center");
-    二行一列.innerHTML = 筛选列表[i];
-    二行.appendChild(二行一列);
-    预测表格.appendChild(二行);
-  }
-  
 }
 
 function getQueryVariable(variable){
