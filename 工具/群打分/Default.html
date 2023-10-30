@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <style>
+        form {
+            border-style: dashed;
+            border-width: 1px;
+            display: inline-block;
+            font-size: 4vh;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+        }
+        
+        span {
+            margin-left: 5px;
+            margin-top: 10px;
+        }
+        
+        input {
+            height: 4vh;
+            width: 4vh;
+            margin-left: 20px;
+        }
+        
+        #提交 {
+            height: auto;
+            width: auto;
+            float: right;
+            margin-bottom: 5px;
+            margin-right: 5px;
+        }
+        
+        img {
+            display: none;
+            max-height: 50%;
+            max-width: 50%;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+        }
+    </style>
+    <title>群打分</title>
+  </head>
+  <body>
+    <form>
+        <span>本月即将结束，请为本群打分：</span><br />
+        <input type="checkbox">A. 优质高级<br />
+        <input type="checkbox">B. 建议保持<br />
+        <input type="checkbox">C. 下月别发<br />
+        <input type="checkbox">D. 不配打分<br />
+        <input type="checkbox">E. 有tmd楠桐<br />
+        <input type="checkbox">F. 一天不看浑身难受<br />
+        <input type="checkbox">G. 纯傻逼但是我喜欢<br />
+        <input type="checkbox">H. 涩情内容过少<br />
+        <input type="checkbox">I. 想艹群里小男娘<br />
+        <input id="提交" onclick="func()" type="button" value="提交">
+    </form>
+    <img alt="实在是万分感谢您那宝贵的意见" src="./感谢.jpg" />
+    <script>
+        function func(){
+            document.getElementsByTagName("img")[0].style.display = "block";
+            document.getElementsByTagName("form")[0].style.opacity = "0.2";
+        }
+    </script>
+    </body>
+</html>
