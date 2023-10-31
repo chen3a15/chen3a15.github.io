@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script src="data.js"></script>
+    <style>
+        
+        div {
+            border: 1px dashed #D0E0E0;
+            color: #90BEDE;
+            font-size: calc(2vh + 1vw);
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, 0);
+        }
+        
+        input {
+            font-size: calc(2vh + 1vw);
+            width: 100%;
+        }
+        
+        table * {
+            border: 1px dashed #D0E0E0;
+            text-decoration: none;
+        }
+    </style>
+    <title>收藏夹</title>
+  </head>
+  <body onload="func()">
+    <div>
+        <form onsubmit="func(); return false">
+            <input id="search" oninput="asearch()" type="search" value="" />
+        </form>
+        <table id="table">
+            <tr id="th">
+                <th>链接</th>
+            </tr>
+        </table>
+    </div>
+    <script>
+        var timer;
+        
+        function asearch() {
+            if (timer) clearTimeout(timer);
+            timer = setTimeout(func, 2000);
+        }
+        
+        function func(){
+            let table = document.getElementById("table");
+            let search = document.getElementById("search").value.toUpperCase().split(" ");
+            while (table.childNodes.length > 1){
+                table.removeChild(table.childNodes[1]);
+            }
+            for (let i in data){
+                if (data[i] === ""){continue}
+                let asdf = false
+                for (let j in search){
+                    if (data[i].toUpperCase().indexOf(search[j]) === -1){
+                        asdf = true
+                    }
+                }
+                if (asdf){continue}
+                let d = JSON.parse(data[i]);
+                let tr = document.createElement("tr");
+                table.appendChild(tr);
+                let link = document.createElement("td");
+                tr.appendChild(link);
+                let link_a = document.createElement("a");
+                link_a.href = d["link"];
+                link_a.innerHTML = d["title"];
+                link_a.target = "_blank";
+                link.appendChild(link_a);
+            }
+        }
+    </script>
+    </body>
+</html>
