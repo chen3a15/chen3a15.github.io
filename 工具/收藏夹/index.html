@@ -10,8 +10,9 @@
             color: #90BEDE;
             font-size: calc(1.4vh + 0.9vw);
             position: absolute;
-            left: 50%;
-            transform: translate(-50%, 0);
+            left: 5%;
+            right: 5%;
+            max-width: 90%;
         }
         
         input {
@@ -19,24 +20,24 @@
             width: 100%;
         }
         
-        table * {
+        th, td {
             border: 1px dashed #D0E0E0;
-            white-space: nowrap;
-            text-decoration: none;
         }
+        
+        a {
+            text-decoration: none;
+            /* 取消下划线 */
+        }
+        
     </style>
     <title>收藏夹</title>
   </head>
-  <body onload="load()">
+  <body onload="list()">
     <div>
         <form onsubmit="list(); return false">
             <input id="search" oninput="asearch()" type="search" value="" />
         </form>
-        <table id="table">
-            <tr id="th">
-                <th>链接</th>
-            </tr>
-        </table>
+        <table id="table"></table>
     </div>
     <script>
         var timer;
@@ -49,9 +50,12 @@
         function list(){
             let table = document.getElementById("table");
             let search = document.getElementById("search").value.toUpperCase().split(" ");
-            while (table.childNodes.length > 1){
-                table.removeChild(table.childNodes[1]);
+            while (table.childNodes.length > 0){
+                table.removeChild(table.childNodes[0]);
             }
+            let th = document.createElement("tr");
+            th.innerHTML = "<tr><th>链接</th><th>标签</th></tr>"
+            table.appendChild(th);
             for (let i in data){
                 if (data[i] === ""){continue}
                 let asdf = false
@@ -61,22 +65,48 @@
                     }
                 }
                 if (asdf){continue}
-                let d = JSON.parse(data[i]);
+                let d = {}
+                try {
+                    d = JSON.parse(data[i]);
+                } catch (err){
+                    console.error("data第" + (parseInt(i) + 1).toString() + "行解析错误：" + data[i])
+                }
                 let tr = document.createElement("tr");
                 table.appendChild(tr);
                 let link = document.createElement("td");
                 tr.appendChild(link);
                 let link_a = document.createElement("a");
-                link_a.href = d["link"];
-                link_a.innerHTML = d["title"];
+                if (d.hasOwnProperty("link")){
+                    link_a.href = d["link"];
+                    if (d.hasOwnProperty("title") && d["title"] != ""){
+                        link_a.innerHTML = d["title"];
+                    } else {
+                        link_a.innerHTML = d["link"];
+                    }
+                } else {
+                    link_a.innerHTML = "<span style='color: red'>data第" + (parseInt(i) + 1).toString() + "行解析错误：" + data[i] + "</span>";
+                    console.error("data第" + (parseInt(i) + 1).toString() + "行解析错误：" + data[i])
+                }
                 link_a.target = "_blank";
                 link.appendChild(link_a);
+                if (d.hasOwnProperty("tags")){
+                    let tags = document.createElement("td");
+                    tr.appendChild(tags);
+                    let splits = document.createElement("span");
+                    for (let j in d["tags"]){
+                        tags.appendChild(splits);
+                        let tag = document.createElement("span");
+                        tag.innerHTML = d["tags"][j];
+                        tag.setAttribute("onclick", "document.getElementById('search').value = '" + tag.innerHTML + "'; list()")
+                        tags.appendChild(tag);
+                        splits = document.createElement("span");
+                        splits.innerHTML = "、";
+                    }
+                }
             }
-        }
-        
-        function load(){
-            list()
-            document.getElementById("search").value = "搜索关键字";
+            if (document.getElementById("search").value === ""){
+                document.getElementById("search").value = "搜索关键字";
+            }
         }
     </script>
     </body>
