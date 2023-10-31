@@ -8,27 +8,28 @@
         div {
             border: 1px dashed #D0E0E0;
             color: #90BEDE;
-            font-size: calc(2vh + 1vw);
+            font-size: calc(1.4vh + 0.9vw);
             position: absolute;
             left: 50%;
             transform: translate(-50%, 0);
         }
         
         input {
-            font-size: calc(2vh + 1vw);
+            font-size: 100%;
             width: 100%;
         }
         
         table * {
             border: 1px dashed #D0E0E0;
+            white-space: nowrap;
             text-decoration: none;
         }
     </style>
     <title>收藏夹</title>
   </head>
-  <body onload="func()">
+  <body onload="load()">
     <div>
-        <form onsubmit="func(); return false">
+        <form onsubmit="list(); return false">
             <input id="search" oninput="asearch()" type="search" value="" />
         </form>
         <table id="table">
@@ -42,10 +43,10 @@
         
         function asearch() {
             if (timer) clearTimeout(timer);
-            timer = setTimeout(func, 2000);
+            timer = setTimeout(list, 2000);
         }
         
-        function func(){
+        function list(){
             let table = document.getElementById("table");
             let search = document.getElementById("search").value.toUpperCase().split(" ");
             while (table.childNodes.length > 1){
@@ -71,6 +72,11 @@
                 link_a.target = "_blank";
                 link.appendChild(link_a);
             }
+        }
+        
+        function load(){
+            list()
+            document.getElementById("search").value = "搜索关键字";
         }
     </script>
     </body>
