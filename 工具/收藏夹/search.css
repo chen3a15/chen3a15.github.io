@@ -1,0 +1,78 @@
+
+body form div {
+    position: relative;
+}
+
+#search {
+    width: calc(100% - 0.45em * 2 - 1px * 2);
+    font-size: 120%;
+    padding: 0.35em 0.45em;
+    border: 1px dashed #000000;
+}
+
+#search:focus {
+    outline: none;
+    border: 1px solid transparent;
+}
+
+#search ~ span {
+  position: absolute;
+  background-color: green;
+  transition: transform 0.5s ease;
+}
+
+.bottom,
+.top {
+  height: 2px;
+  left: 0;
+  right: 0;
+  transform: scaleX(0);
+}
+
+.left,
+.right {
+  width: 2px;
+  top: 0;
+  bottom: 0;
+  transform: scaleY(0);
+}
+
+.bottom {
+  bottom: 0;
+  transform-origin: bottom right;
+}
+
+#search:focus ~ .bottom {
+  transform-origin: bottom left;
+  transform: scaleX(1);
+}
+
+.right {
+  right: 0;
+  transform-origin: top right;
+}
+
+#search:focus ~ .right {
+  transform-origin: bottom right;
+  transform: scaleY(1);
+}
+
+.top {
+  top: 0;
+  transform-origin: top left;
+}
+
+#search:focus ~ .top {
+  transform-origin: top right;
+  transform: scaleX(1);
+}
+
+.left {
+  left: 0;
+  transform-origin: bottom left;
+}
+
+#search:focus ~ .left {
+  transform-origin: top left;
+  transform: scaleY(1);
+}

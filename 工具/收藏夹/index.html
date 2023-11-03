@@ -3,28 +3,45 @@
   <head>
     <meta charset="UTF-8">
     <script src="data.js"></script>
+    <link rel="stylesheet" type="text/css" href="./search.css" />
     <style>
         
-        div {
-            border: 1px dashed #D0E0E0;
-            color: #90BEDE;
-            font-size: calc(1.4vh + 0.9vw);
+        body {
+            color: #000000;
+            font-size: calc(1.6vh + 1.0vw);
             position: absolute;
-            left: 5%;
-            right: 5%;
-            max-width: 90%;
+            left: 1.6%;
+            width: 95%;
+            top: 30px;
         }
         
-        input {
-            font-size: 100%;
+        #table {
+            table-layout: fixed;
             width: 100%;
+            border-spacing: 10px;
+            /* 行距 */
+            word-wrap: break-word;
+            /* 自动换行 */
         }
         
-        th, td {
+        #table tr:nth-child(even) {
+            background-color: #FFDFE9;
+        }
+        
+        #table tr:nth-child(odd) {
+            background-color: #E5EAF9;
+        }
+        
+        .title {
+            border: 1px dashed #D0E0E0;
+        }
+        
+        .tags {
             border: 1px dashed #D0E0E0;
         }
         
         a {
+            text-decoration-color: B5C9D9;
             text-decoration: none;
             /* 取消下划线 */
         }
@@ -32,29 +49,52 @@
     </style>
     <title>收藏夹</title>
   </head>
-  <body onload="list()">
-    <div>
-        <form onsubmit="list(); return false">
-            <input id="search" oninput="asearch()" type="search" value="" />
-        </form>
-        <table id="table"></table>
-    </div>
+  <body onload="load()">
+    <form onsubmit="list(); return false">
+        <div>
+            <input id="search" oninput="asearch()" placeholder="搜索关键字" type="text" value="" />
+            <span class="bottom"></span>
+            <span class="right"></span>
+            <span class="top"></span>
+            <span class="left"></span>
+        </div>
+    </form>
+    <table id="table"></table>
     <script>
         var timer;
         
+        async function sleep(ms) {
+            return new Promise((resolve) => setTimeout(resolve, ms));
+        }
+        
+        async function load() {
+            hash = ""
+            while (true){
+                requestIdleCallback(() => {
+                    if (hash != window.location.hash.slice(1)){
+                        if (timer) clearTimeout(timer);
+                        timer = setTimeout(list, 2000);
+                    }
+                    document.getElementById("search").value = window.location.hash.slice(1);
+                    hash = window.location.hash.slice(1);
+                })
+                await sleep(99)
+            }
+        }
+        
         function asearch() {
-            if (timer) clearTimeout(timer);
-            timer = setTimeout(list, 2000);
+            window.location.hash = "#" + document.getElementById("search").value;
         }
         
         function list(){
+console.log("1")
             let table = document.getElementById("table");
-            let search = document.getElementById("search").value.toUpperCase().split(" ");
+            let search = window.location.hash.slice(1).toUpperCase().split(" ");
             while (table.childNodes.length > 0){
                 table.removeChild(table.childNodes[0]);
             }
             let th = document.createElement("tr");
-            th.innerHTML = "<tr><th>链接</th><th>标签</th></tr>"
+            th.innerHTML = "<tr><th class='title'>链接</th><th class='tags'>标签</th></tr>"
             table.appendChild(th);
             for (let i in data){
                 if (data[i] === ""){continue}
@@ -74,6 +114,7 @@
                 let tr = document.createElement("tr");
                 table.appendChild(tr);
                 let link = document.createElement("td");
+                link.setAttribute("class", "title");
                 tr.appendChild(link);
                 let link_a = document.createElement("a");
                 if (d.hasOwnProperty("link")){
@@ -91,6 +132,7 @@
                 link.appendChild(link_a);
                 if (d.hasOwnProperty("tags")){
                     let tags = document.createElement("td");
+                    tags.setAttribute("class", "tags");
                     tr.appendChild(tags);
                     let splits = document.createElement("span");
                     for (let j in d["tags"]){
@@ -104,10 +146,8 @@
                     }
                 }
             }
-            if (document.getElementById("search").value === ""){
-                document.getElementById("search").value = "搜索关键字";
-            }
         }
+        
     </script>
     </body>
 </html>
