@@ -68,14 +68,14 @@
         }
         
         async function load() {
-            hash = ""
+            hash = true
             while (true){
                 requestIdleCallback(() => {
                     if (hash != window.location.hash.slice(1)){
                         if (timer) clearTimeout(timer);
-                        timer = setTimeout(list, 2000);
+                        timer = setTimeout(list, 200);
                     }
-                    document.getElementById("search").value = window.location.hash.slice(1);
+                    document.getElementById("search").value = decodeURIComponent(window.location.hash.slice(1));
                     hash = window.location.hash.slice(1);
                 })
                 await sleep(99)
@@ -87,9 +87,8 @@
         }
         
         function list(){
-console.log("1")
             let table = document.getElementById("table");
-            let search = window.location.hash.slice(1).toUpperCase().split(" ");
+            let search = decodeURIComponent(window.location.hash.slice(1)).toUpperCase().split(" ");
             while (table.childNodes.length > 0){
                 table.removeChild(table.childNodes[0]);
             }
