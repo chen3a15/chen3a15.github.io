@@ -46,7 +46,10 @@ data = `{"title": "海绵猫猫", "link": "https://chen3a15.github.io", "tags": 
 {"title": "脚本之家_www.jb51.net", "link": "https://www.jb51.net/", "tags": []}
 {"title": "首页 | UIGF-org", "link": "https://uigf.org/zh/", "tags": ["原神可交换数据格式标准"]}
 {"title": "菜鸟教程 - 学的不仅是技术，更是梦想！", "link": "https://www.runoob.com/", "tags": []}
-{"title": "", "link": "", "tags": []}
+{"title": "CSSFX - Beautifully simple click-to-copy CSS effects", "link": "https://cssfx.netlify.app/", "tags": []}
+{"title": "ICP/IP地址/域名信息备案管理系统", "link": "https://beian.miit.gov.cn/#/home", "tags": []}
+{"title": "QQ 开放平台", "link": "https://q.qq.com/", "tags": []}
+{"title": "PubScholar公益学术平台", "link": "https://pubscholar.cn/", "tags": []}
 {"title": "", "link": "", "tags": []}
 {"title": "", "link": "", "tags": []}
 {"title": "", "link": "", "tags": []}
