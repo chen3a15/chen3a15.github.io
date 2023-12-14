@@ -50,7 +50,7 @@ data = `{"title": "海绵猫猫", "link": "https://chen3a15.github.io", "tags": 
 {"title": "ICP/IP地址/域名信息备案管理系统", "link": "https://beian.miit.gov.cn/#/home", "tags": []}
 {"title": "QQ 开放平台", "link": "https://q.qq.com/", "tags": []}
 {"title": "PubScholar公益学术平台", "link": "https://pubscholar.cn/", "tags": []}
-{"title": "", "link": "", "tags": []}
+{"title": "UUP dump", "link": "https://uupdump.net/", "tags": ["Windows下载"]}
 {"title": "", "link": "", "tags": []}
 {"title": "", "link": "", "tags": []}
 `.split("\n")
