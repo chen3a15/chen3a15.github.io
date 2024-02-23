@@ -9,7 +9,7 @@
 
         body {
             font-size: var(--fontsize);
-            margin: 0;
+            margin: 20;
         }
 
         input {
@@ -90,6 +90,8 @@
           <hr />
           <span>将会返利：</span>
           <span id="返利">0</span>
+          <hr />
+          <span id="抽数">0</span>
       </div>
       <script>
           function 计算(){
@@ -165,8 +167,6 @@
               
               var 芒尼 = 30 * 月相观测卡 + 68 * 寰宇频道 + 128 * 寰宇特约 + 6 * 月相6 + 30 * 月相30 + 98 * 月相98 + 198 * 月相198 + 328 * 月相328 + 648 * 月相648
               
-              
-              
               var 合计 = document.getElementById("合计");
               合计.innerHTML = 芒尼 + "米"
               /*
@@ -183,11 +183,15 @@
               
               var 返利 = document.getElementById("返利");
               if (芒尼 <= 3000){
-                  返利.innerHTML = 芒尼 * 16 + "月相"
+                  返利.innerHTML = 芒尼 * 16
               } else {
-                  返利.innerHTML = 48000 + (芒尼 - 3000) * 12.5 + "月相"
+                  返利.innerHTML = 48000 + (芒尼 - 3000) * 12.5
               }
               
+              var 抽数 = document.getElementById("抽数");
+              抽数.innerHTML = 返利.innerHTML + " / " + "160 = " + 返利.innerHTML / 160
+              
+              返利.innerHTML = 返利.innerHTML + "月相"
               if (2 >= 月相观测卡 && 月相观测卡 > 0){
                   返利.innerHTML = 返利.innerHTML + " + " + 月相观测卡 + "张月相观测卡"
               } else if (月相观测卡 >= 2){
@@ -199,6 +203,7 @@
               if (寰宇特约 > 0){
                   返利.innerHTML = 返利.innerHTML + " + " + 寰宇特约 + "个寰宇特约密钥"
               }
+              
               
           }
           
