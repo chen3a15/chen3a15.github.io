@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <style>
+        :root {
+            --fontsize: calc(1.9vh + 0.3vw);
+        }
+
+        body {
+            font-size: var(--fontsize);
+            margin: 0;
+        }
+
+        input {
+            height: var(--fontsize);
+            font-size: var(--fontsize);
+        }
+
+        .box {
+            background: rgba(0, 0, 0, 0.1);
+            margin: 5px 20px 20px 0;
+            border-style: dotted;
+            border-radius: 5px;
+            border-width: 2px;
+            padding: 5px;
+        }
+    </style>
+    <title>鸣潮三测充值返利计算</title>
+  </head>
+  <body>
+      <form oninput="计算()">
+          <div class="box">
+              <label for="月相观测卡">月相观测卡</label>
+              <input id="月相观测卡" min="0" type="number" value="0" />
+              <label for="月相观测卡" style="opacity: 0.3">30块钱的小月卡</label>
+              <label for="月相观测卡" id="月相观测卡_错误" style="color: red; display: none">必须大于等于零</label>
+          </div>
+          <div class="box">
+              <label>先约电台</label>
+              <br />
+              <label for="寰宇频道">┣</label>
+              <input id="寰宇频道" onchange="纪行互斥(0)" type="checkbox" />
+              <label for="寰宇频道">寰宇频道</label>
+              <label for="寰宇频道" style="opacity: 0.3">68块钱的中月卡</label>
+              <br />
+              <label for="寰宇特约">┗</label>
+              <input id="寰宇特约" onchange="纪行互斥(1)" type="checkbox" />
+              <label for="寰宇特约">寰宇特约</label>
+              <label for="寰宇特约" style="opacity: 0.3">128块钱的大月卡</label>
+          </div>
+          <div class="box">
+              <label>购买月相</label>
+              <br />
+              <label for="月相6">┣60月相</label>
+              <input id="月相6" min="0" type="number" value="0" />
+              <label for="月相6" style="opacity: 0.3">6块钱</label>
+              <label for="月相6" id="月相6_错误" style="color: red; display: none">必须大于等于零</label>
+              <br />
+              <label for="月相30">┣300月相</label>
+              <input id="月相30" min="0" type="number" value="0" />
+              <label for="月相30" style="opacity: 0.3">30块钱</label>
+              <label for="月相30" id="月相30_错误" style="color: red; display: none">必须大于等于零</label>
+              <br />
+              <label for="月相98">┣980月相</label>
+              <input id="月相98" min="0" type="number" value="0" />
+              <label for="月相98" style="opacity: 0.3">98块钱</label>
+              <label for="月相98" id="月相98_错误" style="color: red; display: none">必须大于等于零</label>
+              <br />
+              <label for="月相198">┣1980月相</label>
+              <input id="月相198" min="0" type="number" value="0" />
+              <label for="月相198" style="opacity: 0.3">198块钱</label>
+              <label for="月相198" id="月相198_错误" style="color: red; display: none">必须大于等于零</label>
+              <br />
+              <label for="月相328">┣3280月相</label>
+              <input id="月相328" min="0" type="number" value="0" />
+              <label for="月相328" style="opacity: 0.3">328块钱</label>
+              <label for="月相328" id="月相328_错误" style="color: red; display: none">必须大于等于零</label>
+              <br />
+              <label for="月相648">┗6480月相</label>
+              <input id="月相648" min="0" type="number" value="0" />
+              <label for="月相648" style="opacity: 0.3">648块钱</label>
+              <label for="月相648" id="月相648_错误" style="color: red; display: none">必须大于等于零</label>
+          </div>
+      </form>
+      <div style="clear:both">
+          <hr />
+          <span>您一共充值：</span>
+          <span id="合计">0</span>
+          <hr />
+          <span>将会返利：</span>
+          <span id="返利">0</span>
+      </div>
+      <script>
+          function 计算(){
+              var 月相观测卡 = document.getElementById("月相观测卡").value;
+              let 月相观测卡_错误 = document.getElementById("月相观测卡_错误").style;
+              if (月相观测卡.search(/^[0-9]+$/g) === -1){
+                  月相观测卡_错误.display = "inline";
+                  return;
+              } else {
+                  月相观测卡_错误.display = "none";
+              }
+              var 寰宇频道 = document.getElementById("寰宇频道").checked;
+              if (寰宇频道){
+                  寰宇频道 = 1
+              } else {
+                  寰宇频道 = 0
+              }
+              var 寰宇特约 = document.getElementById("寰宇特约").checked;
+              if (寰宇特约){
+                  寰宇特约 = 1
+              } else {
+                  寰宇特约 = 0
+              }
+              var 月相6 = document.getElementById("月相6").value;
+              let 月相6_错误 = document.getElementById("月相6_错误").style;
+              if (月相6.search(/^[0-9]+$/g) === -1){
+                  月相6_错误.display = "inline";
+                  return;
+              } else {
+                  月相6_错误.display = "none";
+              }
+              var 月相30 = document.getElementById("月相30").value;
+              let 月相30_错误 = document.getElementById("月相30_错误").style;
+              if (月相30.search(/^[0-9]+$/g) === -1){
+                  月相30_错误.display = "inline";
+                  return;
+              } else {
+                  月相30_错误.display = "none";
+              }
+              var 月相98 = document.getElementById("月相98").value;
+              let 月相98_错误 = document.getElementById("月相98_错误").style;
+              if (月相98.search(/^[0-9]+$/g) === -1){
+                  月相98_错误.display = "inline";
+                  return;
+              } else {
+                  月相98_错误.display = "none";
+              }
+              var 月相198 = document.getElementById("月相198").value;
+              let 月相198_错误 = document.getElementById("月相198_错误").style;
+              if (月相198.search(/^[0-9]+$/g) === -1){
+                  月相198_错误.display = "inline";
+                  return;
+              } else {
+                  月相198_错误.display = "none";
+              }
+              var 月相328 = document.getElementById("月相328").value;
+              let 月相328_错误 = document.getElementById("月相328_错误").style;
+              if (月相328.search(/^[0-9]+$/g) === -1){
+                  月相328_错误.display = "inline";
+                  return;
+              } else {
+                  月相328_错误.display = "none";
+              }
+              var 月相648 = document.getElementById("月相648").value;
+              let 月相648_错误 = document.getElementById("月相648_错误").style;
+              if (月相648.search(/^[0-9]+$/g) === -1){
+                  月相648_错误.display = "inline";
+                  return;
+              } else {
+                  月相648_错误.display = "none";
+              }
+              
+              
+              var 芒尼 = 30 * 月相观测卡 + 68 * 寰宇频道 + 128 * 寰宇特约 + 6 * 月相6 + 30 * 月相30 + 98 * 月相98 + 198 * 月相198 + 328 * 月相328 + 648 * 月相648
+              
+              
+              
+              var 合计 = document.getElementById("合计");
+              合计.innerHTML = 芒尼 + "米"
+              /*
+              if (月相观测卡 > 0){
+                  合计.innerHTML = 合计.innerHTML + " + " + 月相观测卡 + "张月相观测卡"
+              }
+              if (寰宇频道 > 0){
+                  合计.innerHTML = 合计.innerHTML + " + " + 寰宇频道 + "个寰宇频道"
+              }
+              if (寰宇特约 > 0){
+                  合计.innerHTML = 合计.innerHTML + " + " + 寰宇特约 + "个寰宇特约"
+              }
+              */
+              
+              var 返利 = document.getElementById("返利");
+              if (芒尼 <= 3000){
+                  返利.innerHTML = 芒尼 * 16 + "月相"
+              } else {
+                  返利.innerHTML = 48000 + (芒尼 - 3000) * 12.5 + "月相"
+              }
+              
+              if (2 >= 月相观测卡 && 月相观测卡 > 0){
+                  返利.innerHTML = 返利.innerHTML + " + " + 月相观测卡 + "张月相观测卡"
+              } else if (月相观测卡 >= 2){
+                  返利.innerHTML = 返利.innerHTML + " + 2张月相观测卡"
+              }
+              if (寰宇频道 > 0){
+                  返利.innerHTML = 返利.innerHTML + " + " + 寰宇频道 + "个寰宇频道"
+              }
+              if (寰宇特约 > 0){
+                  返利.innerHTML = 返利.innerHTML + " + " + 寰宇特约 + "个寰宇特约"
+              }
+              
+          }
+          
+          function 纪行互斥(n){
+              let 寰宇频道 = document.getElementById("寰宇频道");
+              let 寰宇特约 = document.getElementById("寰宇特约");
+              
+              if (n === 0){
+                  寰宇特约.checked = false
+              } else {
+                  寰宇频道.checked = false
+              }
+              
+          }
+      </script>
+  </body>
+</html>
