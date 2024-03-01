@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>证件照制作</title>
+    <link rel="shortcut icon" href="/static/icons/favicon.ico">
+    <link rel="icon" href="/static/icons/favicon 512x512.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./css/all.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/bootstrap-slider.css">
+    <link rel="stylesheet" href="./css/cropper.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/jPicker-1.1.6.css">
+    <style>
+        .slider .tooltip.in {
+            opacity: 1;
+        }
+
+        .slider .tooltip.top .tooltip-arrow {
+            bottom: 0;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px 5px 0;
+            border-top-color: #000;
+        }
+
+        .slider .tooltip-arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-color: transparent;
+            border-style: solid;
+        }
+
+        .slider .tooltip.top {
+            padding: 5px 0;
+        }
+    </style>
+
+</head>
+
+<body style="background-image:url(data:image/gif;base64,R0lGODlhGAAYAIAAAMbo/P///yH5BAQUAP8ALAAAAAAYABgAAAI5jA2HGqm+HoOx2jalPhTzvFndCDJf6J0XGbKqWK6oC8+xSaf1q+s5/YsFW7dc8cgbymxJ5LIJjRoKADs=);">
+<div style="background:linear-gradient(0deg, #104BA9 0%, #447BD4 50%,#104BA9 100%);height:50px;text-align:center;line-height:50px;color:#FFFFFF;font-size:20px;text-shadow:1px 1px 1px #f0f0f0;">证件照在线处理工具</div>
+<div style="text-align:center;margin:5px 0;font-weight:bold;color:red;">重要提示：请务必使用 <a href="https://googlechromelabs.github.io/chrome-for-testing/#stable">谷歌浏览器</a> 打开本页面</div>
+
+<!-- Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-9 col-sm-9">
+            <!--<div onclick="colorPicker(this)" class="img-container">-->
+            <div class="img-container">
+                <img id="image" src="./images/demo.jpg" alt="Picture">
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-3">
+            <!-- <h3>Preview:</h3> -->
+            <div class="docs-preview clearfix" style="text-align: center;">
+                <div id="imgShowArea" style="width:auto;height: auto;max-width:360px;max-height: 480px;border:1px solid #CCCCCC;background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAAA3NCSVQICAjb4U/gAAAABlBMVEXMzMz////TjRV2AAAACXBIWXMAAArrAAAK6wGCiw1aAAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M26LyyjAAAABFJREFUCJlj+M/AgBVhF/0PAH6/D/HkDxOGAAAAAElFTkSuQmCC');">
+                    图像生成预览区
+                </div>
+            </div>
+            <!-- <h3>Data:</h3> -->
+            <div class="docs-data" style="margin-top:9px;">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-prepend"><label class="input-group-text" for="dataSize" style="color:#bf00bf;">大小要求</label></span>
+                    <input type="text" readonly id="dataSize" placeholder="KB" style="text-align:center;background-color:#FFFFFF;">
+                    <span class="input-group-append"><span class="input-group-text">KB</span></span>
+                </div>
+
+                <div class="input-group input-group-sm">
+                    <span class="input-group-prepend"><label class="input-group-text" for="imgBackColor" style="color:#bf00bf;">背景要求</label></span>
+                    <input type="text" class="form-control" readonly id="imgBackColor" style="text-align:center;background-color:#FFFFFF;">
+                    <!--<span class="input-group-append"><span class="input-group-text">0</span></span>-->
+                </div>
+                <div class="input-group input-group-sm">
+                    <span class="input-group-prepend"><label class="input-group-text" for="colorQuality" style="color:#bf00bf;">色质要求</label></span>
+                    <input type="text" class="form-control" readonly id="colorQuality" style="text-align:center;background-color:#FFFFFF;">
+                    <!--<span class="input-group-append"><span class="input-group-text">0</span></span>-->
+                </div>
+                <div class="input-group input-group-sm">
+                    <span class="input-group-prepend"><label class="input-group-text" for="addBackColor" style="color:blue;">填充背景</label></span>
+                    <input type="text" class="form-control"  id="addBackColor" placeholder="留空时为透明" style="text-align:center;padding:3px 6px;font-weight:bold;" value="108CCA"/>
+                    <div id="backColorChanged" hidden>108CCA</div>
+                    <!--<span class="input-group-append"><span class="input-group-text" id="selectBackColor" style="cursor:pointer;">清空</span></span>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9 col-sm-9 docs-buttons" style="text-align: center">
+            <!-- <h3>Toolbar:</h3> -->
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary" data-method="zoom" data-option="0.1" title="Zoom In">
+                        <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="放大">
+                            <span class="fa fa-search-plus"></span>
+                        </span>
+                </button>
+                <button type="button" class="btn btn-primary" data-method="zoom" data-option="-0.1" title="Zoom Out">
+                        <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="缩小">
+                            <span class="fa fa-search-minus"></span>
+                        </span>
+                </button>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary" data-method="move" data-option="-1" data-second-option="0" title="Move Left">
+                        <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="左移">
+                            <span class="fa fa-arrow-left"></span>
+                        </span>
+                </button>
+                <button type="button" class="btn btn-primary" data-method="move" data-option="1" data-second-option="0" title="Move Right">
+                        <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="右移">
+                            <span class="fa fa-arrow-right"></span>
+                        </span>
+                </button>
+                <button type="button" class="btn btn-primary" data-method="move" data-option="0" data-second-option="-1" title="Move Up">
+                        <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="上移">
+                            <span class="fa fa-arrow-up"></span>
+                        </span>
+                </button>
+                <button type="button" class="btn btn-primary" data-method="move" data-option="0" data-second-option="1" title="Move Down">
+                        <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="下移">
+                            <span class="fa fa-arrow-down"></span>
+                        </span>
+                </button>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary" data-method="rotate" data-option="-1" title="Rotate Left">
+                        <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="逆转">
+                            <span class="fa fa-undo-alt"></span>
+                        </span>
+                </button>
+                <button type="button" class="btn btn-primary" data-method="rotate" data-option="1" title="Rotate Right">
+                        <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="顺转">
+                            <span class="fa fa-redo-alt"></span>
+                        </span>
+                </button>
+                <button type="button" class="btn btn-primary" data-method="reset" title="Reset">
+                        <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="重置">
+                            <span class="fa fa-sync-alt"></span>
+                        </span>
+                </button>
+            </div>
+
+            <div class="btn-group">
+                <label class="btn btn-primary btn-danger" for="inputImage" title="上传">
+                    <input type="file" class="sr-only" id="inputImage" name="file" accept=".jpg,.jpeg,.png">
+                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="上传图片">
+                            <span class="fa fa-upload"></span>
+                    </span>
+                </label>
+                <button type="button" class="btn btn-primary" id="cutImg" title="自动抠图">
+                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="AI自动抠图">
+                        <span class="fa fa-crop-alt"></span>
+                    </span>
+                </button>
+                <a class="btn btn-success" id="download" href="javascript:void(0);" download="cropped.png">
+                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="下载图片">
+                        <span class="fa fa-download"></span>
+                    </span>
+                </a>
+                <button type="button" class="btn btn-danger" id="errorExample" title="错误示例">
+                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="错误示例">
+                        <span class="fa fa-book-reader"></span>
+                    </span>
+                </button>
+            </div>
+
+        </div><!-- /.docs-buttons -->
+    </div>
+    <div class="row">
+        <div id="qualityBox" class="col-md-12" style="margin:5px 0;padding:0 15px;">
+            <input type="text" class="form-control" id="imgQuality" data-slider-tooltip="show" style="width:100%;"/>
+        </div>
+    </div>
+</div>
+<!-- Scripts -->
+<script src="./js/jquery-2.2.4.min.js"></script>
+<script src="./js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="./js/bootstrap-slider.js"></script>
+<script src="./js/cropper.js"></script>
+<script src="./js/getcanvaspixelcolor.js"></script>
+<script src="./js/jpicker-1.1.6.js"></script>
+<script src="./js/layer.js"></script>
+<script src="./js/common.js"></script>
+<script>
+    $(function() {
+        let picwidth=$('#colorQuality').parent().width();
+        let picheight=Math.ceil(picwidth*4/3);
+        $('#imgShowArea').css('width',picwidth+'px');
+        $('#imgShowArea').css('height',picheight+'px');
+        //页面加载完毕后，自动对按钮功能进行提示
+        setTimeout(function () {
+
+            // let top=$('#layui-layer1').css('top').replace('px','');
+            // $('#layui-layer1').css('top',top-20+'px');
+            let spans=$('span.docs-tooltip');
+            let len=spans.length;
+            spans.each(function(index,item){
+                let info=item.attributes[4].value;
+                let fx=index%2==0?3:1;
+                if (index==0)fx=4;
+                if (index==len-1) fx=2;
+                layer.tips(info, item,{tips:[fx,'#000'],tipsMore:true,time:15000});
+                // let tip=$('#layui-layer'+parseInt(index+2));
+                // let top=tip.css('top');
+                // top=top.replace('px','')-30;
+                // tip.css('top',top+'px');
+            });
+            let qualityBar=$('#imgQuality');
+            layer.tips('生成图片质量控制','#qualityBox',{tips:[3,'#000'],tipsMore:true,time:15000});
+        },2000);
+
+        //输入：rgb(13,0,255)  输出：#0d00ff
+        function rgb2Hex(color) {
+            var rgb = color.split(',');
+            var r = parseInt(rgb[0].split('(')[1]);
+            var g = parseInt(rgb[1]);
+            var b = parseInt(rgb[2].split(')')[0]);
+            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        }
+        //吸色开始＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+        let colorList = new Map();
+        function colorPicker(imgobj,e){
+            //e = e || window.event;
+            let size = {};
+            size.x = e.offsetX;
+            size.y = e.offsetY;
+            // let imgobj=$(imgbox).children(1).children(0).children(0).children(0);
+            canvas(imgobj,size);
+        }
+        //建立canvas画布
+        let canvas = function(imgobj,size){
+            let canvas = document.createElement("canvas");
+            if (!canvas.getContext) {alert("很遗憾，您浏览器版本太老了，无法使用我们的小工具 ！");return;}
+            let ctx = canvas.getContext("2d");
+            let imgWidth = imgobj.data.width;//图像的显示宽度
+            let imgHeight = imgobj.data.height;//图像的显示高度
+            let newImg = new Image();
+            newImg.src = imgobj.data.src;
+
+            newImg.onload = function(){
+                canvas.width = newImg.width;//图像的实际宽度
+                canvas.height = newImg.height;//图像的实际高度
+                ctx.drawImage(newImg, 0, 0);
+                let transform=$('.cropper-canvas').css("transform").split(',');
+                let translateX=parseInt(transform[4]);
+                let translateY=parseInt(transform[5]);
+                let x = newImg.width * (size.x-translateX) / imgWidth;
+                let y = newImg.height * (size.y-translateY) / imgHeight;
+                let imgData = ctx.getImageData(x, y, 1, 1);
+                let selColor=imgData.data.slice(0,3);
+                if (selColor.toString()!='0,0,0'){
+                    colorList.set(imgData.data.join(''), selColor);
+                    showColorList();
+                }
+            }
+
+        }
+        $("#errorExample").on('click',function () {
+            layer.photos({
+                photos: {"data":[
+                        {"alt":"上传照片时请主动检查是否存在示例中问题","src":"/static/webps/images/error.jpg"}
+                    ]},
+                shade:0.5,
+                anim:Math.floor(Math.random()*6) //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+            });
+        });
+        function showColorList() {
+            let htmlStr='';
+            let index=0;
+            colorList.forEach(value =>{
+                if (index<15) {
+                    htmlStr+='<span style="margin:0px 1px;width:6px;height:22px; background-color: rgb('+value+');display:inline-block;"></span>';
+                    index+=1;
+                }
+            });
+            $('#colorCutoutList').html(htmlStr);
+        }
+        //吸色结束＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+        //抠图开始＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+
+        //将图片对象转化为画布，返回画布
+        function ImageToCanvas(imgId) {
+            // let canvas = document.createElement("canvas");
+            // if (!canvas.getContext) {alert("很遗憾，您浏览器版本太老了，无法使用我们的小工具 ！");return;}
+            // let ctx = canvas.getContext("2d");
+            //
+            // let newImg = new Image();
+            // newImg.src = document.getElementById(imgId).src;
+            //
+            // canvas.width = newImg.width;//图像的实际宽度
+            // canvas.height = newImg.height;//图像的实际高度
+            // ctx.drawImage(newImg, 0, 0);
+            // return canvas;
+            let img = document.getElementById(imgId);
+            let canvas = document.createElement("canvas");
+            canvas.width = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+            canvas.getContext("2d").drawImage(img, 0, 0);//0, 0参数画布上的坐标点，图片将会拷贝到这个地方
+            return canvas;
+        }
+        function base64Img2Blob(base64Code){
+            var parts = base64Code.split(';base64,');
+            var contentType = parts[0].split(':')[1];
+            var raw = window.atob(parts[1]);
+            var rawLength = raw.length;
+
+            var uInt8Array = new Uint8Array(rawLength);
+
+            for (var i = 0; i < rawLength; ++i) {
+                uInt8Array[i] = raw.charCodeAt(i);
+            }
+            return new Blob([uInt8Array],{type: contentType});
+        }
+        //抠图结束＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+        //颜色选择面板========================================================
+        $('#addBackColor').jPicker(
+            {
+                window:{expandable: true}
+            });
+        $("#addBackColor").bind("input propertychange", function(){
+            // if (!cutoutModel) createImg();
+            console.log("Changed to ", event.value.newValue/10);
+        });
+        $("#backColorChanged").bind("DOMNodeInserted",function(){
+            createImg();
+        });
+        //图像大小控制条
+        $("#imgQuality").slider({
+            ticks: [1,10,20,30,40,50,60,70,80,90,100],
+            ticks_labels: ["1%","10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%","100%"],
+            ticks_snap_bounds:1,
+            value:100,
+            min:1,
+            max:100,
+        });
+        //图像大小控制条变化时生成图像
+        $("#imgQuality").on("change", function(event){
+            createImg();
+            // console.log("Changed to ", event.value.newValue/10);
+        });
+        'use strict';
+        let console = window.console || {
+            log: function() {}
+        };
+        let URL = window.URL || window.webkitURL;
+        let $image = $('#image');
+        let $download = $('#download');
+        let canFire=0;
+        let myCanvas=document.createElement('canvas');
+        let canvasDefalut={method:'getCroppedCanvas',option:{width:360,height:480,fillColor:'transparent'},secondOption:null};
+        let originalImageURL = $image.attr('src');
+        let uploadedImageName = 'cropped.png';
+        let uploadedImageType = 'image/png';
+        let uploadedImageURL;
+        let base64Url;
+        let imgSize;
+        let imgQuality;
+        let imgmsg=[];
+
+        // var $dataX = $('#dataX');
+        // var $dataY = $('#dataY');
+        // var $dataHeight = $('#dataHeight');
+        // var $dataWidth = $('#dataWidth');
+        // var $dataRotate = $('#dataRotate');
+        // var $dataScaleX = $('#dataScaleX');
+        // var $dataScaleY = $('#dataScaleY');
+        let options = {
+            // 0:无限制; 1:将裁剪框限制为不超过画布的大小
+            // 2:限制最小画布尺寸以适应容器,如果画布和容器的比例不同，则最小画布将在其中一个维度中被额外的空格包围
+            // 3:限制最小画布尺寸以填充容器。如果画布和容器的比例不同，则容器将无法将整个画布适合其中一个尺寸
+            viewMode: 1,
+            aspectRatio: 3/4, //宽高比
+            //preview: '.img-preview', //预览窗口
+            guides: true, //裁剪框的虚线
+            dragMode: 'move',
+            autoCropArea: 0.8, //0-1之间的数值，定义自动剪裁区域的大小，默认0.8
+            dragCrop: true, //是否允许移除当前的剪裁框，并通过拖动来新建一个剪裁框区域
+            movable: true, //是否允许移动剪裁框
+            cropBoxResizable: true, //是否允许改变裁剪框的大小
+            zoomable: true, //是否允许缩放图片大小
+            mouseWheelZoom: true, //是否允许通过鼠标滚轮来缩放图片
+            touchDragZoom: true, //是否允许通过触摸移动来缩放图片
+            rotatable: true, //是否允许旋转图片
+            toggleDragModeOnDblclick: false, //在裁剪器上点击两次时，启用“切割”和“移动”之间切换拖动模式。
+            minContainerWidth: 360, //容器的最小宽度
+            minContainerHeight: 480, //容器的最小高度
+            minCanvasWidth: 0, //canvas 的最小宽度（image wrapper）
+            minCanvasHeight: 0, //canvas 的最小高度（image wrapper）
+            strict: true,
+            crop: function(e) {
+                canFire-=1;
+                if (canFire==0) {
+                    createImg();
+                }
+                // $dataRotate.val(e.detail.rotate);
+            }
+        };
+
+
+        // Tooltip
+        $('[data-toggle="tooltip"]').tooltip();
+
+        // Cropper
+        $image.on({
+            ready: function(e) {
+                // console.log('ready:'+e.type);
+                createImg();
+                colorList.clear();
+                let imgBox=$(".img-container");
+                if(imgBox){
+                    let imgObj=$(imgBox).children().eq(1).children().eq(0).children().eq(0).children().eq(0)[0];
+                    $(imgBox).off("click");
+                    $(imgBox).on('click',imgObj,function(imgObj,e){
+                        e = e || window.event;
+                        colorPicker(imgObj,e);
+                    });
+                }
+                $("div.slider-track-high").css('border','1px solid #C7BFBF');
+                $("span.cropper-dashed.dashed-h").html('<span style="position: absolute;z-index: 500;color: yellow;font-size: 12px;right:-40px;">眉毛线</span><span style="position: absolute;z-index: 500;color: yellow;font-size: 12px;right:-40px;bottom:0px;">下巴线</span>');
+                $("span.cropper-dashed.dashed-v").html('<span style="position: absolute;z-index: 500;color: yellow;font-size: 12px;left:-20px;top:-10px;">左眼线</span><span style="position: absolute;z-index: 500;color: yellow;font-size: 12px;right:-20px;top:-10px;">右眼线</span>');
+
+            },
+            cropstart: function(e) {
+                // console.log('cropstart:'+e.type, e.detail.action);
+            },
+            cropmove: function(e) {
+                // console.log('cropmove:'+e.type, e.detail.action);
+            },
+            cropend: function(e) {
+                // console.log('cropend:'+e.type, e.detail.action);
+                createImg();
+            },
+            crop: function(e) {
+                // console.log('crop:'+e.type);
+            },
+            zoom: function(e) {
+                // console.log('zoom:'+e.type, e.detail.ratio);
+            },
+            rotate: function(e) {
+                // console.log('rotate:'+e.type, e.detail.ratio);
+            }
+        }).cropper(options);
+
+        // Buttons
+        if (!$.isFunction(document.createElement('canvas').getContext)) {
+            $('button[data-method="getCroppedCanvas"]').prop('disabled', true);
+        }
+
+        if (typeof document.createElement('cropper').style.transition === 'undefined') {
+            $('button[data-method="rotate"]').prop('disabled', true);
+            $('button[data-method="scale"]').prop('disabled', true);
+        }
+
+        // Download
+        if (typeof $download[0].download === 'undefined') {
+            $download.addClass('disabled');
+        }
+
+        // Options
+        $('.docs-toggles').on('change', 'input', function() {
+            var $this = $(this);
+            var name = $this.attr('name');
+            var type = $this.prop('type');
+            var cropBoxData;
+            var canvasData;
+
+            if (!$image.data('cropper')) {
+                return;
+            }
+
+            if (type === 'checkbox') {
+                options[name] = $this.prop('checked');
+                cropBoxData = $image.cropper('getCropBoxData');
+                canvasData = $image.cropper('getCanvasData');
+
+                options.ready = function() {
+                    $image.cropper('setCropBoxData', cropBoxData);
+                    $image.cropper('setCanvasData', canvasData);
+                };
+            } else if (type === 'radio') {
+                options[name] = $this.val();
+            }
+
+            $image.cropper('destroy').cropper(options);
+        });
+
+        // Methods
+        $('.docs-buttons').on('click', '[data-method]', function() {
+            var $this = $(this);
+            var data = $this.data();
+            var cropper = $image.data('cropper');
+            var cropped;
+            var $target;
+
+            if ($this.prop('disabled') || $this.hasClass('disabled')) {
+                return;
+            }
+
+            if (cropper && data.method) {
+                data = $.extend({}, data); // Clone a new one
+
+                if (typeof data.target !== 'undefined') {
+                    $target = $(data.target);
+
+                    if (typeof data.option === 'undefined') {
+                        try {
+                            data.option = JSON.parse($target.val());
+                        } catch (e) {
+                            // console.log(e.message);
+                        }
+                    }
+                }
+
+                cropped = cropper.cropped;
+
+                switch (data.method) {
+                    case 'reset':
+                        canFire=1;
+                        // console.log('复位=======');
+                        break;
+                    case 'zoom':
+                        canFire=1;
+                        // console.log('缩放=======');
+                        break;
+                    case 'move':
+                        canFire=1;
+                        if (uploadedImageType === 'image/jpeg') {
+                            if (!data.option) {
+                                data.option = {};
+                            }
+                            data.option.fillColor = '#fff';
+                        }
+                        // console.log('移动=======');
+                        break;
+                    case 'rotate':
+                        canFire=3;
+                        // console.log('旋转=======');
+                        if (cropped && options.viewMode > 0) {
+                            $image.cropper('clear');
+                        }
+                        break;
+                }
+                myCanvas = $image.cropper(data.method, data.option, data.secondOption);
+                switch (data.method) {
+                    case 'rotate':
+                        if (cropped && options.viewMode > 0) {
+                            $image.cropper('crop');
+                        }
+                        break;
+                    case 'scaleX':
+                    case 'scaleY':
+                        $(this).data('option', -data.option);
+                        break;
+                    case 'getCroppedCanvas':
+                        if (myCanvas) {
+                            // Bootstrap's Modal
+                            // $('#getCroppedCanvasModal').modal().find('.modal-body').html(canvas);
+                            imgQuality=$("#imgQuality").attr("value")/100;
+                            base64Url=myCanvas.toDataURL(uploadedImageType,imgQuality);
+                            console.log(base64Url);
+                            imgSize=getImgSizeFromBase64(base64Url);
+                            $("#imgShowArea").html('<img style="width:180px;height: 240px;" src="'+base64Url+'"/>');
+                            // $('#getCroppedCanvasModal').modal().find('.modal-body').html('<img src="'+base64Url+'"/>');
+                            // if (!$download.hasClass('disabled')) {
+                            //     download.download = uploadedImageName;
+                            //     $download.attr('href', base64Url);
+                            // }
+                        }
+                        break;
+                    case 'destroy':
+                        if (uploadedImageURL) {
+                            URL.revokeObjectURL(uploadedImageURL);
+                            uploadedImageURL = '';
+                            $image.attr('src', originalImageURL);
+                        }
+                        break;
+                }
+
+                if ($.isPlainObject(myCanvas) && $target) {
+                    try {
+                        $target.val(JSON.stringify(canvas));
+                    } catch (e) {
+                        console.log(e.message);
+                    }
+                }
+            }
+        });
+
+        // Keyboard
+        $(document.body).on('keydown', function(e) {
+            if (e.target !== this || !$image.data('cropper') || this.scrollTop > 300) {
+                return;
+            }
+
+            switch (e.which) {
+                case 37:
+                    e.preventDefault();
+                    $image.cropper('move', -1, 0);
+                    break;
+
+                case 38:
+                    e.preventDefault();
+                    $image.cropper('move', 0, -1);
+                    break;
+
+                case 39:
+                    e.preventDefault();
+                    $image.cropper('move', 1, 0);
+                    break;
+
+                case 40:
+                    e.preventDefault();
+                    $image.cropper('move', 0, 1);
+                    break;
+            }
+        });
+        //压缩上传的图片
+        function zipBase64Img(imgBase64,callback){
+            let imgsize=imgBase64.length;
+            let zoomrate = 0.9;
+            //console.log(imgsize);
+            if (imgsize>300000){
+                let img = new Image();
+                img.src=imgBase64;
+                img.onload = function(){
+                    let width = img.width;
+                    let height = img.height;
+                    if (width<50 || height<50)
+                    {
+                        layer.msg('图像最短边至少50px');
+                        return false;
+                    }
+                    let newwidth = Math.ceil(width*zoomrate);
+                    let newheight = Math.ceil(height*zoomrate);
+                    let canvas = document.createElement('CANVAS');
+                    let ctx = canvas.getContext('2d');
+                    canvas.width =newwidth;
+                    canvas.height = newheight;
+                    ctx.drawImage(img,0,0,width,height,0,0,newwidth,newheight);
+                    let imgdata=canvas.toDataURL('image/jpeg');
+                    callback(imgdata,zipBase64Img);
+                    canvas = null;
+                }
+            }else{
+                let img = new Image();
+                img.src=imgBase64;
+                img.onload = function(){
+                    let width = img.width;
+                    let height = img.height;
+                    if (width<50 || height<50)
+                    {
+                        layer.msg('图像最短边至少50px');
+                        return false;
+                    }
+                    if (width>4096 || height>4096) {
+                        let newwidth = Math.ceil(width*zoomrate);
+                        let newheight = Math.ceil(height*zoomrate);
+                        let canvas = document.createElement('CANVAS');
+                        let ctx = canvas.getContext('2d');
+                        canvas.width =newwidth;
+                        canvas.height = newheight;
+                        ctx.drawImage(img,0,0,width,height,0,0,newwidth,newheight);
+                        let imgdata=canvas.toDataURL('image/jpeg');
+                        callback(imgdata,zipBase64Img);
+                        canvas = null;
+                    }else{
+                        //cropper('destroy')摧毁裁剪框并且移除cropper实例
+                        $image.cropper('destroy').attr('src', imgBase64).cropper(options);
+                    }
+                }
+            }
+        }
+
+        //上传图片
+        let $inputImage = $('#inputImage');
+        $inputImage.change(function() {
+            let files = this.files;
+            let file;
+            if (files && files.length) {
+                file = files[0];//获取文件域中选中的图片
+                if (/^image\/\w+$/.test(file.type)) {
+                    if (uploadedImageURL) {
+                        URL.revokeObjectURL(uploadedImageURL);
+                    }
+                    uploadedImageURL = URL.createObjectURL(file);
+                    let reader = new FileReader(); //实例化文件读取对象
+                    reader.readAsDataURL(file); //将文件读取为 DataURL,也就是base64编码
+                    reader.onload = function(ev) { //文件读取成功完成时触发
+                        let dataURL = ev.target.result; //获得文件读取成功后的DataURL,也就是base64编码
+                        let img=new Image();
+                        img.src=dataURL;
+                        img.onload=function () {
+                            zipBase64Img(dataURL,zipBase64Img);
+                        };
+                    };
+                } else {
+                    window.alert('请选择一张图片');
+                }
+            }
+            $("#inputImage").val("");//解决重复上传相同图片时CHANGE事件失效
+        });
+        // if (URL) {
+        //
+        // } else {
+        //     $inputImage.prop('disabled', true).parent().addClass('disabled');
+        // }
+        //自动抠图事件
+        $('#cutImg').on('click',function () {
+            imgQuality=$("#imgQuality").attr("value")/100;
+            let canvas=ImageToCanvas('image');
+            let base64Url=canvas.toDataURL(uploadedImageType,imgQuality);
+            base64Url=base64Url.replace(/^data:image\/\w+;base64,/, "");//去掉base64位头部
+            base64Url=encodeURIComponent(base64Url);//url编码
+            if (base64Url){
+                let loadindex =layer.msg('正在抠图，请稍候...', {icon: 16,shade: [0.01,'#000'],time:0});
+                let fd = new FormData();
+                fd.append("imgbase64", base64Url);
+                $.ajax({
+                    type: "POST",
+                    url: "/tools/index/baiduimgcut",
+                    data:fd,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        let info=JSON.parse(data);
+                        switch (info.code) {
+                            case 0:
+                                layer.msg(info.msg);
+                                break;
+                            case 1:
+                                let img=info.img;
+                                uploadedImageURL='data:image/png;base64,'+img;
+                                $image.cropper('destroy').attr('src', uploadedImageURL).cropper(options);
+                                break;
+                        }
+                        layer.close(loadindex);
+                    }
+                });
+            }else{
+                layer.msg('图片不能为空');
+            }
+        });
+
+        function createImg() {
+            let downImgName=Date.parse(new Date());
+            let backColor=$('#addBackColor').css('background-color');
+            let rgb=backColor.split(',').map((item)=>item.replace(/[^0-9]+/g,''));
+            if (rgb.length==3){
+                let hex=rgb2Hex(backColor);
+                $image = $('#image');
+                uploadedImageName = downImgName+'.jpg';
+                uploadedImageType = 'image/jpeg';
+                $download.attr("download",downImgName+".jpg");
+                canvasDefalut={method:'getCroppedCanvas',option:{width:360,height:480,fillColor:hex},secondOption:null};
+            }else{
+                $image = $('#image');
+                uploadedImageName = downImgName+'.png';
+                uploadedImageType = 'image/png';
+                $download.attr("download",downImgName+".png");
+                canvasDefalut={method:'getCroppedCanvas',option:{width:360,height:480,fillColor:'transparent'},secondOption:null};
+            }
+
+            myCanvas = $image.cropper(canvasDefalut.method, canvasDefalut.option, canvasDefalut.secondOption);
+            if (myCanvas) {
+                imgmsg=[];
+                imgQuality=$("#imgQuality").attr("value")/100;
+                let colorData=myCanvas.getPixelColor(10,10);
+                // let rgbaColor = colorData.rgba;//获得rgba颜色
+                // let hexColor = colorData.hex;//获得十六进制颜色
+                let bgcolorInfo=backImgInfo(colorData);
+                base64Url=myCanvas.toDataURL(uploadedImageType,imgQuality);
+                imgSize=getImgSizeFromBase64(base64Url);
+                let blob = base64Img2Blob(base64Url);
+                let link= URL.createObjectURL(blob);
+                $("#dataSize").val(imgSize);
+                if (imgSize>30 || imgSize<25){
+                    imgmsg['图片大小']='过大或过小，不符合要求';
+                    $("#dataSize").attr('class','form-control is-invalid');
+                }else{
+                    $("#dataSize").attr('class','form-control is-valid');
+                }
+
+                if (bgcolorInfo.isBlue){
+                    $("#imgBackColor").val('蓝色');
+                    $("#imgBackColor").attr('class','form-control is-valid');
+                }else{
+                    imgmsg['背景颜色']='非蓝色，不符合要求';
+                    $("#imgBackColor").val('非蓝色');
+                    $("#imgBackColor").attr('class','form-control is-invalid');
+                }
+                if (bgcolorInfo.colorQuality=='颜色适中'){
+                    $("#colorQuality").val(bgcolorInfo.colorQuality);
+                    $("#colorQuality").attr('class','form-control is-valid');
+                }else{
+                    imgmsg['颜色质量']='过深或过浅，不符合要求';
+                    $("#colorQuality").val(bgcolorInfo.colorQuality);
+                    $("#colorQuality").attr('class','form-control is-invalid');
+                }
+
+                $("#imgShowArea").html('<img style="width:100%;height:100%;" src="'+link+'"/>');
+                $download.attr('href', link);
+            }
+        }
+        $download.on('click',function () {
+            let html='';
+            let keys=Object.keys(imgmsg);
+            if (keys.length>0){
+                $.each(keys,function(index,value) {
+                    html += '<div>' + (index+1) + '>' + value + '：'+imgmsg[value]+'</div>';
+                });
+                layer.open({
+                    title: '友情提示',
+                    content: html
+                });
+                return false;
+            }
+        });
+        function cutImg(canvas) {
+            let cutRGBList=[];
+            cutRGBList.push(canvas.getPixelColor(10,10).rgb);
+            cutRGBList.push(canvas.getPixelColor(canvas.width/2,10).rgb);
+            cutRGBList.push(canvas.getPixelColor(canvas.width-10,10).rgb);
+            let newCanvas=new canvas();
+            let colorData=canvas.getPixelColor(10,10);
+
+        }
+        function backImgInfo(colorData) {
+            let result={pass:false,isBlue:false,colorQuality:''};
+            let R=colorData.r;
+            let G=colorData.g;
+            let B=colorData.b;
+            if((R*0.299 + G*0.578 + B*0.114) < 192){
+                if (B>R && B>G){
+                    result.isBlue=true;
+                    switch (true) {
+                        case B==R:
+                            imgmsg['颜色质量']='颜色过深，不符合要求';
+                            result.colorQuality='颜色过深';
+                            break;
+                        case G>R://蓝绿之间
+                            switch (true) {
+                                case (B-G)<30:
+                                    imgmsg['颜色质量']='颜色过浅，不符合要求';
+                                    result.colorQuality='颜色过浅';
+                                    break;
+                                case (B-G)>90:
+                                    imgmsg['颜色质量']='颜色过深，不符合要求';
+                                    result.colorQuality='颜色过深';
+                                    break;
+                                default:
+                                    result.colorQuality='颜色适中';
+                                    result.pass=true;
+                                    break;
+                            }
+                            break;
+                        case R>G:
+                            switch (true) {
+                                case (B-R)<110:
+                                    result.isBlue=true;
+                                    break;
+                                default:
+                                    imgmsg['颜色质量']='颜色过深，不符合要求';
+                                    result.colorQuality='颜色过深';
+                                    break;
+                            }
+                            break;
+                    }
+                }
+            }else{
+                result.isBlue=false;
+                imgmsg['颜色质量']='颜色过浅，不符合要求';
+                result.colorQuality='颜色过浅';
+            }
+            return result;
+        }
+        function getImgSizeFromBase64(Base64Str) {
+            //获取base64图片大小，返回KB数字
+            var str = Base64Str.replace('data:image/jpeg;base64,', '');//这里根据自己上传图片的格式进行相应修改
+            var strLength = str.length;
+            var fileLength = parseInt(strLength - (strLength / 8) * 2);
+            // 由字节转换为KB
+            return (fileLength / 1024).toFixed(2);
+        }
+    });
+</script>
+</body>
+</html>

@@ -14,6 +14,7 @@
 
         input {
             height: var(--fontsize);
+            width: calc(3 * var(--fontsize));
             font-size: var(--fontsize);
         }
 
@@ -25,6 +26,12 @@
             border-width: 2px;
             padding: 5px;
         }
+        
+        #寰宇频道,
+        #寰宇特约 {
+            width: var(--fontsize);
+        }
+        
     </style>
     <title>鸣潮三测充值返利计算</title>
   </head>
@@ -62,22 +69,22 @@
               <label for="月相30" style="opacity: 0.3">30块钱</label>
               <label for="月相30" id="月相30_错误" style="color: red; display: none">必须大于等于零</label>
               <br />
-              <label for="月相98">┣980月相</label>
+              <label for="月相98">┣980月相（额外110）</label>
               <input id="月相98" min="0" type="number" value="0" />
               <label for="月相98" style="opacity: 0.3">98块钱</label>
               <label for="月相98" id="月相98_错误" style="color: red; display: none">必须大于等于零</label>
               <br />
-              <label for="月相198">┣1980月相</label>
+              <label for="月相198">┣1980月相（额外260）</label>
               <input id="月相198" min="0" type="number" value="0" />
               <label for="月相198" style="opacity: 0.3">198块钱</label>
               <label for="月相198" id="月相198_错误" style="color: red; display: none">必须大于等于零</label>
               <br />
-              <label for="月相328">┣3280月相</label>
+              <label for="月相328">┣3280月相（额外600）</label>
               <input id="月相328" min="0" type="number" value="0" />
               <label for="月相328" style="opacity: 0.3">328块钱</label>
               <label for="月相328" id="月相328_错误" style="color: red; display: none">必须大于等于零</label>
               <br />
-              <label for="月相648">┗6480月相</label>
+              <label for="月相648">┗6480月相（额外1600）</label>
               <input id="月相648" min="0" type="number" value="0" />
               <label for="月相648" style="opacity: 0.3">648块钱</label>
               <label for="月相648" id="月相648_错误" style="color: red; display: none">必须大于等于零</label>
@@ -189,7 +196,7 @@
               }
               
               var 抽数 = document.getElementById("抽数");
-              抽数.innerHTML = 返利.innerHTML + " / " + "160 = " + 返利.innerHTML / 160
+              抽数.innerHTML = 返利.innerHTML + " / " + "160 = " + 返利.innerHTML / 160 + "抽"
               
               返利.innerHTML = 返利.innerHTML + "月相"
               if (2 >= 月相观测卡 && 月相观测卡 > 0){

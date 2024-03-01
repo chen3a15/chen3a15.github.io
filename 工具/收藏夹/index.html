@@ -3,50 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <script src="data.js"></script>
-    <link rel="stylesheet" type="text/css" href="./search.css" />
-    <style>
-        
-        body {
-            color: #000000;
-            font-size: calc(1.6vh + 1.0vw);
-            position: absolute;
-            left: 1.6%;
-            width: 95%;
-            top: 30px;
-        }
-        
-        #table {
-            table-layout: fixed;
-            width: 100%;
-            border-spacing: 10px;
-            /* 行距 */
-            word-wrap: break-word;
-            /* 自动换行 */
-        }
-        
-        #table tr:nth-child(even) {
-            background-color: #FFDFE9;
-        }
-        
-        #table tr:nth-child(odd) {
-            background-color: #E5EAF9;
-        }
-        
-        .title {
-            border: 1px dashed #D0E0E0;
-        }
-        
-        .tags {
-            border: 1px dashed #D0E0E0;
-        }
-        
-        a {
-            color: #B5C9D9;
-            text-decoration: none;
-            /* 取消下划线 */
-        }
-        
-    </style>
+    <link rel="stylesheet" type="text/css" href="./0.css" />
     <title>收藏夹</title>
   </head>
   <body onload="load()">
@@ -109,6 +66,7 @@
                     d = JSON.parse(data[i]);
                 } catch (err){
                     console.error("data第" + (parseInt(i) + 1).toString() + "行解析错误：" + data[i])
+                    continue
                 }
                 let tr = document.createElement("tr");
                 table.appendChild(tr);

@@ -1,4 +1,14 @@
 
+body {
+    color: #000000;
+    font-size: calc(1.6vh + 1.0vw);
+    position: absolute;
+    left: 1.6%;
+    width: 95%;
+    top: 30px;
+    margin: 0;
+}
+
 body form div {
     position: relative;
 }
@@ -21,16 +31,14 @@ body form div {
   transition: transform 0.5s ease;
 }
 
-.bottom,
-.top {
+.bottom, .top {
   height: 2px;
   left: 0;
   right: 0;
   transform: scaleX(0);
 }
 
-.left,
-.right {
+.left, .right {
   width: 2px;
   top: 0;
   bottom: 0;
@@ -75,4 +83,37 @@ body form div {
 #search:focus ~ .left {
   transform-origin: top left;
   transform: scaleY(1);
+}
+
+
+
+#table {
+    table-layout: fixed;
+    width: 100%;
+    border-spacing: 10px;
+    /* 行距 */
+    word-wrap: break-word;
+    /* 自动换行 */
+}
+
+#table tr:nth-child(even) {
+    background-color: #FFDFE9;
+}
+
+#table tr:nth-child(odd) {
+    background-color: #E5EAF9;
+}
+
+.title {
+    border: 1px dashed #D0E0E0;
+}
+
+.tags {
+    border: 1px dashed #D0E0E0;
+}
+
+a {
+    color: #000000;
+    text-decoration: none;
+    /* 取消下划线 */
 }
