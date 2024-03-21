@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta charset="UTF-8">
+        <meta http-equiv="pragma" content="no-cache">
+        <meta http-equiv="cache-control" content="no-cache">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="applicable-device" content="mobile">
+        <meta name="renderer" content="webkit">
+        <meta name="force-rendering" content="webkit">
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+        <meta name="Copyright" content="miHoYo">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="format-detection" content="email=no"/>
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-status-bar-style" content="black-translucent">
+        <meta property="og:title" content="《绝区零》官方网站——世界全剧终，欢迎来到新艾利都"/>
+        <meta property="og:description" content="《绝区零》喧响测试现已开启招募！预约《绝区零》、参与分享活动，抽取「喧响测试」资格、实物周边、电子产品等专属福利。"/>
+        <meta property="og:image" content="https://fastcdn.mihoyo.com/static-resource-v2/2024/03/04/b267a25e448d984e4012e03e6b266915_6079099512353839210.png"/>
+        <link id="icon" rel="shortcut icon" href="https://zzz.mihoyo.com/favicon-mi.ico">
+        <title>伪：《绝区零》「喧响测试」</title>
+        <script src="https://webstatic.mihoyo.com/dora/biz/mihoyo-event-sentry-sdk/mihoyo-event-sentry-sdk.min.js"></script>
+        <script src="https://webstatic.mihoyo.com/dora/lib/sentry/7.52.1/sentry-vue.tracing.es5.min.js"></script>
+        <script>
+            (
+                /* eslint-disable-next-line no-unused-vars */
+                function run(a, b){
+                    window.PaimonEventSentry = {
+                        options: a,
+                        configure: function configure(){
+                            return Object.assign({}, a, b())
+                        },
+                        loaded: !1,
+                        loading: void 0,
+                        load: function load(){
+                            var a = this;
+                            return this.loading || (
+                                this.loading = Promise.resolve()
+                                    .then(function(){a.loaded=!0})
+                            ), this.loading
+                        },
+                        initialized: !1,
+                        init: function init(a){
+                            var b = this,
+                            c = void 0 === a?{}:a,
+                            d = c.force;
+                            return !(
+                                void 0 !== d && d
+                            ) && this.initialized ? Promise.resolve(window.Sentry) : this.load()
+                                .then(
+                                    function(){
+                                        var a = b.configure(),
+                                        c = a.Vue,
+                                        d = void 0 === c?window.Vue:c,
+                                        e = a.integrations,
+                                        f = void 0 === e?[new window.Sentry.Integrations.BrowserTracing]:e,
+                                        g = a.ignoreErrors,
+                                        h = void 0 === g?["Non-Error promise rejection captured with","Non-Error exception captured","Network Error"]:g,
+                                        i = Object.assign(
+                                            {},
+                                            a,
+                                            {
+                                                Vue: d,
+                                                integrations: f,
+                                                ignoreErrors: h
+                                            }
+                                        );
+                                        return window.Sentry.init(i), b.initialized = !0, window.Sentry
+                                    }
+                                )
+                        }
+                    }
+                }
+            )(
+                {
+                    dsn: "https://acbdf1bd5b8a43afa7da7c492c5b9a23@sentry-inc.ssr.mihoyo.com/31",
+                    environment: "production",
+                    release: "e20240301-landing-wos4zb@v1.0.2",
+                    tracesSampleRate: 0.2
+                },
+                function(){
+                    return {}
+                }
+            )
+        </script>
+        <meta name="Keywords" content="绝区零，绝区零官网，绝区零预约，米哈游动作游戏">
+        <meta name="Description" content="《绝区零》是由米哈游自研的全新动作游戏。它的故事发生在被神秘的超自然灾害「空洞」所侵袭的近未来。在这灾祸频仍的世界里，崛起了一座另类的城市——「新艾利都」。这座最后的「绿洲」掌握了与「空洞」共生的技术，盘踞着错综复杂的势力，它混乱、喧嚣、危险又充满活力。而你将成为串联起空洞与都市的关键少数派，名为「绳匠」的特殊职业人士。这里正等待着见证你的故事。">
+        <script>
+            !function(){"use strict";var n,e={},r={};function t(n){var o=r[n];if(void 0!==o)return o.exports;var i=r[n]={id:n,loaded:!1,exports:{}};return e[n].call(i.exports,i,i.exports,t),i.loaded=!0,i.exports}t.m=e,t.amdO={},n=[],t.O=function(e,r,o,i){if(!r){var u=1/0;for(l=0;l<n.length;l++){r=n[l][0],o=n[l][1],i=n[l][2];for(var f=!0,c=0;c<r.length;c++)(!1&i||u>=i)&&Object.keys(t.O).every((function(n){return t.O[n](r[c])}))?r.splice(c--,1):(f=!1,i<u&&(u=i));if(f){n.splice(l--,1);var a=o();void 0!==a&&(e=a)}}return e}i=i||0;for(var l=n.length;l>0&&n[l-1][2]>i;l--)n[l]=n[l-1];n[l]=[r,o,i]},t.n=function(n){var e=n&&n.__esModule?function(){return n.default}:function(){return n};return t.d(e,{a:e}),e},t.d=function(n,e){for(var r in e)t.o(e,r)&&!t.o(n,r)&&Object.defineProperty(n,r,{enumerable:!0,get:e[r]})},t.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(n){if("object"==typeof window)return window}}(),t.o=function(n,e){return Object.prototype.hasOwnProperty.call(n,e)},t.r=function(n){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(n,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(n,"__esModule",{value:!0})},t.nmd=function(n){return n.paths=[],n.children||(n.children=[]),n},t.p="https://act.mihoyo.com/zzz/event/e20240301-landing-wos4zb/",function(){var n={700:0};t.O.j=function(e){return 0===n[e]};var e=function(e,r){var o,i,u=r[0],f=r[1],c=r[2],a=0;if(u.some((function(e){return 0!==n[e]}))){for(o in f)t.o(f,o)&&(t.m[o]=f[o]);if(c)var l=c(t)}for(e&&e(r);a<u.length;a++)i=u[a],t.o(n,i)&&n[i]&&n[i][0](),n[i]=0;return t.O(l)},r=self.webpackChunke20240301_landing=self.webpackChunke20240301_landing||[];r.forEach(e.bind(null,0)),r.push=e.bind(null,r.push.bind(r))}()}();
+        </script>
+        <script defer="defer" src="https://act.mihoyo.com/zzz/event/e20240301-landing-wos4zb/vendors_1388ce7a2c4d3c55738a.js"></script>
+        <script defer="defer" src="https://act.mihoyo.com/zzz/event/e20240301-landing-wos4zb/commons_5c6f8a261149c2a46aba.js"></script>
+        <script defer="defer" src="https://act.mihoyo.com/zzz/event/e20240301-landing-wos4zb/styles_4d069f9ae5fbd95a6ff9.js"></script>
+        <script defer="defer" src="https://act.mihoyo.com/zzz/event/e20240301-landing-wos4zb/index_b808d69b9fc345d06af8.js"></script>
+        <link href="https://act.mihoyo.com/zzz/event/e20240301-landing-wos4zb/styles_795412b79d3d375827e6.css" rel="stylesheet">
+    </head>
+    <body>
+        <div id="app"></div>
+        <script src="https://webstatic.mihoyo.com/dora/lib/vue/2.7.14/vue.runtime.min.js" crossorigin></script>
+        <script src="https://webstatic.mihoyo.com/dora/biz/mihoyo-browser-tips/v1/main.js"></script>
+        <script>
+            window.miHoYoBrowserTips.init({
+                isSea: false
+            })
+        </script>
+        <script src="https://webstatic.mihoyo.com/dora/biz/mihoyo-account-sdk/main.js"></script>
+        <script>
+            window.MIHOYO_ANALYSIS_LOGINEFFECT = true
+        </script>
+        <script>
+            window.PaimonEventSentry.load()
+        </script>
+        <script>
+            window.PaimonEventSentry.init()
+        </script>
+        <script src="https://webstatic.mihoyo.com/dora/biz/mihoyo-analysis/v2/main.js"></script>
+        <script src="https://webstatic.mihoyo.com/dora/biz/mihoyo-cn-footer/main.js"></script>
+    </body>
+</html>
+
+
+            async function sleep(ms) {
+                return new Promise((resolve) => setTimeout(resolve, ms));
+            }
+            
+            async function main() {
+                while (true){
+                    await sleep(100);
+                    
+                    window.requestIdleCallback(
+                        function (IdleDeadline) {
+                            let 是否超时 = IdleDeadline.didTimeout
+                            let 空闲时间 = IdleDeadline.timeRemaining()
+                            
+                            let selObj = window.getSelection();
+                            console.log(selObj);
+                            
+                            console.log("是否超时: ", 是否超时)
+                            console.log("剩余", 空闲时间, "ms")
+                        },
+                        {
+                            timeout: 2000
+                        }
+                    );
+                }
+            }

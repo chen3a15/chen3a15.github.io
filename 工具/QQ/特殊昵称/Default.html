@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <script>
+            
+            
+            function 执行(){
+                
+                let 正常部分 = document.getElementById("正常部分").value
+                let 后缀部分 = document.getElementById("后缀部分").value
+                let 输出 = document.getElementById("输出")
+                
+                输出.value = 正常部分 + "\u2067" + 后缀部分 + "\u2067"
+                
+                let 输出长度 = 输出.value.replace(/[\u0000-\u007f]/g, "a").replace(/[\u0080-\u07ff]/g,"aa").replace(/[\u0800-\uffff]/g,"aaa").length;
+                
+                if (输出长度 > 60){
+                    document.getElementById("提示").innerHTML = "Q群昵称最长60字节，当前已用" + 输出长度 + "，确定不再改改嘛";
+                }
+                
+            }
+            
+            async function 复制(){
+                let 输出 = document.getElementById("输出");
+                let 提示 = document.getElementById("提示");
+                输出.select();
+                输出.setSelectionRange(0, 99999);
+                
+                
+                try {
+                    await navigator.clipboard.writeText(输出.value);
+                    let 粘贴板 = await navigator.clipboard.readText();
+                    if (输出.value === 粘贴板){
+                        提示.innerHTML = "复制成功！";
+                    }
+                    else {
+                        提示.innerHTML = "复制失败！";
+                    }
+                }
+                catch {
+                    document.execCommand("copy");
+                    提示.innerHTML = "复制了，但又没有复制，我尽力了";
+                }
+                
+                
+                
+            }
+            
+            
+            
+        </script>
+        <style>
+            
+            :root {
+                --font_size: calc(1.9vh + 0.4vw);
+            }
+            
+            body {
+                margin: 0;
+                font-size: var(--font_size);
+            }
+            
+            #输入区 {
+                position: absolute;
+                left: 50%;
+                transform: translate(-50%);
+            }
+            
+            #输入区 input {
+                margin-top: calc(var(--font_size) * 0.25);
+                width: 70vw;
+                height: calc(var(--font_size) * 1.4);
+            }
+            
+            
+            
+        </style>
+        <title>特殊昵称</title>
+    </head>
+    <body>
+        <form id="输入区" oninput="执行()">
+            <input type="text" id="正常部分" placeholder="正常部分"></input>
+            <br />
+            <input type="text" id="后缀部分" placeholder="后缀部分"></input>
+            <br />
+            <input type="text" id="输出" readonly="" onclick="复制()"></input>
+            <br />
+            <label for="输出" style="color: red;">注意：一定要先全选，再复制！</label>
+            <label id="提示"></label>
+        </form>
+    </body>
+</html>

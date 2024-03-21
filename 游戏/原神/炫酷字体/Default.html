@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <script>
+            
+            function getStringLen(Str){
+                var i, len, code;
+                if (Str === null || Str === "") return 0;
+                len = Str.length;
+                for (i = 0; i < Str.length; i++) {
+                    code = Str.charCodeAt(i);
+                    if (code > 255) {
+                        len ++;
+                    }
+                }
+                return len;
+            }
+            
+            
+            function 复制(){
+                let 输出 = document.getElementById("输出");
+                let 选中区域 = document.createRange();
+                选中区域.selectNodeContents(输出);
+                let 选中 = window.getSelection();
+                选中.removeAllRanges();
+                选中.addRange(选中区域);
+                document.execCommand("copy");
+                
+                
+                
+            }
+            
+            function 新增(){
+                let 输入区 = document.getElementById("输入区");
+                let 输入框 = document.createElement("input");
+                输入框.type = "text"
+                输入框.value = "默认文本"
+                输入区.appendChild(输入框);
+                let 加粗 = document.createElement("input");
+                加粗.type = "button"
+                加粗.value = "加粗"
+                加粗.setAttribute("onclick", "加粗()");
+                输入区.appendChild(加粗);
+                let 斜体 = document.createElement("input");
+                斜体.type = "button"
+                斜体.value = "斜体"
+                斜体.setAttribute("onclick", "加粗()");
+                输入区.appendChild(斜体);
+            }
+            
+        </script>
+        <style>
+            
+            body {
+                margin: 0;
+                --font_size: calc(1.9vh + 0.4vw);;
+            }
+            
+            #输出框 {
+                --output_width: 70vw;
+                --output_border_width: 1px;
+            }
+            
+            #输出框 textarea {
+                resize: none;
+                width: var(--output_width);
+                height: 20vh;
+                border-width: var(--output_border_width);
+                padding: 0;
+                margin: 1vh calc(50vw - var(--output_width) / 2 - var(--output_border_width));
+            }
+            
+            #输出框 div {
+                color: rgba(0, 0, 0, 0.6);
+                font-size: var(--font_size);
+                position: absolute;
+                left: calc(50vw + var(--output_width) / 2 - var(--output_border_width));
+                top: calc(21vh + var(--output_border_width));
+                transform: translate(-100%,-100%);
+            }
+            
+            
+           .asd {
+                float: top;
+                background: rgba(0, 0, 0, 0.1);
+                margin: 5px 20px 20px 0;
+                border-style: dotted;
+                border-radius: 10px;
+                border-width: 2px;
+                padding: 5px;
+                font-size: 1.6vh;
+            }
+            
+        </style>
+        <title>炫酷字体</title>
+    </head>
+    <body>
+        <div id="输出框">
+            <textarea id="输出" readonly="">sffg</textarea>
+            <button onclick="复制()">复制</button>
+            <div>
+                <span>字符长度：</span>
+                <span>0</span>
+                <span>/</span>
+                <span contenteditable="true">50</span>
+            </div>
+        </div>
+        <br />
+        <button onclick="新增()">增加</button>
+        <div id="输入区"></div>
+        <script>
+            
+            新增()
+            
+        </script>
+    </body>
+</html>
+
+
+        <textarea>就这些
+
+<͢>粗体</͢>
+<ͩ>斜体</ͩ>
+<ųũźť=50>字体大小</ųũźť>
+<ͣ​olo​r=#色码>颜色</ͣolor>
+<͡>蓝色超链结</͡>（原神没有）
+<ͳ>删除线</ͳ>（原神没有）
+<͵>底线</͵>（原神没有） ​
+        </textarea>
