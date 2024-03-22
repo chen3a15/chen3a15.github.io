@@ -65,17 +65,17 @@
                 position: absolute;
                 left: 50%;
                 transform: translate(-50%);
+                width: 70vw;
             }
             
             #输入区 input {
                 margin-top: calc(var(--font_size) * 0.25);
-                width: 70vw;
+                width: calc(100% - var(--font_size) * 6);
                 height: calc(var(--font_size) * 1.4);
                 font-size: var(--font_size);
                 border-style: double;
                 border-width: calc(var(--font_size) * 0.2);
-                
-                
+                padding: calc(var(--font_size) * 0.1);
             }
             
             
@@ -85,14 +85,17 @@
     </head>
     <body>
         <form id="输入区" oninput="执行()">
-            <input type="text" id="正常部分" placeholder="正常部分"></input>
+            <label for="正常部分">正常部分：</label>
+            <input type="text" id="正常部分" placeholder="这里填写前半部分"></input>
             <br />
-            <input type="text" id="后缀部分" placeholder="后缀部分"></input>
+            <label for="正常部分">后缀部分：</label>
+            <input type="text" id="后缀部分" placeholder="这里填写后缀部分"></input>
             <br />
+            <label for="正常部分">点击复制：</label>
             <input type="text" id="输出" readonly="" onclick="复制()"></input>
             <br />
             <label for="输出" style="color: red;">注意：一定要先全选，再复制！</label>
-            <label id="提示"></label>
+            <label for="正常部分" id="提示"></label>
         </form>
     </body>
 </html>
