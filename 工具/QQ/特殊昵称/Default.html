@@ -19,6 +19,9 @@
                     document.getElementById("提示").innerHTML = "Q群昵称最长60字节，当前已用" + 输出长度 + "，确定不再改改嘛";
                 }
                 
+                let 提示 = document.getElementById("提示");
+                提示.innerHTML = "";
+                
             }
             
             async function 复制(){
@@ -40,14 +43,10 @@
                 }
                 catch {
                     document.execCommand("copy");
-                    提示.innerHTML = "复制了，但又没有复制，我尽力了";
+                    提示.innerHTML = "复制成功了（大概）";
                 }
                 
-                
-                
             }
-            
-            
             
         </script>
         <style>
@@ -68,11 +67,20 @@
                 width: 70vw;
             }
             
-            #输入区 input {
+            #输入区 span{
                 margin-top: calc(var(--font_size) * 0.25);
-                width: calc(100% - var(--font_size) * 6);
-                height: calc(var(--font_size) * 1.4);
+                display: flex;
+            }
+            
+            #输入区 span label{
                 font-size: var(--font_size);
+                margin-top: calc(var(--font_size) * 0.2);
+            }
+            
+            #输入区 span input {
+                font-size: var(--font_size);
+                flex: 1;
+                height: calc(var(--font_size) * 1.4);
                 border-style: double;
                 border-width: calc(var(--font_size) * 0.2);
                 padding: calc(var(--font_size) * 0.1);
@@ -85,17 +93,22 @@
     </head>
     <body>
         <form id="输入区" oninput="执行()">
-            <label for="正常部分">正常部分：</label>
-            <input type="text" id="正常部分" placeholder="这里填写前半部分"></input>
-            <br />
-            <label for="正常部分">后缀部分：</label>
-            <input type="text" id="后缀部分" placeholder="这里填写后缀部分"></input>
-            <br />
-            <label for="正常部分">点击复制：</label>
-            <input type="text" id="输出" readonly="" onclick="复制()"></input>
-            <br />
-            <label for="输出" style="color: red;">注意：一定要先全选，再复制！</label>
-            <label for="正常部分" id="提示"></label>
+            <span>
+                <label for="正常部分">正常部分：</label>
+                <input type="text" id="正常部分" placeholder="这里填写前半部分"></input>
+            </span>
+            <span>
+                <label for="正常部分">后缀部分：</label>
+                <input type="text" id="后缀部分" placeholder="这里填写后缀部分"></input>
+            </span>
+            <span>
+                <label for="正常部分">点击复制：</label>
+                <input type="text" id="输出" readonly="" onclick="复制()"></input>
+            </span>
+            <span>
+                <label for="输出" style="color: red;">注意：一定要先全选，再复制！</label>
+                <label for="正常部分" id="提示"></label>
+            </span>
         </form>
     </body>
 </html>
