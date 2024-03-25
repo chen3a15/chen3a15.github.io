@@ -4,127 +4,176 @@
         <meta charset="UTF-8">
         <script>
             
-            function getStringLen(Str){
-                var i, len, code;
-                if (Str === null || Str === "") return 0;
-                len = Str.length;
-                for (i = 0; i < Str.length; i++) {
-                    code = Str.charCodeAt(i);
-                    if (code > 255) {
-                        len ++;
+            
+            async function 复制(){
+                let 输出 = document.getElementById("输出框");
+                let 提示 = document.getElementById("提示");
+                输出.select();
+                输出.setSelectionRange(0, 99999);
+                
+                
+                try {
+                    await navigator.clipboard.writeText(输出.value);
+                    let 粘贴板 = await navigator.clipboard.readText();
+                    if (输出.value === 粘贴板){
+                        提示.innerHTML = "复制成功！";
+                    }
+                    else {
+                        提示.innerHTML = "复制失败！";
                     }
                 }
-                return len;
-            }
-            
-            
-            function 复制(){
-                let 输出 = document.getElementById("输出");
-                let 选中区域 = document.createRange();
-                选中区域.selectNodeContents(输出);
-                let 选中 = window.getSelection();
-                选中.removeAllRanges();
-                选中.addRange(选中区域);
-                document.execCommand("copy");
-                
-                
+                catch {
+                    document.execCommand("copy");
+                    提示.innerHTML = "复制成功了（大概）";
+                }
                 
             }
             
-            function 新增(){
-                let 输入区 = document.getElementById("输入区");
-                let 输入框 = document.createElement("input");
-                输入框.type = "text"
-                输入框.value = "默认文本"
-                输入区.appendChild(输入框);
-                let 加粗 = document.createElement("input");
-                加粗.type = "button"
-                加粗.value = "加粗"
-                加粗.setAttribute("onclick", "加粗()");
-                输入区.appendChild(加粗);
-                let 斜体 = document.createElement("input");
-                斜体.type = "button"
-                斜体.value = "斜体"
-                斜体.setAttribute("onclick", "加粗()");
-                输入区.appendChild(斜体);
+            function 随机字符(a){
+                
+                let b = ""
+                for (let i in a){
+                    let 后缀 = a[i].charCodeAt().toString(16)
+                    let 前缀 = ""
+                    for (let i = 0; i < 4 - 后缀.length; i++){
+                        前缀 = 前缀 + Math.floor(Math.random() * 0xf).toString(16)
+                    }
+                    b = b + String.fromCharCode(parseInt(前缀 + 后缀, "16"))
+                }
+                
+                return b
+                
+            }
+            
+            
+            
+            function 执行(){
+                let 输入 = document.getElementById("输入框").value;
+                let 输出 = document.getElementById("输出框");
+                let 粗体 = document.getElementById("粗体").checked;
+                let 斜体 = document.getElementById("斜体").checked;
+                let 大小 = document.getElementById("大小").checked;
+                let 大小值 = document.getElementById("大小值").value;
+                let 颜色 = document.getElementById("颜色").checked;
+                let 颜色值 = document.getElementById("颜色值").value;
+                let material = document.getElementById("material").checked;
+                let quad = document.getElementById("quad").checked;
+                
+                输出.value = 输入
+                
+                if (粗体){
+                    let a = 随机字符("b")
+                    输出.value = "<" + a + ">" + 输出.value + "</" + a + ">"
+                }
+                
+                if (斜体){
+                    let a = 随机字符("i")
+                    输出.value = "<" + a + ">" + 输出.value + "</" + a + ">"
+                }
+                
+                if (大小){
+                    let a = 随机字符("size")
+                    输出.value = "<" + a + "=" + 大小值 + ">" + 输出.value + "</" + a + ">"
+                }
+                
+                if (颜色){
+                    let a = 随机字符("color")
+                    输出.value = "<" + a + "=" + 颜色值 + ">" + 输出.value + "</" + a + ">"
+                }
+                
+                if (material){
+                    let a = 随机字符("material")
+                    输出.value = "<" + a + ">" + 输出.value + "</" + a + ">"
+                }
+                
+                if (quad){
+                    let a = 随机字符("quad")
+                    输出.value = "<" + a + ">" + 输出.value + "</" + a + ">"
+                }
+                
+                
+                let 提示 = document.getElementById("提示");
+                let 字符长度 = document.getElementById("字符长度");
+                let 字符上限 = document.getElementById("字符上限").innerHTML;
+                
+                提示.innerHTML = "";
+                let 输出长度 = 输出.value
+                    .replace(/[\u0000-\u007f]/g, "a")
+                    .replace(/[\u0080-\u07ff]/g, "aa")
+                    .replace(/[\u0800-\uffff]/g,"aaa")
+                    .length;
+                字符长度.innerHTML = 输出长度
+                
+                if (输出长度 > 字符上限){
+                    提示.innerHTML = "最长" + 字符上限 + "字节，当前已用" + 输出长度 + "，确定不再改改嘛";
+                }
+                
+                
             }
             
         </script>
         <style>
             
-            body {
-                margin: 0;
+            :root {
                 --font_size: calc(1.9vh + 0.4vw);
             }
             
-            #输出框 {
-                --output_width: 70vw;
-                --output_border_width: 1px;
+            body {
+                margin: 0;
             }
             
-            #输出框 textarea {
-                resize: none;
-                width: var(--output_width);
-                height: 20vh;
-                border-width: var(--output_border_width);
-                padding: 0;
-                margin: 1vh calc(50vw - var(--output_width) / 2 - var(--output_border_width));
-            }
-            
-            #输出框 div {
-                color: rgba(0, 0, 0, 0.6);
+            button, input, label, span, textarea {
                 font-size: var(--font_size);
-                position: absolute;
-                left: calc(50vw + var(--output_width) / 2 - var(--output_border_width));
-                top: calc(21vh + var(--output_border_width));
-                transform: translate(-100%,-100%);
+            }
+            
+            #粗体, #斜体, #大小, #颜色, #material, #quad {
+                height: var(--font_size);
+                width: var(--font_size);
             }
             
             
-           .asd {
-                float: top;
-                background: rgba(0, 0, 0, 0.1);
-                margin: 5px 20px 20px 0;
-                border-style: dotted;
-                border-radius: 10px;
-                border-width: 2px;
-                padding: 5px;
-                font-size: 1.6vh;
-            }
             
         </style>
-        <title>炫酷字体</title>
+        <title>原神、星铁炫酷字体</title>
     </head>
     <body>
-        <div id="输出框">
-            <textarea id="输出" readonly="">sffg</textarea>
-            <button onclick="复制()">复制</button>
+        <form oninput="执行()">
+            <label for="输入框">输入文本：</label>
+            <input id="输入框" type="text" placeholder="原神，启动！"></input>
+            <br />
+            <input id="粗体" type="checkbox"></input>
+            <label for="粗体">粗体</label>
+            <br />
+            <input id="斜体" type="checkbox"></input>
+            <label for="斜体">斜体</label>
+            <br />
+            <input id="大小" type="checkbox"></input>
+            <label for="大小">大小：</label>
+            <input id="大小值" type="number" value="50"></input>
+            <br />
+            <input id="颜色" type="checkbox"></input>
+            <label for="颜色">颜色：</label>
+            <input id="颜色值" type="color"></input>
+            <br />
+            <input id="material" type="checkbox"></input>
+            <label for="material">material</label>
+            <br />
+            <input id="quad" type="checkbox"></input>
+            <label for="quad">quad</label>
+        </form>
+        <div id="输出">
+            <textarea id="输出框" readonly="">原神，启动！</textarea>
+            <br />
+            <button id="更换" onclick="执行()">如果生成的代码已经被屏蔽，点击这里换一个</button>
+            <button id="复制按钮" onclick="复制()">复制</button>
+            <br />
+            <label for="输入框" id="提示"></label>
             <div>
                 <span>字符长度：</span>
-                <span>0</span>
+                <span id="字符长度">0</span>
                 <span>/</span>
-                <span contenteditable="true">50</span>
+                <span id="字符上限" oninput="执行()" contenteditable="true">50</span>
             </div>
         </div>
-        <br />
-        <button onclick="新增()">增加</button>
-        <div id="输入区"></div>
-        <script>
-            
-            新增()
-            
-        </script>
     </body>
 </html>
-
-
-        <textarea>就这些
-
-<͢>粗体</͢>
-<ͩ>斜体</ͩ>
-<ųũźť=50>字体大小</ųũźť>
-<ͣ​olo​r=#色码>颜色</ͣolor>
-<͡>蓝色超链结</͡>（原神没有）
-<ͳ>删除线</ͳ>（原神没有）
-<͵>底线</͵>（原神没有） ​
-        </textarea>

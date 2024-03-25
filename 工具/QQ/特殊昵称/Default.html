@@ -13,14 +13,14 @@
                 
                 输出.value = 正常部分 + "\u2067" + 后缀部分 + "\u2067"
                 
-                let 输出长度 = 输出.value.replace(/[\u0000-\u007f]/g, "a").replace(/[\u0080-\u07ff]/g,"aa").replace(/[\u0800-\uffff]/g,"aaa").length;
-                
-                if (输出长度 > 60){
-                    document.getElementById("提示").innerHTML = "Q群昵称最长60字节，当前已用" + 输出长度 + "，确定不再改改嘛";
-                }
                 
                 let 提示 = document.getElementById("提示");
                 提示.innerHTML = "";
+                let 输出长度 = 输出.value.replace(/[\u0000-\u007f]/g, "a").replace(/[\u0080-\u07ff]/g,"aa").replace(/[\u0800-\uffff]/g,"aaa").length;
+                
+                if (输出长度 > 60){
+                    提示.innerHTML = "Q群昵称最长60字节，当前已用" + 输出长度 + "，确定不再改改嘛";
+                }
                 
             }
             
