@@ -2,31 +2,18 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <script src="/static/JavaScript/复制.js"></script>
         <script>
             
-            
-            async function 复制(){
-                let 输出 = document.getElementById("输出框");
-                let 提示 = document.getElementById("提示");
-                输出.select();
-                输出.setSelectionRange(0, 99999);
-                
-                
-                try {
-                    await navigator.clipboard.writeText(输出.value);
-                    let 粘贴板 = await navigator.clipboard.readText();
-                    if (输出.value === 粘贴板){
-                        提示.innerHTML = "复制成功！";
-                    }
-                    else {
-                        提示.innerHTML = "复制失败！";
-                    }
+            function 选择(对象){
+                if (对象.classList.value.indexOf("已选中") > -1){
+                    对象.classList.remove('已选中');
                 }
-                catch {
-                    document.execCommand("copy");
-                    提示.innerHTML = "复制成功了（大概）";
+                else{
+                    对象.classList.add('已选中');
                 }
-                
+                执行();
+               
             }
             
             function 随机字符(a){
@@ -45,21 +32,24 @@
                 
             }
             
-            
-            
             function 执行(){
-                let 输入 = document.getElementById("输入框").value;
-                let 输出 = document.getElementById("输出框");
-                let 粗体 = document.getElementById("粗体").checked;
-                let 斜体 = document.getElementById("斜体").checked;
-                let 大小 = document.getElementById("大小").checked;
-                let 大小值 = document.getElementById("大小值").value;
-                let 颜色 = document.getElementById("颜色").checked;
-                let 颜色值 = document.getElementById("颜色值").value;
-                let material = document.getElementById("material").checked;
-                let quad = document.getElementById("quad").checked;
+                let 输入框 = document.getElementById("输入框");
+                if (输入框.innerHTML.indexOf("<") > -1){
+                    输入框.innerHTML = 输入框.innerHTML.replaceAll(/<[\s\S]*?>/g, "");
+                }
                 
-                输出.value = 输入
+                let 粗体 = document.getElementById("粗体").classList.value.indexOf("已选中") === -1 ? false : true;
+                let 斜体 = document.getElementById("斜体").classList.value.indexOf("已选中") === -1 ? false : true;
+                let 大小 = document.getElementById("大小").classList.value.indexOf("已选中") === -1 ? false : true;
+                let 大小值 = document.getElementById("大小值").value;
+                let 颜色 = document.getElementById("颜色").classList.value.indexOf("已选中") === -1 ? false : true;
+                let 颜色值 = document.getElementById("颜色值").value;
+                let material = document.getElementById("material").classList.value.indexOf("已选中") === -1 ? false : true;
+                let quad = document.getElementById("quad").classList.value.indexOf("已选中") === -1 ? false : true;
+                
+                
+                let 输出 = document.getElementById("输出")
+                输出.value = 输入框.innerHTML
                 
                 if (粗体){
                     let a = 随机字符("b")
@@ -108,7 +98,6 @@
                     提示.innerHTML = "最长" + 字符上限 + "字节，当前已用" + 输出长度 + "，确定不再改改嘛";
                 }
                 
-                
             }
             
         </script>
@@ -118,56 +107,100 @@
                 --font_size: calc(1.9vh + 0.4vw);
             }
             
+            @font-face {
+                font-family: hk4e_zh-cn;
+                src: url("/static/字体/hk4e_zh-cn.ttf") format("truetype");
+                /* 不带引号，某浏览器识别不出来，无语 */
+            }
+            
             body {
+                font-size: var(--font_size);
                 margin: 0;
             }
             
-            button, input, label, span, textarea {
+            #输入框 {
+                border-style: double;
+                border-width: calc(var(--font_size) * 0.3);
+                margin: 1vh auto;
+                width: 70vw;
+                height: 40vh;
                 font-size: var(--font_size);
+                font-family: hk4e_zh-cn;
+                
             }
             
-            #粗体, #斜体, #大小, #颜色, #material, #quad {
-                height: var(--font_size);
-                width: var(--font_size);
+            #选择框 {
+                text-align: center;
+                
             }
             
+            #选择框 input {
+                width: calc(4 * var(--font_size));
+                
+            }
             
+            button {
+                font-size: var(--font_size);
+                
+            }
+            
+            button.已选中 {
+                color: red;
+                
+            }
+            
+            #输出框 {
+                font-size: var(--font_size);
+                border-style: double;
+                border-width: calc(var(--font_size) * 0.3);
+                margin: 1vh auto;
+                width: 70vw;
+                text-align: center;
+                
+            }
+            
+            #输出框 p {
+                
+            }
+            
+            #输出框 button {
+                margin: 1vh;
+                
+            }
+            
+            #输出 {
+                border-width: 1px;
+                width: 80%;
+                font-size: var(--font_size);
+                resize: none;
+                
+            }
             
         </style>
         <title>原神、星铁炫酷字体</title>
     </head>
     <body>
-        <form oninput="执行()">
-            <label for="输入框">输入文本：</label>
-            <input id="输入框" type="text" placeholder="原神，启动！"></input>
-            <br />
-            <input id="粗体" type="checkbox"></input>
-            <label for="粗体">粗体</label>
-            <br />
-            <input id="斜体" type="checkbox"></input>
-            <label for="斜体">斜体</label>
-            <br />
-            <input id="大小" type="checkbox"></input>
-            <label for="大小">大小：</label>
-            <input id="大小值" type="number" value="50"></input>
-            <br />
-            <input id="颜色" type="checkbox"></input>
-            <label for="颜色">颜色：</label>
+        <div id="输入框" oninput="执行()" contenteditable="" ></div>
+        <div id="选择框">
+            <button id="粗体" onclick="选择(this);">粗体</button>
+            <button id="斜体" onclick="选择(this);">斜体</button>
+            <button id="大小" onclick="选择(this);">大小</button>
+            <input id="大小值" type="number" value="50" size="3"></input>
+            <button id="颜色" onclick="选择(this);">颜色</button>
             <input id="颜色值" type="color"></input>
-            <br />
-            <input id="material" type="checkbox"></input>
-            <label for="material">material</label>
-            <br />
-            <input id="quad" type="checkbox"></input>
-            <label for="quad">quad</label>
-        </form>
-        <div id="输出">
-            <textarea id="输出框" readonly="">原神，启动！</textarea>
-            <br />
-            <button id="更换" onclick="执行()">如果生成的代码已经被屏蔽，点击这里换一个</button>
-            <button id="复制按钮" onclick="复制()">复制</button>
-            <br />
-            <label for="输入框" id="提示"></label>
+            <button id="material" onclick="选择(this);">material</button>
+            <button id="quad" onclick="选择(this);">quad</button>
+            
+        </div>
+        <div id="输出框">
+            <p>代码预览：</p>
+            <textarea id="输出" readonly="">原神，启动！</textarea>
+            <div>
+                <button id="更换" onclick="执行()">如果生成的代码已经被屏蔽，点击这里换一个</button>
+                <button id="全选按钮" onclick="let 输出 = document.getElementById('输出').select();">全选</button>
+                <button id="复制按钮" onclick="复制(document.getElementById('输出').value);">复制</button>
+            </div>
+            <p id="提示"></p>
             <div>
                 <span>字符长度：</span>
                 <span id="字符长度">0</span>
