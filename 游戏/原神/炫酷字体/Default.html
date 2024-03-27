@@ -18,17 +18,17 @@
             
             function 随机字符(a){
                 
-                let b = ""
+                let b = "";
                 for (let i in a){
-                    let 后缀 = a[i].charCodeAt().toString(16)
-                    let 前缀 = ""
+                    let 后缀 = a[i].charCodeAt().toString(16);
+                    let 前缀 = "";
                     for (let i = 0; i < 4 - 后缀.length; i++){
-                        前缀 = 前缀 + Math.floor(Math.random() * 0xf).toString(16)
+                        前缀 = 前缀 + Math.floor(Math.random() * 0xf).toString(16);
                     }
-                    b = b + String.fromCharCode(parseInt(前缀 + 后缀, "16"))
+                    b = b + String.fromCharCode(parseInt(前缀 + 后缀, "16"));
                 }
                 
-                return b
+                return b;
                 
             }
             
@@ -48,37 +48,53 @@
                 let quad = document.getElementById("quad").classList.value.indexOf("已选中") === -1 ? false : true;
                 
                 
-                let 输出 = document.getElementById("输出")
-                输出.value = 输入框.innerHTML
+                let 输出 = document.getElementById("输出");
+                输出.value = 输入框.innerHTML;
                 
                 if (粗体){
-                    let a = 随机字符("b")
-                    输出.value = "<" + a + ">" + 输出.value + "</" + a + ">"
+                    let a = 随机字符("b");
+                    输出.value = "<" + a + ">" + 输出.value + "</" + a + ">";
+                    输入框.style.fontWeight = "bold";
+                }
+                else{
+                    输入框.style.fontWeight = "normal";
                 }
                 
                 if (斜体){
-                    let a = 随机字符("i")
-                    输出.value = "<" + a + ">" + 输出.value + "</" + a + ">"
+                    let a = 随机字符("i");
+                    输出.value = "<" + a + ">" + 输出.value + "</" + a + ">";
+                    输入框.style.fontStyle = "oblique";
+                }
+                else{
+                    输入框.style.fontStyle = "normal";
                 }
                 
                 if (大小){
-                    let a = 随机字符("size")
-                    输出.value = "<" + a + "=" + 大小值 + ">" + 输出.value + "</" + a + ">"
+                    let a = 随机字符("size");
+                    输出.value = "<" + a + "=" + 大小值 + ">" + 输出.value + "</" + a + ">";
+                    输入框.style.fontSize = 大小值 + "px";
+                }
+                else{
+                    输入框.style.fontSize = "var(--font_size)";
                 }
                 
                 if (颜色){
-                    let a = 随机字符("color")
-                    输出.value = "<" + a + "=" + 颜色值 + ">" + 输出.value + "</" + a + ">"
+                    let a = 随机字符("color");
+                    输出.value = "<" + a + "=" + 颜色值 + ">" + 输出.value + "</" + a + ">";
+                    输入框.style.color = 颜色值;
+                }
+                else{
+                    输入框.style.color = "inherit";
                 }
                 
                 if (material){
-                    let a = 随机字符("material")
-                    输出.value = "<" + a + ">" + 输出.value + "</" + a + ">"
+                    let a = 随机字符("material");
+                    输出.value = "<" + a + ">" + 输出.value + "</" + a + ">";
                 }
                 
                 if (quad){
-                    let a = 随机字符("quad")
-                    输出.value = "<" + a + ">" + 输出.value + "</" + a + ">"
+                    let a = 随机字符("quad");
+                    输出.value = "<" + a + ">" + 输出.value + "</" + a + ">";
                 }
                 
                 
@@ -92,7 +108,7 @@
                     .replace(/[\u0080-\u07ff]/g, "aa")
                     .replace(/[\u0800-\uffff]/g,"aaa")
                     .length;
-                字符长度.innerHTML = 输出长度
+                字符长度.innerHTML = 输出长度;
                 
                 if (输出长度 > 字符上限){
                     提示.innerHTML = "最长" + 字符上限 + "字节，当前已用" + 输出长度 + "，确定不再改改嘛";
@@ -109,7 +125,8 @@
             
             @font-face {
                 font-family: hk4e_zh-cn;
-                src: url("/static/字体/hk4e_zh-cn.ttf") format("truetype");
+                src: url("https://cdn.jsdelivr.net/gh/chen3a15/chen3a15.github.io@main/static/字体/hk4e_zh-cn.ttf") format("truetype");
+                --src: url("/static/字体/hk4e_zh-cn.ttf") format("truetype");
                 /* 不带引号，某浏览器识别不出来，无语 */
             }
             
@@ -120,6 +137,7 @@
             
             #输入框 {
                 border-style: double;
+                border-color: #90BEDE;
                 border-width: calc(var(--font_size) * 0.3);
                 margin: 1vh auto;
                 width: 70vw;
@@ -129,18 +147,28 @@
                 
             }
             
+            #输入框:focus-visible {
+                outline-color: #D0E0E0;
+                outline-style: double;
+                outline-width: calc(var(--font_size) * 0.3);
+                
+            }
+            
             #选择框 {
                 text-align: center;
                 
             }
             
             #选择框 input {
-                width: calc(4 * var(--font_size));
+                height: var(--font_size);
+                width: calc(2 * var(--font_size));
+                font-size: var(--font_size);
                 
             }
             
             button {
                 font-size: var(--font_size);
+                margin: 1vh;
                 
             }
             
@@ -163,11 +191,6 @@
                 
             }
             
-            #输出框 button {
-                margin: 1vh;
-                
-            }
-            
             #输出 {
                 border-width: 1px;
                 width: 80%;
@@ -184,10 +207,10 @@
         <div id="选择框">
             <button id="粗体" onclick="选择(this);">粗体</button>
             <button id="斜体" onclick="选择(this);">斜体</button>
-            <button id="大小" onclick="选择(this);">大小</button>
-            <input id="大小值" type="number" value="50" size="3"></input>
-            <button id="颜色" onclick="选择(this);">颜色</button>
-            <input id="颜色值" type="color"></input>
+            <button id="大小" onclick="选择(this);">大小：</button>
+            <input id="大小值" type="number" oninput="执行()" value="50" size="3"></input>
+            <button id="颜色" onclick="选择(this);">颜色：</button>
+            <input id="颜色值" type="color" oninput="执行()"></input>
             <button id="material" onclick="选择(this);">material</button>
             <button id="quad" onclick="选择(this);">quad</button>
             
