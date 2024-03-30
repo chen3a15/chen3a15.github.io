@@ -4,6 +4,11 @@ async function 等待(时长){
 }
 
 async function 复制(文本){
+    if (document.body === null){
+        alert("页面尚未加载完成");
+        return false;
+    }
+    
     let 弹窗 = document.createElement("dialog");
     document.body.appendChild(弹窗);
     弹窗.showModal();
@@ -50,5 +55,7 @@ async function 复制(文本){
     
     弹窗.close();
     弹窗.remove();
+    
+    return true;
     
 }
