@@ -74,61 +74,42 @@ function 启动(){
     let 菜单 = document.createElement("div");
     document.body.appendChild(菜单);
     菜单.style.position = "absolute"; //脱离文档流
-    菜单.style.cursor = "move"; //改变光标
-    菜单.style.background = "#90BEDE";
+    菜单.style.background = "#90BEDEDD";
     菜单.style.width = 参考大小 * 3 + "px";
     菜单.style.height = 菜单.style.width;
     菜单.style.borderStyle = "dashed";
-    菜单.style.borderWidth = 参考大小 * 0.2 + "px";
-    
-    菜单.innerHTML = "<span>菜单</span>";
-    
-    
-    菜单.draggable = "true";
-    菜单.ondragstart = "console.log('fu76')";
-    
-            var drag = 菜单;
-            // //点击某物体时，用drag对象即可，move和up是全局区域，
-            // 也就是整个文档通用，应该使用document对象而不是drag对象(否则，采用drag对象时物体只能往右方或下方移动)  
-            drag.onmousedown = function(event){
-               var event = event || window.event;  //兼容IE浏览器
-            //    鼠标点击物体那一刻相对于物体左侧边框的距离=点击时的位置相对于浏览器最左边的距离-物体左边框相对于浏览器最左边的距离
-               var diffX = event.clientX - drag.offsetLeft;
-               var diffY = event.clientY - drag.offsetTop;
-               if(typeof drag.setCapture !== 'undefined'){
-                      drag.setCapture(); 
-               }
-            document.onmousemove = function(event){
-                var event = event || window.event;
-                var moveX = event.clientX - diffX;
-                var moveY = event.clientY - diffY;
-                if(moveX < 0){
-                    moveX = 0
-                }else if(moveX > window.innerWidth - drag.offsetWidth){
-                    moveX = window.innerWidth - drag.offsetWidth
-                }
-                if(moveY < 0){
-                    moveY = 0
-                }else if(moveY > window.innerHeight - drag.offsetHeight){
-                    moveY =  window.innerHeight - drag.offsetHeight
-                }
-                drag.style.left = moveX + 'px';
-                drag.style.top = moveY + 'px'
-            }
-            document.onmouseup = function(event){
-                this.onmousemove = null;
-                this.onmouseup = null;
-                 //修复低版本ie bug  
-                if(typeof drag.releaseCapture!='undefined'){  
-                   drag.releaseCapture();  
-                }  
-            }
+    菜单.style.borderRadius = 参考大小 * 0.5 + "px";
+    菜单.style.borderWidth = 参考大小 * 0.12 + "px";
+    菜单.style.touchAction = "none";
+    菜单.onpointerdown = function(光标){
+        let 菜单副本 = 菜单.cloneNode(true);
+        document.body.appendChild(菜单副本);
+        菜单副本.style.opacity = "0.3";
+        菜单.setPointerCapture(光标.pointerId);
+        let 光标位置 = [光标.clientX - 菜单.offsetLeft, 光标.clientY - 菜单.offsetTop];
+        
+        菜单.onpointermove = function(光标){
+            菜单.style.left = 光标.clientX - 光标位置[0] + "px";
+            菜单.style.top = 光标.clientY - 光标位置[1] + "px";
+            
         }
+        
+        菜单.onpointerup = function(光标2){
+            菜单副本.releasePointerCapture(光标.pointerId);
+            菜单副本.remove();
+            菜单.onpointermove = null;
+            
+        }
+        
+    }
     
-    
-    
-    
-    console.log(菜单)
+    let 菜单图标 = document.createElement("img");
+    菜单.appendChild(菜单图标);
+    菜单图标.src = "/资源/图标/LOGO.svg";
+    菜单图标.alt = "菜单";
+    菜单图标.style.width = "100%";
+    菜单图标.style.height = 菜单图标.style.width;
+    菜单图标.style.pointerEvents = "none";
     
 }
 
