@@ -69,17 +69,16 @@ let 数据 = {
 }
 
 function 启动(){
-    let 参考大小 = 0.019 * window.innerHeight + 0.004 * window.innerWidth
+    let 参考大小 = 0.019 * window.innerHeight + 0.004 * window.innerWidth;
     
     let 菜单 = document.createElement("div");
     document.body.appendChild(菜单);
-    菜单.style.position = "absolute"; //脱离文档流
-    菜单.style.background = "#90BEDEDD";
+    菜单.style.position = "absolute";
     菜单.style.width = 参考大小 * 3 + "px";
     菜单.style.height = 菜单.style.width;
     菜单.style.borderStyle = "dashed";
     菜单.style.borderRadius = 参考大小 * 0.5 + "px";
-    菜单.style.borderWidth = 参考大小 * 0.12 + "px";
+    菜单.style.borderWidth = 参考大小 * 0.08 + "px";
     菜单.style.touchAction = "none";
     菜单.onpointerdown = function(光标){
         let 菜单副本 = 菜单.cloneNode(true);
