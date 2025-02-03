@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <script src="/main.js"></script>
+        <script>
+            function 启动(){
+                const 插件列表 = JSON.parse(document.getElementById("插件列表").value);
+                
+                import("./main.js")
+                    .then(function (Module){
+                        Module.启动(插件列表);
+                        console.log("启动完成");
+                    }, function (err){
+                        console.error(err);
+                        console.error("┗ " + " main.js 加载失败");
+                        return false;
+                    })
+                    .catch(function (err){
+                        console.error(err);
+                        console.error("┗ " + " main.js 运行失败");
+                        return false;
+                    });
+            }
+        </script>
+        <style>
+            h1 {
+                text-align: center;
+            }
+            
+            #插件列表 {
+                resize: none;
+                overflow: hidden;
+                min-height: 50px;
+                height: auto;
+                box-sizing: border-box;
+            }
+            
+            #日志 {
+                width: 90vw;
+                height: 90vh;
+            }
+            
+            .日志序号 {
+                background-color: black;
+                color: white;
+            }
+            
+            .日志_time {
+                background-color: green;
+                color: white;
+            }
+            
+            .日志_timeEnd {
+                background-color: green;
+                color: white;
+            }
+            
+            .日志_log {
+                background-color: green;
+                color: white;
+            }
+            
+            .日志_warn {
+                background-color: yellow;
+                color: black;
+            }
+            
+            .日志_error {
+                background-color: red;
+                color: white;
+            }
+        </style>
+        <title>QQ机器人</title>
+    </head>
+    <body>
+        <h1>海绵猫猫の聊天机器人</h1>
+        <textarea id="插件列表" value="[]"></textarea>
+        <input onclick="启动();" type="button" value="启动" />
+        <div id="日志"></div>
+        <script>
+            (function (){
+                let 日志长度 = 0;
+                const 日志 = document.getElementById("日志");
+                
+                for (let i in console){
+                    if (typeof console[i] === "function"){
+                        console[i] = new Proxy(console[i], {
+                            apply: function (target, thisArg, argumentsList){
+                                // 目标对象（函数）, 被调用时的上下文对象, 被调用时的参数数组
+                                日志长度++;
+                                for (let i in argumentsList){
+                                    let 当前输出;
+                                    try {
+                                        try {
+                                            当前输出 = String(argumentsList[i]);
+                                        }
+                                        catch{
+                                            当前输出 = JSON.stringify(argumentsList[i], null, 4);
+                                        }
+                                    }
+                                    catch {
+                                        console.error(console失败);
+                                    }
+                                    
+                                    日志.innerHTML += `
+                                        <span class="日志序号">${日志长度}.${i}</span>
+                                        <span class="日志_${target.name}">${target.name}</span>
+                                        <span>：${当前输出}</span>
+                                        <br />
+                                    `;
+                                }
+                                
+                                return Reflect.apply(target, thisArg, argumentsList);
+                            }
+                        });
+                    }
+                }
+                
+                import("./插件列表.json", {with: {type: "json"}})
+                    .then(function (Module){
+                        document.getElementById("插件列表").value = JSON.stringify(Module["default"]);
+                    }, function (err){
+                        console.error(err);
+                        
+                        if (err.name === "Error" || err.name === "TypeError"){
+                            console.error("┗ 插件列表不存在");
+                        }
+                        
+                        if (err.name === "SyntaxError"){
+                            console.error("┗ 插件列表不是合法的json数组");
+                        }
+                        
+                        return false;
+                    })
+                    .catch(function (err){
+                        console.error(err);
+                        return false;
+                    });
+                
+            })();
+        </script>
+    </body>
+</html>

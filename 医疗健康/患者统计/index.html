@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <script src="/main.js"></script>
+        <script src="./main.js"></script>
+        <style>
+        :root {
+            --一个大小: calc(1.9vh + 0.3vw);
+            margin-top: calc(var(--一个大小) * 1.5);
+        }
+        
+        :root, button, input, select, textarea {
+            font-size: var(--一个大小);
+        }
+        
+        input[type=checkbox], input[type=radio] {
+            height: var(--一个大小);
+            width: var(--一个大小);
+        }
+        
+            table {
+                border-collapse: collapse;
+            }
+            
+            /*设置奇数行颜色*/
+            table tr:nth-child(odd) {
+                background: rgb(190, 190, 190);
+            }
+            
+            /*设置偶数行颜色*/
+            table tr:nth-child(even) {
+                background: rgb(230, 230, 230);
+            }
+            
+            /*设置鼠标聚焦到行上时凸显*/
+            table tr:hover {
+                background-color: rgb(150, 150, 150);
+            }
+            
+            th, td {
+                border: 1px solid;
+                text-align: center;
+                padding: calc(var(--一个大小) * 0.2);
+            }
+            
+            input, select {
+                background-color: inherit;
+                border-width: 0;
+                border-bottom-width: 1px;
+                outline: none;
+                text-align: center;
+            }
+            
+            input[type=checkbox], label {
+                vertical-align: middle;
+            }
+            
+            input[type=number]::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                /* 上下小箭头按钮*/
+            }
+            
+            fieldset {
+                margin-top: calc(var(--一个大小) * 1);
+            }
+            
+            .错误提示 {
+                color: red;
+                display: none;
+            }
+            
+            .加载提示 {
+                text-align: center;
+                width: calc(100% - var(--一个大小) * 5);
+                position: fixed;
+                top: 0;
+                left: calc(var(--一个大小) * 2.5);
+                background-color: rgb(200, 200, 200);
+                border-radius: 0 0 calc(var(--一个大小) * 1) calc(var(--一个大小) * 1);
+                opacity: 1;
+                transition: opacity 2.5s;
+            }
+            
+            .上下间距 {
+                margin: calc(var(--一个大小) * 0.5) 0;
+            }
+            
+            .均匀排布 {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-around;
+                align-items: center;
+            }
+            
+            #结算时间 {
+                margin: calc(var(--一个大小) * 1) 0;
+            }
+            
+            #查询结果总结 tr td {
+                min-width: 30vw;
+            }
+            
+        </style>
+        <title>患者统计</title>
+    </head>
+    <body>
+        <fieldset id="全局信息" onchange="缓存数据();">
+            <legend>全局信息</legend>
+            <label for="医院系数">┏ 医院系数：</label>
+            <input autocomplete="off" id="医院系数" style="width: calc(var(--一个大小) * 5);" type="number" />
+            <br />
+            <label for="分值点值">┗ 分值点值：</label>
+            <input autocomplete="off" id="分值点值" style="width: calc(var(--一个大小) * 5);" type="number" />
+
+        </fieldset>
+        <fieldset class="上下间距">
+            <legend>控制台</legend>
+            <button onclick="加载资源(缓存=false);">重载资源</button>
+            <button onclick="患者详情('新增');">新增患者</button>
+            <button id="查询按钮" onclick="查询患者();">查询</button>
+            <button onclick="打印();">打印</button>
+        </fieldset>
+        <fieldset>
+            <legend>患者查询</legend>
+            <label for="病历大夫">病历大夫：</label>
+            <input autocomplete="off" id="病历大夫" style="width: calc(var(--一个大小) * 5);" />
+            <br />
+            <fieldset>
+                <legend>结算时间</legend>
+                <label for="结算时间起点">┏ 起：</label>
+                <input autocomplete="off" id="结算时间起点" type="datetime-local" value="" />
+                <br />
+                <label for="结算时间止点">┗ 至：</label>
+                <input autocomplete="off" id="结算时间止点" type="datetime-local" value="" />
+                <span id="结算时间错误" class="错误提示">输入合理范围</span>
+                <br />
+                <div class="上下间距 均匀排布" onclick="调整时间(event.target.innerHTML, this.parentNode.children[2], this.parentNode.children[5])">
+                    <button>清除</button>
+                    <button>本月</button>
+                    <button>上个月</button>
+                    <button>上上个月</button>
+                    <button>上上上个月</button>
+                </div>
+            </fieldset>
+            <table class="均匀排布 上下间距">
+                <tbody id="查询结果总结">
+                    <tr>
+                        <td rowspan="7">共结算<br />0人 0分</td>
+                        <td rowspan="2">宁阳县居民<br />0人 0分</td>
+                        <td>费用占比小于等于60%<br />0人 0分</td>
+                    </tr>
+                    <tr>
+                        <td>费用占比大于60%<br />0人 0分</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">职工<br />0人 0分</td>
+                        <td>费用占比小于等于60%<br />0人 0分</td>
+                    </tr>
+                    <tr>
+                        <td>费用占比大于60%<br />0人 0分</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">异地<br />0人 0分</td>
+                        <td>费用占比小于等于60%<br />0人 0分</td>
+                    </tr>
+                    <tr>
+                        <td>费用占比大于60%<br />0人 0分</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="查询结果" class="均匀排布"></div>
+            <div id="患者页码" style="text-align: center;"></div>
+        </fieldset>
+        <script>
+            (function (){
+                加载资源();
+                const root = document.querySelector(":root");
+                root.style.setProperty("--一个大小", window.getComputedStyle(root).getPropertyValue("font-size"));
+                // 计算属性值，防止使用过程中改变属性值
+                
+                document.getElementById("医院系数").value = localStorage.getItem("医院系数");
+                document.getElementById("分值点值").value = localStorage.getItem("分值点值");
+                调整时间("本月", document.getElementById("结算时间起点"), document.getElementById("结算时间止点"));
+            })();
+        </script>
+    </body>
+</html>
