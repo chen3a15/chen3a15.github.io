@@ -1,19 +1,883 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <script src="/main.js"></script>
-        <style>
-            #海绵猫猫 {
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chen3a15 · GitHub 公开仓库</title>
+    <style>
+        /* ===== 全局变量与基础样式 ===== */
+        :root {
+            --bg: #f6f8fa;
+            --card-bg: #ffffff;
+            --text: #1f2328;
+            --text-secondary: #656d76;
+            --border: #d0d7de;
+            --accent: #0969da;
+            --accent-hover: #0550ae;
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-hover: 0 4px 12px rgba(0,0,0,0.12);
+            --radius: 12px;
+            --star-color: #e3b341;
+            --lang-bg: #eaeef2;
+            --lang-text: #1f2328;
+            --skeleton-bg: #eaeef2;
+            --skeleton-shine: #f6f8fa;
+        }
+
+        [data-theme="dark"] {
+            --bg: #0d1117;
+            --card-bg: #161b22;
+            --text: #e6edf3;
+            --text-secondary: #8b949e;
+            --border: #30363d;
+            --accent: #58a6ff;
+            --accent-hover: #79c0ff;
+            --shadow: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-hover: 0 4px 12px rgba(0,0,0,0.5);
+            --star-color: #e3b341;
+            --lang-bg: #21262d;
+            --lang-text: #c9d1d9;
+            --skeleton-bg: #21262d;
+            --skeleton-shine: #30363d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 24px 20px 60px;
+        }
+
+        /* ===== 头部用户信息 ===== */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px 28px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            flex-shrink: 0;
+            background: var(--skeleton-bg);
+        }
+
+        .profile-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .profile-info h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .profile-info h1 a {
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .profile-info h1 a:hover {
+            color: var(--accent);
+        }
+
+        .profile-info .bio {
+            color: var(--text-secondary);
+            font-size: 0.925rem;
+            margin-bottom: 8px;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .profile-stats span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .profile-stats .num {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .theme-toggle {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background 0.2s, border-color 0.2s;
+            flex-shrink: 0;
+            color: var(--text);
+        }
+
+        .theme-toggle:hover {
+            background: var(--border);
+        }
+
+        /* ===== 工具栏 ===== */
+        .toolbar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 14px 10px 38px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--card-bg);
+            color: var(--text);
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(9,105,218,0.15);
+        }
+
+        .search-box::before {
+            content: "🔍";
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.9rem;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .sort-select {
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--card-bg);
+            color: var(--text);
+            font-size: 0.9rem;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .sort-select:focus {
+            border-color: var(--accent);
+        }
+
+        /* ===== 仓库卡片网格 ===== */
+        .repo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+        }
+
+        .repo-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            animation: fadeInUp 0.35s ease both;
+        }
+
+        .repo-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .repo-card .repo-name {
+            font-size: 1.05rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .repo-card .repo-name a {
+            color: var(--accent);
+            text-decoration: none;
+            word-break: break-word;
+        }
+
+        .repo-card .repo-name a:hover {
+            text-decoration: underline;
+        }
+
+        .repo-card .repo-desc {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            flex: 1;
+            min-height: 1.4em;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .repo-card .repo-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .repo-card .repo-meta .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .lang-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .lang-tag {
+            background: var(--lang-bg);
+            color: var(--lang-text);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .fork-badge {
+            background: var(--lang-bg);
+            color: var(--text-secondary);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .star-icon {
+            color: var(--star-color);
+        }
+
+        /* ===== 加载骨架屏 ===== */
+        .skeleton-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .skeleton-line {
+            height: 14px;
+            border-radius: 6px;
+            background: linear-gradient(90deg, var(--skeleton-bg) 25%, var(--skeleton-shine) 50%, var(--skeleton-bg) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        .skeleton-line.w60 { width: 60%; }
+        .skeleton-line.w90 { width: 90%; }
+        .skeleton-line.w40 { width: 40%; }
+
+        @keyframes shimmer {
+            0%   { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* ===== 状态提示 ===== */
+        .status-box {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+            grid-column: 1 / -1;
+        }
+
+        .status-box .icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+        }
+
+        .status-box p {
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .status-box .hint {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .btn-retry {
+            margin-top: 16px;
+            padding: 10px 24px;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-retry:hover {
+            background: var(--accent-hover);
+        }
+
+        /* ===== 分页 ===== */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 28px;
+            flex-wrap: wrap;
+        }
+
+        .pagination button {
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--card-bg);
+            color: var(--text);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+
+        .pagination button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .pagination .page-info {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            padding: 0 8px;
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 600px) {
+            .profile-header {
+                flex-direction: column;
                 text-align: center;
+                padding: 20px 16px;
             }
-        </style>
-        <title>海绵猫猫</title>
-    </head>
-    <body>
-        <h1 id="海绵猫猫">海绵猫猫</h1>
-        <script>
-        
-        </script>
-    </body>
+            .profile-info h1 {
+                justify-content: center;
+            }
+            .profile-stats {
+                justify-content: center;
+            }
+            .toolbar {
+                flex-direction: column;
+            }
+            .search-box {
+                min-width: 100%;
+            }
+            .sort-select {
+                width: 100%;
+            }
+            .repo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- 用户信息头部 -->
+    <header class="profile-header" id="profileHeader">
+        <img class="profile-avatar" id="avatar" src="" alt="avatar" loading="lazy">
+        <div class="profile-info">
+            <h1>
+                <a href="https://github.com/chen3a15" target="_blank" rel="noopener" id="userName">chen3a15</a>
+            </h1>
+            <div class="bio" id="userBio"></div>
+            <div class="profile-stats">
+                <span>📦 <span class="num" id="repoCount">-</span> 仓库</span>
+                <span>👥 <span class="num" id="followerCount">-</span> 关注者</span>
+                <span>🔗 <span class="num" id="followingCount">-</span> 正在关注</span>
+            </div>
+        </div>
+        <button class="theme-toggle" id="themeToggle" title="切换主题" aria-label="切换主题">🌙</button>
+    </header>
+
+    <!-- 工具栏 -->
+    <div class="toolbar">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="搜索仓库名称或描述..." autocomplete="off">
+        </div>
+        <select class="sort-select" id="sortSelect">
+            <option value="updated">最近更新</option>
+            <option value="created">创建时间</option>
+            <option value="pushed">最近推送</option>
+            <option value="full_name">名称 A→Z</option>
+            <option value="stars">⭐ 星标数</option>
+        </select>
+    </div>
+
+    <!-- 仓库列表容器 -->
+    <div class="repo-grid" id="repoGrid">
+        <!-- 骨架屏由 JS 动态生成 -->
+    </div>
+
+    <!-- 分页 -->
+    <div class="pagination" id="pagination" style="display:none;">
+        <button id="prevBtn" disabled>← 上一页</button>
+        <span class="page-info" id="pageInfo">第 1 页 / 共 1 页</span>
+        <button id="nextBtn" disabled>下一页 →</button>
+    </div>
+
+</div>
+
+<script>
+/* ============================================================
+   GitHub 公开仓库展示器
+   用户: chen3a15
+   数据源: https://api.github.com/users/chen3a15/repos
+   ============================================================ */
+
+(function () {
+    'use strict';
+
+    // ---------- 配置 ----------
+    const USERNAME = 'chen3a15';
+    const API_BASE = 'https://api.github.com';
+    const PER_PAGE = 30;          // 每页数量（GitHub 最大 100，此处取 30 方便分页）
+
+    // 语言颜色映射表（用于语言圆点颜色）
+    const LANG_COLORS = {
+        JavaScript: '#f1e05a', TypeScript: '#3178c6', Python: '#3572A5',
+        Java: '#b07219', 'C++': '#f34b7d', C: '#555555', 'C#': '#178600',
+        Go: '#00ADD8', Rust: '#dea584', Ruby: '#701516', PHP: '#4F5D95',
+        Swift: '#F05138', Kotlin: '#A97BFF', Dart: '#00B4AB', HTML: '#e34c26',
+        CSS: '#563d7c', SCSS: '#c6538c', Shell: '#89e051', Vue: '#41b883',
+        Svelte: '#ff3e00', Lua: '#000080', Perl: '#0298c3', R: '#198CE7',
+        Scala: '#c22d40', Elixir: '#6e4a7e', Haskell: '#5e5086',
+        Objective_C: '#438eff', Assembly: '#6E4C13', Dockerfile: '#384d54',
+        Makefile: '#427819', CMake: '#DA3434', Zig: '#ec915c',
+        Nix: '#7e7eff', Vim_Script: '#199f4b', PowerShell: '#012456',
+        Batchfile: '#C1F12E', TeX: '#3D6117', MDX: '#fcb32c',
+    };
+
+    // 默认语言圆点颜色
+    const DEFAULT_LANG_COLOR = '#8b949e';
+
+    // ---------- DOM 引用 ----------
+    const $ = (id) => document.getElementById(id);
+
+    const els = {
+        avatar:          $('avatar'),
+        userName:        $('userName'),
+        userBio:         $('userBio'),
+        repoCount:       $('repoCount'),
+        followerCount:   $('followerCount'),
+        followingCount:  $('followingCount'),
+        themeToggle:     $('themeToggle'),
+        searchInput:     $('searchInput'),
+        sortSelect:      $('sortSelect'),
+        repoGrid:        $('repoGrid'),
+        pagination:      $('pagination'),
+        prevBtn:         $('prevBtn'),
+        nextBtn:         $('nextBtn'),
+        pageInfo:        $('pageInfo'),
+    };
+
+    // ---------- 状态 ----------
+    let allRepos = [];         // 完整仓库列表（来自 API）
+    let filteredRepos = [];    // 经过搜索过滤后的列表
+    let currentPage = 1;
+    let currentSort = 'updated';
+
+    // ---------- 工具函数 ----------
+
+    /**
+     * 格式化数字：1000 -> 1.0k, 12000 -> 12k
+     */
+    function formatCount(n) {
+        if (n === null || n === undefined) return '0';
+        if (n >= 1000000) return (n / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+        if (n >= 1000)    return (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+        return String(n);
+    }
+
+    /**
+     * 格式化相对时间（如 "3 天前"）
+     */
+    function timeAgo(dateStr) {
+        const date = new Date(dateStr);
+        const now = new Date();
+        const diff = Math.floor((now - date) / 1000); // 秒
+
+        if (diff < 60)          return '刚刚';
+        if (diff < 3600)        return Math.floor(diff / 60) + ' 分钟前';
+        if (diff < 86400)       return Math.floor(diff / 3600) + ' 小时前';
+        if (diff < 2592000)     return Math.floor(diff / 86400) + ' 天前';
+        if (diff < 31536000)    return Math.floor(diff / 2592000) + ' 个月前';
+        return Math.floor(diff / 31536000) + ' 年前';
+    }
+
+    /**
+     * 获取语言对应的颜色
+     */
+    function getLangColor(lang) {
+        if (!lang) return DEFAULT_LANG_COLOR;
+        const key = lang.replace(/[^a-zA-Z0-9#+]/g, '_');
+        return LANG_COLORS[key] || DEFAULT_LANG_COLOR;
+    }
+
+    /**
+     * HTML 转义，防止 XSS
+     */
+    function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    // ---------- 主题切换 ----------
+    function initTheme() {
+        const saved = localStorage.getItem('gh-repo-theme');
+        if (saved === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            els.themeToggle.textContent = '☀️';
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+            els.themeToggle.textContent = '🌙';
+        }
+    }
+
+    function toggleTheme() {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        if (isDark) {
+            document.documentElement.removeAttribute('data-theme');
+            els.themeToggle.textContent = '🌙';
+            localStorage.setItem('gh-repo-theme', 'light');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            els.themeToggle.textContent = '☀️';
+            localStorage.setItem('gh-repo-theme', 'dark');
+        }
+    }
+
+    // ---------- 骨架屏 ----------
+    function showSkeleton(count) {
+        els.repoGrid.innerHTML = '';
+        for (let i = 0; i < count; i++) {
+            const card = document.createElement('div');
+            card.className = 'skeleton-card';
+            card.innerHTML = `
+                <div class="skeleton-line w60"></div>
+                <div class="skeleton-line w90"></div>
+                <div class="skeleton-line w40"></div>
+            `;
+            els.repoGrid.appendChild(card);
+        }
+    }
+
+    // ---------- 状态提示 ----------
+    function showStatus(icon, message, hint, showRetry) {
+        els.repoGrid.innerHTML = `
+            <div class="status-box">
+                <div class="icon">${icon}</div>
+                <p>${escapeHtml(message)}</p>
+                ${hint ? `<p class="hint">${escapeHtml(hint)}</p>` : ''}
+                ${showRetry ? '<button class="btn-retry" id="retryBtn">重新加载</button>' : ''}
+            </div>
+        `;
+        if (showRetry) {
+            $('retryBtn').addEventListener('click', () => fetchAll());
+        }
+    }
+
+    // ---------- 渲染仓库卡片 ----------
+    function renderRepos() {
+        const repos = filteredRepos;
+        const totalPages = Math.max(1, Math.ceil(repos.length / PER_PAGE));
+
+        if (currentPage > totalPages) currentPage = totalPages;
+
+        const start = (currentPage - 1) * PER_PAGE;
+        const pageRepos = repos.slice(start, start + PER_PAGE);
+
+        if (repos.length === 0) {
+            const isSearching = els.searchInput.value.trim() !== '';
+            showStatus(
+                isSearching ? '🔍' : '📭',
+                isSearching ? '没有找到匹配的仓库' : '该用户暂无公开仓库',
+                isSearching ? '试试其他关键词' : '',
+                false
+            );
+            els.pagination.style.display = 'none';
+            return;
+        }
+
+        // 渲染卡片
+        els.repoGrid.innerHTML = '';
+        pageRepos.forEach((repo, index) => {
+            const card = document.createElement('div');
+            card.className = 'repo-card';
+            card.style.animationDelay = (index * 0.04) + 's';
+
+            const name = escapeHtml(repo.name);
+            const desc = repo.description ? escapeHtml(repo.description) : '';
+            const htmlUrl = escapeHtml(repo.html_url);
+            const lang = repo.language || '';
+            const langColor = getLangColor(lang);
+            const stars = formatCount(repo.stargazers_count);
+            const forks = formatCount(repo.forks_count);
+            const updated = timeAgo(repo.updated_at);
+            const isFork = repo.fork;
+
+            card.innerHTML = `
+                <div class="repo-name">
+                    <a href="${htmlUrl}" target="_blank" rel="noopener">${name}</a>
+                    ${isFork ? '<span class="fork-badge">Fork</span>' : ''}
+                </div>
+                ${desc ? `<div class="repo-desc">${desc}</div>` : '<div class="repo-desc" style="opacity:0.5;">暂无描述</div>'}
+                <div class="repo-meta">
+                    ${lang ? `
+                    <span class="meta-item">
+                        <span class="lang-dot" style="background:${langColor};"></span>
+                        ${escapeHtml(lang)}
+                    </span>` : ''}
+                    <span class="meta-item">
+                        <span class="star-icon">★</span> ${stars}
+                    </span>
+                    <span class="meta-item">
+                        🍴 ${forks}
+                    </span>
+                    <span class="meta-item">
+                        🕒 ${updated}
+                    </span>
+                </div>
+            `;
+            els.repoGrid.appendChild(card);
+        });
+
+        // 更新分页
+        if (totalPages > 1) {
+            els.pagination.style.display = 'flex';
+            els.pageInfo.textContent = `第 ${currentPage} 页 / 共 ${totalPages} 页`;
+            els.prevBtn.disabled = currentPage <= 1;
+            els.nextBtn.disabled = currentPage >= totalPages;
+        } else {
+            els.pagination.style.display = 'none';
+        }
+    }
+
+    // ---------- 过滤与排序 ----------
+    function applyFilterAndSort() {
+        const keyword = els.searchInput.value.trim().toLowerCase();
+
+        // 过滤
+        if (keyword) {
+            filteredRepos = allRepos.filter(repo => {
+                const name = (repo.name || '').toLowerCase();
+                const desc = (repo.description || '').toLowerCase();
+                return name.includes(keyword) || desc.includes(keyword);
+            });
+        } else {
+            filteredRepos = [...allRepos];
+        }
+
+        // 排序
+        const sort = els.sortSelect.value;
+        switch (sort) {
+            case 'updated':
+                filteredRepos.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+                break;
+            case 'created':
+                filteredRepos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                break;
+            case 'pushed':
+                filteredRepos.sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at));
+                break;
+            case 'full_name':
+                filteredRepos.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+                break;
+            case 'stars':
+                filteredRepos.sort((a, b) => (b.stargazers_count || 0) - (a.stargazers_count || 0));
+                break;
+        }
+
+        currentPage = 1;
+        renderRepos();
+    }
+
+    // ---------- 获取数据 ----------
+    async function fetchAll() {
+        showSkeleton(6);
+
+        try {
+            // 并行获取用户信息和仓库列表
+            const [userRes, reposRes] = await Promise.all([
+                fetch(`${API_BASE}/users/${USERNAME}`),
+                fetch(`${API_BASE}/users/${USERNAME}/repos?per_page=100&sort=updated`)
+            ]);
+
+            // 检查用户信息响应
+            if (!userRes.ok) {
+                if (userRes.status === 404) {
+                    showStatus('❌', `用户 "${USERNAME}" 不存在`, '请检查用户名是否正确', false);
+                    return;
+                }
+                if (userRes.status === 403 || userRes.status === 429) {
+                    showStatus('⏳', 'API 请求频率超限', '请稍后点击重试（未认证请求每小时限 60 次）', true);
+                    return;
+                }
+                throw new Error(`用户信息请求失败: ${userRes.status}`);
+            }
+
+            // 检查仓库列表响应
+            if (!reposRes.ok) {
+                if (reposRes.status === 403 || reposRes.status === 429) {
+                    showStatus('⏳', 'API 请求频率超限', '请稍后点击重试（未认证请求每小时限 60 次）', true);
+                    return;
+                }
+                throw new Error(`仓库列表请求失败: ${reposRes.status}`);
+            }
+
+            const userData = await userRes.json();
+            const reposData = await reposRes.json();
+
+            // 更新用户信息
+            els.avatar.src = userData.avatar_url || '';
+            els.avatar.alt = userData.login || 'avatar';
+            els.userName.textContent = userData.login || USERNAME;
+            els.userName.href = userData.html_url || `https://github.com/${USERNAME}`;
+            els.userBio.textContent = userData.bio || '';
+            els.repoCount.textContent = userData.public_repos ?? '-';
+            els.followerCount.textContent = formatCount(userData.followers);
+            els.followingCount.textContent = formatCount(userData.following);
+
+            // 保存仓库数据
+            allRepos = Array.isArray(reposData) ? reposData : [];
+            applyFilterAndSort();
+
+        } catch (err) {
+            console.error('获取 GitHub 数据失败:', err);
+            showStatus('⚠️', '加载失败', '请检查网络连接后重试', true);
+        }
+    }
+
+    // ---------- 事件绑定 ----------
+    function bindEvents() {
+        // 主题切换
+        els.themeToggle.addEventListener('click', toggleTheme);
+
+        // 搜索（防抖）
+        let searchTimer;
+        els.searchInput.addEventListener('input', () => {
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(applyFilterAndSort, 250);
+        });
+
+        // 排序
+        els.sortSelect.addEventListener('change', applyFilterAndSort);
+
+        // 分页
+        els.prevBtn.addEventListener('click', () => {
+            if (currentPage > 1) { currentPage--; renderRepos(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        });
+        els.nextBtn.addEventListener('click', () => {
+            const totalPages = Math.ceil(filteredRepos.length / PER_PAGE);
+            if (currentPage < totalPages) { currentPage++; renderRepos(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        });
+    }
+
+    // ---------- 初始化 ----------
+    function init() {
+        initTheme();
+        bindEvents();
+        fetchAll();
+    }
+
+    // DOM 就绪后启动
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+
+})();
+</script>
+
+</body>
 </html>
