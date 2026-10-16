@@ -1,881 +1,761 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>chen3a15 · GitHub 公开仓库</title>
-    <style>
-        /* ===== 全局变量与基础样式 ===== */
-        :root {
-            --bg: #f6f8fa;
-            --card-bg: #ffffff;
-            --text: #1f2328;
-            --text-secondary: #656d76;
-            --border: #d0d7de;
-            --accent: #0969da;
-            --accent-hover: #0550ae;
-            --shadow: 0 1px 3px rgba(0,0,0,0.08);
-            --shadow-hover: 0 4px 12px rgba(0,0,0,0.12);
-            --radius: 12px;
-            --star-color: #e3b341;
-            --lang-bg: #eaeef2;
-            --lang-text: #1f2328;
-            --skeleton-bg: #eaeef2;
-            --skeleton-shine: #f6f8fa;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>chen3a15 · GitHub 公开数据</title>
+<style>
+:root {
+  --bg:#f6f8fa; --card-bg:#fff; --text:#1f2328; --text-secondary:#656d76;
+  --border:#d0d7de; --accent:#0969da; --accent-hover:#0550ae;
+  --shadow:0 1px 3px rgba(0,0,0,.08); --shadow-hover:0 4px 12px rgba(0,0,0,.12);
+  --radius:12px; --star-color:#e3b341; --lang-bg:#eaeef2; --lang-text:#1f2328;
+  --skeleton-bg:#eaeef2; --skeleton-shine:#f6f8fa;
+}
+[data-theme="dark"] {
+  --bg:#0d1117; --card-bg:#161b22; --text:#e6edf3; --text-secondary:#8b949e;
+  --border:#30363d; --accent:#58a6ff; --accent-hover:#79c0ff;
+  --shadow:0 1px 3px rgba(0,0,0,.3); --shadow-hover:0 4px 12px rgba(0,0,0,.5);
+  --star-color:#e3b341; --lang-bg:#21262d; --lang-text:#c9d1d9;
+  --skeleton-bg:#21262d; --skeleton-shine:#30363d;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif;
+  background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh;
+  transition:background-color .3s,color .3s;
+}
+.container { max-width:1100px; margin:0 auto; padding:24px 20px 60px; }
 
-        [data-theme="dark"] {
-            --bg: #0d1117;
-            --card-bg: #161b22;
-            --text: #e6edf3;
-            --text-secondary: #8b949e;
-            --border: #30363d;
-            --accent: #58a6ff;
-            --accent-hover: #79c0ff;
-            --shadow: 0 1px 3px rgba(0,0,0,0.3);
-            --shadow-hover: 0 4px 12px rgba(0,0,0,0.5);
-            --star-color: #e3b341;
-            --lang-bg: #21262d;
-            --lang-text: #c9d1d9;
-            --skeleton-bg: #21262d;
-            --skeleton-shine: #30363d;
-        }
+/* ===== 用户信息头部 ===== */
+.profile-header {
+  display:flex; align-items:center; gap:20px;
+  background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius);
+  padding:24px 28px; margin-bottom:20px; box-shadow:var(--shadow);
+  transition:background-color .3s,border-color .3s;
+}
+.profile-avatar { width:80px; height:80px; border-radius:50%; border:2px solid var(--border); flex-shrink:0; background:var(--skeleton-bg); }
+.profile-info { flex:1; min-width:0; }
+.profile-info h1 { font-size:1.5rem; font-weight:600; margin-bottom:4px; }
+.profile-info h1 a { color:var(--text); text-decoration:none; }
+.profile-info h1 a:hover { color:var(--accent); }
+.profile-info .bio { color:var(--text-secondary); font-size:.925rem; margin-bottom:8px; }
+.profile-stats { display:flex; gap:20px; flex-wrap:wrap; font-size:.9rem; color:var(--text-secondary); }
+.profile-stats .num { font-weight:600; color:var(--text); }
+.theme-toggle {
+  background:var(--bg); border:1px solid var(--border); border-radius:50%;
+  width:40px; height:40px; display:flex; align-items:center; justify-content:center;
+  cursor:pointer; font-size:1.2rem; color:var(--text); flex-shrink:0;
+  transition:background .2s,border-color .2s;
+}
+.theme-toggle:hover { background:var(--border); }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+/* ===== Tabs ===== */
+.tabs {
+  display:flex; gap:4px; border-bottom:1px solid var(--border);
+  margin-bottom:20px; overflow-x:auto;
+}
+.tab-btn {
+  padding:10px 18px; background:none; border:none;
+  border-bottom:2px solid transparent; color:var(--text-secondary);
+  font-size:.9rem; font-weight:500; cursor:pointer; white-space:nowrap;
+  font-family:inherit; display:flex; align-items:center; gap:6px;
+  transition:color .2s,border-color .2s;
+}
+.tab-btn:hover { color:var(--text); }
+.tab-btn.active { color:var(--accent); border-bottom-color:var(--accent); }
+.tab-count {
+  background:var(--lang-bg); color:var(--text-secondary);
+  font-size:.7rem; padding:1px 7px; border-radius:10px; font-weight:600;
+}
+.tab-btn.active .tab-count { background:var(--accent); color:#fff; }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            transition: background-color 0.3s, color 0.3s;
-            min-height: 100vh;
-        }
+/* ===== Panel ===== */
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 24px 20px 60px;
-        }
+/* ===== 工具栏 ===== */
+.toolbar { display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap; align-items:center; }
+.search-box { flex:1; min-width:200px; position:relative; }
+.search-box input {
+  width:100%; padding:10px 14px 10px 38px;
+  border:1px solid var(--border); border-radius:8px;
+  background:var(--card-bg); color:var(--text); font-size:.9rem;
+  outline:none; transition:border-color .2s,box-shadow .2s;
+}
+.search-box input:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(9,105,218,.15); }
+.search-box::before {
+  content:"🔍"; position:absolute; left:12px; top:50%; transform:translateY(-50%);
+  font-size:.9rem; opacity:.5; pointer-events:none;
+}
+.sort-select {
+  padding:10px 14px; border:1px solid var(--border); border-radius:8px;
+  background:var(--card-bg); color:var(--text); font-size:.9rem;
+  outline:none; cursor:pointer; transition:border-color .2s;
+}
+.sort-select:focus { border-color:var(--accent); }
 
-        /* ===== 头部用户信息 ===== */
-        .profile-header {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 24px 28px;
-            margin-bottom: 24px;
-            box-shadow: var(--shadow);
-            transition: background-color 0.3s, border-color 0.3s;
-        }
+/* ===== 仓库卡片网格 ===== */
+.repo-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px; }
+.repo-card {
+  background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius);
+  padding:18px 20px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:8px;
+  transition:transform .2s,box-shadow .2s,background-color .3s,border-color .3s;
+  animation:fadeInUp .35s ease both;
+}
+.repo-card:hover { transform:translateY(-3px); box-shadow:var(--shadow-hover); }
+@keyframes fadeInUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+.repo-card .repo-name { font-size:1.05rem; font-weight:600; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+.repo-card .repo-name a { color:var(--accent); text-decoration:none; word-break:break-word; }
+.repo-card .repo-name a:hover { text-decoration:underline; }
+.repo-card .repo-owner { color:var(--text-secondary); font-weight:400; }
+.repo-card .repo-desc {
+  font-size:.875rem; color:var(--text-secondary); flex:1; min-height:1.4em;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+}
+.repo-card .repo-meta { display:flex; align-items:center; gap:16px; flex-wrap:wrap; font-size:.8rem; color:var(--text-secondary); margin-top:4px; }
+.repo-card .repo-meta .meta-item { display:flex; align-items:center; gap:4px; }
+.lang-dot { width:10px; height:10px; border-radius:50%; display:inline-block; flex-shrink:0; }
+.fork-badge {
+  background:var(--lang-bg); color:var(--text-secondary);
+  padding:2px 8px; border-radius:12px; font-size:.7rem; font-weight:500;
+}
+.star-icon { color:var(--star-color); }
 
-        .profile-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 2px solid var(--border);
-            flex-shrink: 0;
-            background: var(--skeleton-bg);
-        }
+/* ===== 用户卡片（关注列表） ===== */
+.user-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; }
+.user-card {
+  display:flex; align-items:center; gap:12px;
+  background:var(--card-bg); border:1px solid var(--border);
+  border-radius:var(--radius); padding:14px 16px;
+  text-decoration:none; color:var(--text);
+  box-shadow:var(--shadow);
+  transition:transform .2s,box-shadow .2s,background-color .3s,border-color .3s;
+  animation:fadeInUp .35s ease both;
+}
+.user-card:hover { transform:translateY(-2px); box-shadow:var(--shadow-hover); }
+.user-card img {
+  width:44px; height:44px; border-radius:50%;
+  background:var(--skeleton-bg); flex-shrink:0; border:1px solid var(--border);
+}
+.user-card .u-info { min-width:0; flex:1; }
+.user-card .u-name { font-weight:600; font-size:.9rem; word-break:break-word; color:var(--accent); }
+.user-card .u-type { font-size:.75rem; color:var(--text-secondary); }
 
-        .profile-info {
-            flex: 1;
-            min-width: 0;
-        }
+/* ===== 骨架屏 ===== */
+.skeleton-card {
+  background:var(--card-bg); border:1px solid var(--border);
+  border-radius:var(--radius); padding:18px 20px;
+  display:flex; flex-direction:column; gap:12px;
+}
+.skeleton-user {
+  background:var(--card-bg); border:1px solid var(--border);
+  border-radius:var(--radius); padding:14px 16px;
+  display:flex; align-items:center; gap:12px;
+}
+.skeleton-avatar {
+  width:44px; height:44px; border-radius:50%;
+  background:linear-gradient(90deg,var(--skeleton-bg) 25%,var(--skeleton-shine) 50%,var(--skeleton-bg) 75%);
+  background-size:200% 100%; animation:shimmer 1.5s infinite; flex-shrink:0;
+}
+.skeleton-line {
+  height:14px; border-radius:6px;
+  background:linear-gradient(90deg,var(--skeleton-bg) 25%,var(--skeleton-shine) 50%,var(--skeleton-bg) 75%);
+  background-size:200% 100%; animation:shimmer 1.5s infinite;
+}
+.skeleton-line.w60 { width:60%; }
+.skeleton-line.w90 { width:90%; }
+.skeleton-line.w40 { width:40%; }
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
-        .profile-info h1 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 4px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
+/* ===== 状态提示 ===== */
+.status-box { text-align:center; padding:60px 20px; color:var(--text-secondary); grid-column:1/-1; }
+.status-box .icon { font-size:3rem; margin-bottom:12px; }
+.status-box p { font-size:1rem; margin-bottom:8px; }
+.status-box .hint { font-size:.85rem; opacity:.8; }
+.btn-retry {
+  margin-top:16px; padding:10px 24px; background:var(--accent); color:#fff;
+  border:none; border-radius:8px; font-size:.9rem; font-weight:500;
+  cursor:pointer; transition:background .2s;
+}
+.btn-retry:hover { background:var(--accent-hover); }
 
-        .profile-info h1 a {
-            color: var(--text);
-            text-decoration: none;
-        }
+/* ===== 分页 ===== */
+.pagination { display:flex; justify-content:center; align-items:center; gap:8px; margin-top:28px; flex-wrap:wrap; }
+.pagination button {
+  padding:8px 16px; border:1px solid var(--border); border-radius:8px;
+  background:var(--card-bg); color:var(--text); font-size:.875rem;
+  cursor:pointer; transition:background .2s,border-color .2s,color .2s;
+}
+.pagination button:hover:not(:disabled) { background:var(--accent); color:#fff; border-color:var(--accent); }
+.pagination button:disabled { opacity:.4; cursor:not-allowed; }
+.pagination .page-info { font-size:.875rem; color:var(--text-secondary); padding:0 8px; }
 
-        .profile-info h1 a:hover {
-            color: var(--accent);
-        }
-
-        .profile-info .bio {
-            color: var(--text-secondary);
-            font-size: 0.925rem;
-            margin-bottom: 8px;
-        }
-
-        .profile-stats {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .profile-stats span {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .profile-stats .num {
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .theme-toggle {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: background 0.2s, border-color 0.2s;
-            flex-shrink: 0;
-            color: var(--text);
-        }
-
-        .theme-toggle:hover {
-            background: var(--border);
-        }
-
-        /* ===== 工具栏 ===== */
-        .toolbar {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .search-box {
-            flex: 1;
-            min-width: 200px;
-            position: relative;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 10px 14px 10px 38px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            background: var(--card-bg);
-            color: var(--text);
-            font-size: 0.9rem;
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-        .search-box input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(9,105,218,0.15);
-        }
-
-        .search-box::before {
-            content: "🔍";
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 0.9rem;
-            opacity: 0.5;
-            pointer-events: none;
-        }
-
-        .sort-select {
-            padding: 10px 14px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            background: var(--card-bg);
-            color: var(--text);
-            font-size: 0.9rem;
-            outline: none;
-            cursor: pointer;
-            transition: border-color 0.2s;
-        }
-
-        .sort-select:focus {
-            border-color: var(--accent);
-        }
-
-        /* ===== 仓库卡片网格 ===== */
-        .repo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 16px;
-        }
-
-        .repo-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 18px 20px;
-            box-shadow: var(--shadow);
-            transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s, border-color 0.3s;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            animation: fadeInUp 0.35s ease both;
-        }
-
-        .repo-card:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(12px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        .repo-card .repo-name {
-            font-size: 1.05rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-
-        .repo-card .repo-name a {
-            color: var(--accent);
-            text-decoration: none;
-            word-break: break-word;
-        }
-
-        .repo-card .repo-name a:hover {
-            text-decoration: underline;
-        }
-
-        .repo-card .repo-desc {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            flex: 1;
-            min-height: 1.4em;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .repo-card .repo-meta {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            flex-wrap: wrap;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-top: 4px;
-        }
-
-        .repo-card .repo-meta .meta-item {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .lang-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            display: inline-block;
-            flex-shrink: 0;
-        }
-
-        .lang-tag {
-            background: var(--lang-bg);
-            color: var(--lang-text);
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-
-        .fork-badge {
-            background: var(--lang-bg);
-            color: var(--text-secondary);
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            font-weight: 500;
-        }
-
-        .star-icon {
-            color: var(--star-color);
-        }
-
-        /* ===== 加载骨架屏 ===== */
-        .skeleton-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 18px 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .skeleton-line {
-            height: 14px;
-            border-radius: 6px;
-            background: linear-gradient(90deg, var(--skeleton-bg) 25%, var(--skeleton-shine) 50%, var(--skeleton-bg) 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-        }
-
-        .skeleton-line.w60 { width: 60%; }
-        .skeleton-line.w90 { width: 90%; }
-        .skeleton-line.w40 { width: 40%; }
-
-        @keyframes shimmer {
-            0%   { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
-        /* ===== 状态提示 ===== */
-        .status-box {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--text-secondary);
-            grid-column: 1 / -1;
-        }
-
-        .status-box .icon {
-            font-size: 3rem;
-            margin-bottom: 12px;
-        }
-
-        .status-box p {
-            font-size: 1rem;
-            margin-bottom: 8px;
-        }
-
-        .status-box .hint {
-            font-size: 0.85rem;
-            opacity: 0.8;
-        }
-
-        .btn-retry {
-            margin-top: 16px;
-            padding: 10px 24px;
-            background: var(--accent);
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .btn-retry:hover {
-            background: var(--accent-hover);
-        }
-
-        /* ===== 分页 ===== */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            margin-top: 28px;
-            flex-wrap: wrap;
-        }
-
-        .pagination button {
-            padding: 8px 16px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            background: var(--card-bg);
-            color: var(--text);
-            font-size: 0.875rem;
-            cursor: pointer;
-            transition: background 0.2s, border-color 0.2s;
-        }
-
-        .pagination button:hover:not(:disabled) {
-            background: var(--accent);
-            color: #fff;
-            border-color: var(--accent);
-        }
-
-        .pagination button:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        .pagination .page-info {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            padding: 0 8px;
-        }
-
-        /* ===== 响应式 ===== */
-        @media (max-width: 600px) {
-            .profile-header {
-                flex-direction: column;
-                text-align: center;
-                padding: 20px 16px;
-            }
-            .profile-info h1 {
-                justify-content: center;
-            }
-            .profile-stats {
-                justify-content: center;
-            }
-            .toolbar {
-                flex-direction: column;
-            }
-            .search-box {
-                min-width: 100%;
-            }
-            .sort-select {
-                width: 100%;
-            }
-            .repo-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+/* ===== 响应式 ===== */
+@media (max-width:600px) {
+  .profile-header { flex-direction:column; text-align:center; padding:20px 16px; }
+  .profile-stats { justify-content:center; }
+  .toolbar { flex-direction:column; }
+  .search-box { min-width:100%; }
+  .sort-select { width:100%; }
+  .repo-grid, .user-grid { grid-template-columns:1fr; }
+}
+</style>
 </head>
 <body>
 
 <div class="container">
 
-    <!-- 用户信息头部 -->
-    <header class="profile-header" id="profileHeader">
-        <img class="profile-avatar" id="avatar" src="" alt="avatar" loading="lazy">
-        <div class="profile-info">
-            <h1>
-                <a href="https://github.com/chen3a15" target="_blank" rel="noopener" id="userName">chen3a15</a>
-            </h1>
-            <div class="bio" id="userBio"></div>
-            <div class="profile-stats">
-                <span>📦 <span class="num" id="repoCount">-</span> 仓库</span>
-                <span>👥 <span class="num" id="followerCount">-</span> 关注者</span>
-                <span>🔗 <span class="num" id="followingCount">-</span> 正在关注</span>
-            </div>
-        </div>
-        <button class="theme-toggle" id="themeToggle" title="切换主题" aria-label="切换主题">🌙</button>
-    </header>
+  <!-- 用户信息 -->
+  <header class="profile-header">
+    <img class="profile-avatar" id="avatar" src="" alt="avatar" loading="lazy">
+    <div class="profile-info">
+      <h1><a href="https://github.com/chen3a15" target="_blank" rel="noopener" id="userName">chen3a15</a></h1>
+      <div class="bio" id="userBio"></div>
+      <div class="profile-stats">
+        <span>📦 <span class="num" id="repoCount">-</span> 仓库</span>
+        <span>👥 <span class="num" id="followerCount">-</span> 关注者</span>
+        <span>🔗 <span class="num" id="followingCount">-</span> 正在关注</span>
+      </div>
+    </div>
+    <button class="theme-toggle" id="themeToggle" title="切换主题" aria-label="切换主题">🌙</button>
+  </header>
 
-    <!-- 工具栏 -->
+  <!-- Tabs -->
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="repos">📦 仓库 <span class="tab-count" data-count="repos"></span></button>
+    <button class="tab-btn" data-tab="following">👥 关注 <span class="tab-count" data-count="following"></span></button>
+    <button class="tab-btn" data-tab="starred">⭐ Star <span class="tab-count" data-count="starred"></span></button>
+  </nav>
+
+  <!-- Panel: 仓库 -->
+  <div class="tab-panel active" data-panel="repos">
     <div class="toolbar">
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="搜索仓库名称或描述..." autocomplete="off">
-        </div>
-        <select class="sort-select" id="sortSelect">
-            <option value="updated">最近更新</option>
-            <option value="created">创建时间</option>
-            <option value="pushed">最近推送</option>
-            <option value="full_name">名称 A→Z</option>
-            <option value="stars">⭐ 星标数</option>
-        </select>
+      <div class="search-box">
+        <input type="text" data-search placeholder="搜索仓库名称或描述..." autocomplete="off">
+      </div>
+      <select class="sort-select" data-sort>
+        <option value="updated">最近更新</option>
+        <option value="created">创建时间</option>
+        <option value="pushed">最近推送</option>
+        <option value="full_name">名称 A→Z</option>
+        <option value="stars">⭐ 星标数</option>
+      </select>
     </div>
+    <div class="repo-grid" data-grid></div>
+    <div class="pagination" data-pagination style="display:none;">
+      <button data-prev disabled>← 上一页</button>
+      <span class="page-info" data-page-info></span>
+      <button data-next disabled>下一页 →</button>
+    </div>
+  </div>
 
-    <!-- 仓库列表容器 -->
-    <div class="repo-grid" id="repoGrid">
-        <!-- 骨架屏由 JS 动态生成 -->
+  <!-- Panel: 关注 -->
+  <div class="tab-panel" data-panel="following">
+    <div class="toolbar">
+      <div class="search-box">
+        <input type="text" data-search placeholder="搜索用户名..." autocomplete="off">
+      </div>
+      <select class="sort-select" data-sort>
+        <option value="login_asc">用户名 A→Z</option>
+        <option value="login_desc">用户名 Z→A</option>
+      </select>
     </div>
+    <div class="user-grid" data-grid></div>
+    <div class="pagination" data-pagination style="display:none;">
+      <button data-prev disabled>← 上一页</button>
+      <span class="page-info" data-page-info></span>
+      <button data-next disabled>下一页 →</button>
+    </div>
+  </div>
 
-    <!-- 分页 -->
-    <div class="pagination" id="pagination" style="display:none;">
-        <button id="prevBtn" disabled>← 上一页</button>
-        <span class="page-info" id="pageInfo">第 1 页 / 共 1 页</span>
-        <button id="nextBtn" disabled>下一页 →</button>
+  <!-- Panel: Star -->
+  <div class="tab-panel" data-panel="starred">
+    <div class="toolbar">
+      <div class="search-box">
+        <input type="text" data-search placeholder="搜索仓库名称或描述..." autocomplete="off">
+      </div>
+      <select class="sort-select" data-sort>
+        <option value="updated">最近更新</option>
+        <option value="created">创建时间</option>
+        <option value="pushed">最近推送</option>
+        <option value="full_name">名称 A→Z</option>
+        <option value="stars">⭐ 星标数</option>
+      </select>
     </div>
+    <div class="repo-grid" data-grid></div>
+    <div class="pagination" data-pagination style="display:none;">
+      <button data-prev disabled>← 上一页</button>
+      <span class="page-info" data-page-info></span>
+      <button data-next disabled>下一页 →</button>
+    </div>
+  </div>
 
 </div>
 
 <script>
-/* ============================================================
-   GitHub 公开仓库展示器
-   用户: chen3a15
-   数据源: https://api.github.com/users/chen3a15/repos
-   ============================================================ */
-
 (function () {
-    'use strict';
+  'use strict';
 
-    // ---------- 配置 ----------
-    const USERNAME = 'chen3a15';
-    const API_BASE = 'https://api.github.com';
-    const PER_PAGE = 30;          // 每页数量（GitHub 最大 100，此处取 30 方便分页）
+  const USERNAME = 'chen3a15';
+  const API_BASE = 'https://api.github.com';
+  const PER_PAGE = 30;
 
-    // 语言颜色映射表（用于语言圆点颜色）
-    const LANG_COLORS = {
-        JavaScript: '#f1e05a', TypeScript: '#3178c6', Python: '#3572A5',
-        Java: '#b07219', 'C++': '#f34b7d', C: '#555555', 'C#': '#178600',
-        Go: '#00ADD8', Rust: '#dea584', Ruby: '#701516', PHP: '#4F5D95',
-        Swift: '#F05138', Kotlin: '#A97BFF', Dart: '#00B4AB', HTML: '#e34c26',
-        CSS: '#563d7c', SCSS: '#c6538c', Shell: '#89e051', Vue: '#41b883',
-        Svelte: '#ff3e00', Lua: '#000080', Perl: '#0298c3', R: '#198CE7',
-        Scala: '#c22d40', Elixir: '#6e4a7e', Haskell: '#5e5086',
-        Objective_C: '#438eff', Assembly: '#6E4C13', Dockerfile: '#384d54',
-        Makefile: '#427819', CMake: '#DA3434', Zig: '#ec915c',
-        Nix: '#7e7eff', Vim_Script: '#199f4b', PowerShell: '#012456',
-        Batchfile: '#C1F12E', TeX: '#3D6117', MDX: '#fcb32c',
+  const LANG_COLORS = {
+    JavaScript:'#f1e05a', TypeScript:'#3178c6', Python:'#3572A5',
+    Java:'#b07219', 'C++':'#f34b7d', C:'#555555', 'C#':'#178600',
+    Go:'#00ADD8', Rust:'#dea584', Ruby:'#701516', PHP:'#4F5D95',
+    Swift:'#F05138', Kotlin:'#A97BFF', Dart:'#00B4AB', HTML:'#e34c26',
+    CSS:'#563d7c', SCSS:'#c6538c', Shell:'#89e051', Vue:'#41b883',
+    Svelte:'#ff3e00', Lua:'#000080', Perl:'#0298c3', R:'#198CE7',
+    Scala:'#c22d40', Elixir:'#6e4a7e', Haskell:'#5e5086',
+    Assembly:'#6E4C13', Dockerfile:'#384d54', Makefile:'#427819',
+    CMake:'#DA3434', Zig:'#ec915c', Nix:'#7e7eff',
+    Vim_Script:'#199f4b', PowerShell:'#012456', TeX:'#3D6117',
+  };
+  const DEFAULT_LANG_COLOR = '#8b949e';
+
+  // ---------- DOM ----------
+  const $ = id => document.getElementById(id);
+  const els = {
+    avatar: $('avatar'), userName: $('userName'), userBio: $('userBio'),
+    repoCount: $('repoCount'), followerCount: $('followerCount'),
+    followingCount: $('followingCount'), themeToggle: $('themeToggle'),
+  };
+
+  // ---------- 状态 ----------
+  const state = {
+    repos:     { data:[], filtered:[], page:1, loaded:false, loading:false, error:null,
+                 search:'', sort:'updated',
+                 url: `${API_BASE}/users/${USERNAME}/repos?per_page=100&sort=updated` },
+    following: { data:[], filtered:[], page:1, loaded:false, loading:false, error:null,
+                 search:'', sort:'login_asc',
+                 url: `${API_BASE}/users/${USERNAME}/following?per_page=100` },
+    starred:   { data:[], filtered:[], page:1, loaded:false, loading:false, error:null,
+                 search:'', sort:'updated',
+                 url: `${API_BASE}/users/${USERNAME}/starred?per_page=100&sort=updated` },
+  };
+
+  // ---------- 缓存每个 panel 的 DOM 引用 ----------
+  const panels = {};
+  document.querySelectorAll('.tab-panel').forEach(panel => {
+    const key = panel.dataset.panel;
+    panels[key] = {
+      root: panel,
+      search: panel.querySelector('[data-search]'),
+      sort: panel.querySelector('[data-sort]'),
+      grid: panel.querySelector('[data-grid]'),
+      pagination: panel.querySelector('[data-pagination]'),
+      prev: panel.querySelector('[data-prev]'),
+      next: panel.querySelector('[data-next]'),
+      pageInfo: panel.querySelector('[data-page-info]'),
     };
+  });
 
-    // 默认语言圆点颜色
-    const DEFAULT_LANG_COLOR = '#8b949e';
-
-    // ---------- DOM 引用 ----------
-    const $ = (id) => document.getElementById(id);
-
-    const els = {
-        avatar:          $('avatar'),
-        userName:        $('userName'),
-        userBio:         $('userBio'),
-        repoCount:       $('repoCount'),
-        followerCount:   $('followerCount'),
-        followingCount:  $('followingCount'),
-        themeToggle:     $('themeToggle'),
-        searchInput:     $('searchInput'),
-        sortSelect:      $('sortSelect'),
-        repoGrid:        $('repoGrid'),
-        pagination:      $('pagination'),
-        prevBtn:         $('prevBtn'),
-        nextBtn:         $('nextBtn'),
-        pageInfo:        $('pageInfo'),
-    };
-
-    // ---------- 状态 ----------
-    let allRepos = [];         // 完整仓库列表（来自 API）
-    let filteredRepos = [];    // 经过搜索过滤后的列表
-    let currentPage = 1;
-    let currentSort = 'updated';
-
-    // ---------- 工具函数 ----------
-
-    /**
-     * 格式化数字：1000 -> 1.0k, 12000 -> 12k
-     */
-    function formatCount(n) {
-        if (n === null || n === undefined) return '0';
-        if (n >= 1000000) return (n / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
-        if (n >= 1000)    return (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
-        return String(n);
+  // ---------- 工具函数 ----------
+  function formatCount(n) {
+    if (n == null) return '0';
+    if (n >= 1e6) return (n/1e6).toFixed(1).replace(/\.0$/,'') + 'M';
+    if (n >= 1e3) return (n/1e3).toFixed(1).replace(/\.0$/,'') + 'k';
+    return String(n);
+  }
+  function timeAgo(dateStr) {
+    const date = new Date(dateStr), now = new Date();
+    const diff = Math.floor((now - date) / 1000);
+    if (diff < 60)       return '刚刚';
+    if (diff < 3600)     return Math.floor(diff/60) + ' 分钟前';
+    if (diff < 86400)    return Math.floor(diff/3600) + ' 小时前';
+    if (diff < 2592000)  return Math.floor(diff/86400) + ' 天前';
+    if (diff < 31536000) return Math.floor(diff/2592000) + ' 个月前';
+    return Math.floor(diff/31536000) + ' 年前';
+  }
+  function getLangColor(lang) {
+    if (!lang) return DEFAULT_LANG_COLOR;
+    const key = lang.replace(/[^a-zA-Z0-9#+]/g, '_');
+    return LANG_COLORS[key] || DEFAULT_LANG_COLOR;
+  }
+  function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+  async function fetchJSON(url) {
+    const res = await fetch(url);
+    if (!res.ok) {
+      const err = new Error(`HTTP ${res.status}`);
+      err.status = res.status;
+      throw err;
     }
+    return res.json();
+  }
+  function errorMessage(err) {
+    if (err && err.status === 404) return '资源不存在或未公开';
+    if (err && (err.status === 403 || err.status === 429)) return 'API 请求频率超限，请稍后重试';
+    return '加载失败，请检查网络连接';
+  }
 
-    /**
-     * 格式化相对时间（如 "3 天前"）
-     */
-    function timeAgo(dateStr) {
-        const date = new Date(dateStr);
-        const now = new Date();
-        const diff = Math.floor((now - date) / 1000); // 秒
-
-        if (diff < 60)          return '刚刚';
-        if (diff < 3600)        return Math.floor(diff / 60) + ' 分钟前';
-        if (diff < 86400)       return Math.floor(diff / 3600) + ' 小时前';
-        if (diff < 2592000)     return Math.floor(diff / 86400) + ' 天前';
-        if (diff < 31536000)    return Math.floor(diff / 2592000) + ' 个月前';
-        return Math.floor(diff / 31536000) + ' 年前';
+  // ---------- 主题 ----------
+  function initTheme() {
+    const saved = localStorage.getItem('gh-repo-theme');
+    if (saved === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      els.themeToggle.textContent = '☀️';
     }
-
-    /**
-     * 获取语言对应的颜色
-     */
-    function getLangColor(lang) {
-        if (!lang) return DEFAULT_LANG_COLOR;
-        const key = lang.replace(/[^a-zA-Z0-9#+]/g, '_');
-        return LANG_COLORS[key] || DEFAULT_LANG_COLOR;
-    }
-
-    /**
-     * HTML 转义，防止 XSS
-     */
-    function escapeHtml(str) {
-        if (!str) return '';
-        return String(str)
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;');
-    }
-
-    // ---------- 主题切换 ----------
-    function initTheme() {
-        const saved = localStorage.getItem('gh-repo-theme');
-        if (saved === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            els.themeToggle.textContent = '☀️';
-        } else {
-            document.documentElement.removeAttribute('data-theme');
-            els.themeToggle.textContent = '🌙';
-        }
-    }
-
-    function toggleTheme() {
-        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        if (isDark) {
-            document.documentElement.removeAttribute('data-theme');
-            els.themeToggle.textContent = '🌙';
-            localStorage.setItem('gh-repo-theme', 'light');
-        } else {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            els.themeToggle.textContent = '☀️';
-            localStorage.setItem('gh-repo-theme', 'dark');
-        }
-    }
-
-    // ---------- 骨架屏 ----------
-    function showSkeleton(count) {
-        els.repoGrid.innerHTML = '';
-        for (let i = 0; i < count; i++) {
-            const card = document.createElement('div');
-            card.className = 'skeleton-card';
-            card.innerHTML = `
-                <div class="skeleton-line w60"></div>
-                <div class="skeleton-line w90"></div>
-                <div class="skeleton-line w40"></div>
-            `;
-            els.repoGrid.appendChild(card);
-        }
-    }
-
-    // ---------- 状态提示 ----------
-    function showStatus(icon, message, hint, showRetry) {
-        els.repoGrid.innerHTML = `
-            <div class="status-box">
-                <div class="icon">${icon}</div>
-                <p>${escapeHtml(message)}</p>
-                ${hint ? `<p class="hint">${escapeHtml(hint)}</p>` : ''}
-                ${showRetry ? '<button class="btn-retry" id="retryBtn">重新加载</button>' : ''}
-            </div>
-        `;
-        if (showRetry) {
-            $('retryBtn').addEventListener('click', () => fetchAll());
-        }
-    }
-
-    // ---------- 渲染仓库卡片 ----------
-    function renderRepos() {
-        const repos = filteredRepos;
-        const totalPages = Math.max(1, Math.ceil(repos.length / PER_PAGE));
-
-        if (currentPage > totalPages) currentPage = totalPages;
-
-        const start = (currentPage - 1) * PER_PAGE;
-        const pageRepos = repos.slice(start, start + PER_PAGE);
-
-        if (repos.length === 0) {
-            const isSearching = els.searchInput.value.trim() !== '';
-            showStatus(
-                isSearching ? '🔍' : '📭',
-                isSearching ? '没有找到匹配的仓库' : '该用户暂无公开仓库',
-                isSearching ? '试试其他关键词' : '',
-                false
-            );
-            els.pagination.style.display = 'none';
-            return;
-        }
-
-        // 渲染卡片
-        els.repoGrid.innerHTML = '';
-        pageRepos.forEach((repo, index) => {
-            const card = document.createElement('div');
-            card.className = 'repo-card';
-            card.style.animationDelay = (index * 0.04) + 's';
-
-            const name = escapeHtml(repo.name);
-            const desc = repo.description ? escapeHtml(repo.description) : '';
-            const htmlUrl = escapeHtml(repo.html_url);
-            const lang = repo.language || '';
-            const langColor = getLangColor(lang);
-            const stars = formatCount(repo.stargazers_count);
-            const forks = formatCount(repo.forks_count);
-            const updated = timeAgo(repo.updated_at);
-            const isFork = repo.fork;
-
-            card.innerHTML = `
-                <div class="repo-name">
-                    <a href="${htmlUrl}" target="_blank" rel="noopener">${name}</a>
-                    ${isFork ? '<span class="fork-badge">Fork</span>' : ''}
-                </div>
-                ${desc ? `<div class="repo-desc">${desc}</div>` : '<div class="repo-desc" style="opacity:0.5;">暂无描述</div>'}
-                <div class="repo-meta">
-                    ${lang ? `
-                    <span class="meta-item">
-                        <span class="lang-dot" style="background:${langColor};"></span>
-                        ${escapeHtml(lang)}
-                    </span>` : ''}
-                    <span class="meta-item">
-                        <span class="star-icon">★</span> ${stars}
-                    </span>
-                    <span class="meta-item">
-                        🍴 ${forks}
-                    </span>
-                    <span class="meta-item">
-                        🕒 ${updated}
-                    </span>
-                </div>
-            `;
-            els.repoGrid.appendChild(card);
-        });
-
-        // 更新分页
-        if (totalPages > 1) {
-            els.pagination.style.display = 'flex';
-            els.pageInfo.textContent = `第 ${currentPage} 页 / 共 ${totalPages} 页`;
-            els.prevBtn.disabled = currentPage <= 1;
-            els.nextBtn.disabled = currentPage >= totalPages;
-        } else {
-            els.pagination.style.display = 'none';
-        }
-    }
-
-    // ---------- 过滤与排序 ----------
-    function applyFilterAndSort() {
-        const keyword = els.searchInput.value.trim().toLowerCase();
-
-        // 过滤
-        if (keyword) {
-            filteredRepos = allRepos.filter(repo => {
-                const name = (repo.name || '').toLowerCase();
-                const desc = (repo.description || '').toLowerCase();
-                return name.includes(keyword) || desc.includes(keyword);
-            });
-        } else {
-            filteredRepos = [...allRepos];
-        }
-
-        // 排序
-        const sort = els.sortSelect.value;
-        switch (sort) {
-            case 'updated':
-                filteredRepos.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
-                break;
-            case 'created':
-                filteredRepos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-                break;
-            case 'pushed':
-                filteredRepos.sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at));
-                break;
-            case 'full_name':
-                filteredRepos.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
-                break;
-            case 'stars':
-                filteredRepos.sort((a, b) => (b.stargazers_count || 0) - (a.stargazers_count || 0));
-                break;
-        }
-
-        currentPage = 1;
-        renderRepos();
-    }
-
-    // ---------- 获取数据 ----------
-    async function fetchAll() {
-        showSkeleton(6);
-
-        try {
-            // 并行获取用户信息和仓库列表
-            const [userRes, reposRes] = await Promise.all([
-                fetch(`${API_BASE}/users/${USERNAME}`),
-                fetch(`${API_BASE}/users/${USERNAME}/repos?per_page=100&sort=updated`)
-            ]);
-
-            // 检查用户信息响应
-            if (!userRes.ok) {
-                if (userRes.status === 404) {
-                    showStatus('❌', `用户 "${USERNAME}" 不存在`, '请检查用户名是否正确', false);
-                    return;
-                }
-                if (userRes.status === 403 || userRes.status === 429) {
-                    showStatus('⏳', 'API 请求频率超限', '请稍后点击重试（未认证请求每小时限 60 次）', true);
-                    return;
-                }
-                throw new Error(`用户信息请求失败: ${userRes.status}`);
-            }
-
-            // 检查仓库列表响应
-            if (!reposRes.ok) {
-                if (reposRes.status === 403 || reposRes.status === 429) {
-                    showStatus('⏳', 'API 请求频率超限', '请稍后点击重试（未认证请求每小时限 60 次）', true);
-                    return;
-                }
-                throw new Error(`仓库列表请求失败: ${reposRes.status}`);
-            }
-
-            const userData = await userRes.json();
-            const reposData = await reposRes.json();
-
-            // 更新用户信息
-            els.avatar.src = userData.avatar_url || '';
-            els.avatar.alt = userData.login || 'avatar';
-            els.userName.textContent = userData.login || USERNAME;
-            els.userName.href = userData.html_url || `https://github.com/${USERNAME}`;
-            els.userBio.textContent = userData.bio || '';
-            els.repoCount.textContent = userData.public_repos ?? '-';
-            els.followerCount.textContent = formatCount(userData.followers);
-            els.followingCount.textContent = formatCount(userData.following);
-
-            // 保存仓库数据
-            allRepos = Array.isArray(reposData) ? reposData : [];
-            applyFilterAndSort();
-
-        } catch (err) {
-            console.error('获取 GitHub 数据失败:', err);
-            showStatus('⚠️', '加载失败', '请检查网络连接后重试', true);
-        }
-    }
-
-    // ---------- 事件绑定 ----------
-    function bindEvents() {
-        // 主题切换
-        els.themeToggle.addEventListener('click', toggleTheme);
-
-        // 搜索（防抖）
-        let searchTimer;
-        els.searchInput.addEventListener('input', () => {
-            clearTimeout(searchTimer);
-            searchTimer = setTimeout(applyFilterAndSort, 250);
-        });
-
-        // 排序
-        els.sortSelect.addEventListener('change', applyFilterAndSort);
-
-        // 分页
-        els.prevBtn.addEventListener('click', () => {
-            if (currentPage > 1) { currentPage--; renderRepos(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
-        });
-        els.nextBtn.addEventListener('click', () => {
-            const totalPages = Math.ceil(filteredRepos.length / PER_PAGE);
-            if (currentPage < totalPages) { currentPage++; renderRepos(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
-        });
-    }
-
-    // ---------- 初始化 ----------
-    function init() {
-        initTheme();
-        bindEvents();
-        fetchAll();
-    }
-
-    // DOM 就绪后启动
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
+  }
+  function toggleTheme() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    if (isDark) {
+      document.documentElement.removeAttribute('data-theme');
+      els.themeToggle.textContent = '🌙';
+      localStorage.setItem('gh-repo-theme', 'light');
     } else {
-        init();
+      document.documentElement.setAttribute('data-theme', 'dark');
+      els.themeToggle.textContent = '☀️';
+      localStorage.setItem('gh-repo-theme', 'dark');
+    }
+  }
+
+  // ---------- 骨架屏 ----------
+  function showSkeleton(gridEl, count, kind) {
+    gridEl.innerHTML = '';
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('div');
+      if (kind === 'following') {
+        el.className = 'skeleton-user';
+        el.innerHTML = `
+          <div class="skeleton-avatar"></div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:8px;">
+            <div class="skeleton-line w60"></div>
+            <div class="skeleton-line w40"></div>
+          </div>`;
+      } else {
+        el.className = 'skeleton-card';
+        el.innerHTML = `
+          <div class="skeleton-line w60"></div>
+          <div class="skeleton-line w90"></div>
+          <div class="skeleton-line w40"></div>`;
+      }
+      gridEl.appendChild(el);
+    }
+  }
+
+  // ---------- 状态提示 ----------
+  function showStatus(panel, icon, message, hint, showRetry, tabKey) {
+    const grid = panel.grid;
+    grid.innerHTML = `
+      <div class="status-box">
+        <div class="icon">${icon}</div>
+        <p>${escapeHtml(message)}</p>
+        ${hint ? `<p class="hint">${escapeHtml(hint)}</p>` : ''}
+        ${showRetry ? '<button class="btn-retry">重新加载</button>' : ''}
+      </div>`;
+    panel.pagination.style.display = 'none';
+    if (showRetry) {
+      grid.querySelector('.btn-retry').addEventListener('click', () => {
+        state[tabKey].loaded = false;
+        state[tabKey].error = null;
+        ensureLoaded(tabKey, true);
+      });
+    }
+  }
+
+  // ---------- 渲染：仓库卡片 ----------
+  function repoCardHtml(repo, opts) {
+    const showOwner = opts && opts.showOwner;
+    const name = escapeHtml(repo.name);
+    const owner = repo.owner ? escapeHtml(repo.owner.login) : '';
+    const desc = repo.description ? escapeHtml(repo.description) : '';
+    const htmlUrl = escapeHtml(repo.html_url);
+    const lang = repo.language || '';
+    const langColor = getLangColor(lang);
+    const stars = formatCount(repo.stargazers_count);
+    const forks = formatCount(repo.forks_count);
+    const updated = timeAgo(repo.updated_at);
+    const isFork = repo.fork;
+
+    const nameHtml = showOwner && owner
+      ? `<span class="repo-owner">${owner}/</span><a href="${htmlUrl}" target="_blank" rel="noopener">${name}</a>`
+      : `<a href="${htmlUrl}" target="_blank" rel="noopener">${name}</a>`;
+
+    return `
+      <div class="repo-name">
+        ${nameHtml}
+        ${isFork ? '<span class="fork-badge">Fork</span>' : ''}
+      </div>
+      ${desc
+        ? `<div class="repo-desc">${desc}</div>`
+        : '<div class="repo-desc" style="opacity:.5;">暂无描述</div>'}
+      <div class="repo-meta">
+        ${lang ? `<span class="meta-item">
+          <span class="lang-dot" style="background:${langColor};"></span>${escapeHtml(lang)}
+        </span>` : ''}
+        <span class="meta-item"><span class="star-icon">★</span> ${stars}</span>
+        <span class="meta-item">🍴 ${forks}</span>
+        <span class="meta-item">🕒 ${updated}</span>
+      </div>`;
+  }
+
+  // ---------- 渲染：用户卡片 ----------
+  function userCardHtml(user) {
+    const login = escapeHtml(user.login);
+    const url = escapeHtml(user.html_url);
+    const avatar = escapeHtml(user.avatar_url);
+    const type = user.type === 'Organization' ? '组织' : '用户';
+    return `
+      <a class="user-card" href="${url}" target="_blank" rel="noopener">
+        <img src="${avatar}" alt="${login}" loading="lazy">
+        <div class="u-info">
+          <div class="u-name">${login}</div>
+          <div class="u-type">${type}</div>
+        </div>
+      </a>`;
+  }
+
+  // ---------- 过滤 + 排序 ----------
+  function applyFilterSort(tabKey) {
+    const s = state[tabKey];
+    const keyword = s.search.trim().toLowerCase();
+
+    if (keyword) {
+      s.filtered = s.data.filter(item => {
+        if (tabKey === 'following') {
+          return (item.login || '').toLowerCase().includes(keyword);
+        }
+        const name = (item.name || '').toLowerCase();
+        const desc = (item.description || '').toLowerCase();
+        const owner = (item.owner && item.owner.login || '').toLowerCase();
+        return name.includes(keyword) || desc.includes(keyword) || owner.includes(keyword);
+      });
+    } else {
+      s.filtered = s.data.slice();
     }
 
+    switch (s.sort) {
+      case 'updated':
+        s.filtered.sort((a,b) => new Date(b.updated_at) - new Date(a.updated_at)); break;
+      case 'created':
+        s.filtered.sort((a,b) => new Date(b.created_at) - new Date(a.created_at)); break;
+      case 'pushed':
+        s.filtered.sort((a,b) => new Date(b.pushed_at) - new Date(a.pushed_at)); break;
+      case 'full_name':
+        s.filtered.sort((a,b) => (a.name||'').localeCompare(b.name||'')); break;
+      case 'stars':
+        s.filtered.sort((a,b) => (b.stargazers_count||0) - (a.stargazers_count||0)); break;
+      case 'login_asc':
+        s.filtered.sort((a,b) => (a.login||'').localeCompare(b.login||'')); break;
+      case 'login_desc':
+        s.filtered.sort((a,b) => (b.login||'').localeCompare(a.login||'')); break;
+    }
+
+    s.page = 1;
+    renderTab(tabKey);
+  }
+
+  // ---------- 渲染 Tab 内容 ----------
+  function renderTab(tabKey) {
+    const s = state[tabKey];
+    const panel = panels[tabKey];
+    const isFollowing = tabKey === 'following';
+
+    // 加载中
+    if (s.loading && !s.loaded) {
+      showSkeleton(panel.grid, isFollowing ? 8 : 6, isFollowing ? 'following' : 'repo');
+      panel.pagination.style.display = 'none';
+      return;
+    }
+
+    // 错误
+    if (s.error) {
+      showStatus(panel, '⚠️', errorMessage(s.error), '', true, tabKey);
+      return;
+    }
+
+    // 未加载（不应出现，但保底）
+    if (!s.loaded) {
+      showSkeleton(panel.grid, isFollowing ? 8 : 6, isFollowing ? 'following' : 'repo');
+      panel.pagination.style.display = 'none';
+      return;
+    }
+
+    // 空
+    if (s.filtered.length === 0) {
+      const searching = s.search.trim() !== '';
+      const icon = searching ? '🔍' : (isFollowing ? '👤' : '📭');
+      const msg = searching
+        ? '没有找到匹配结果'
+        : (isFollowing ? '该用户没有公开关注的人' : '没有公开的 Star 仓库');
+      showStatus(panel, icon, msg, searching ? '试试其他关键词' : '', false, tabKey);
+      return;
+    }
+
+    // 分页
+    const totalPages = Math.max(1, Math.ceil(s.filtered.length / PER_PAGE));
+    if (s.page > totalPages) s.page = totalPages;
+    const start = (s.page - 1) * PER_PAGE;
+    const pageItems = s.filtered.slice(start, start + PER_PAGE);
+
+    // 渲染
+    panel.grid.innerHTML = '';
+    pageItems.forEach((item, i) => {
+      const el = document.createElement('div');
+      if (isFollowing) {
+        // user-card 本身就是 <a>，直接用它
+        const tmp = document.createElement('div');
+        tmp.innerHTML = userCardHtml(item);
+        const node = tmp.firstElementChild;
+        node.style.animationDelay = (i * 0.03) + 's';
+        panel.grid.appendChild(node);
+      } else {
+        el.className = 'repo-card';
+        el.style.animationDelay = (i * 0.04) + 's';
+        el.innerHTML = repoCardHtml(item, { showOwner: tabKey === 'starred' });
+        panel.grid.appendChild(el);
+      }
+    });
+
+    // 分页控件
+    if (totalPages > 1) {
+      panel.pagination.style.display = 'flex';
+      panel.pageInfo.textContent = `第 ${s.page} 页 / 共 ${totalPages} 页`;
+      panel.prev.disabled = s.page <= 1;
+      panel.next.disabled = s.page >= totalPages;
+    } else {
+      panel.pagination.style.display = 'none';
+    }
+  }
+
+  // ---------- 更新 Tab 计数 ----------
+  function updateCount(tabKey) {
+    const el = document.querySelector(`[data-count="${tabKey}"]`);
+    if (!el) return;
+    const s = state[tabKey];
+    if (s.loaded) el.textContent = s.data.length;
+  }
+
+  // ---------- 按需加载 ----------
+  async function ensureLoaded(tabKey, force) {
+    const s = state[tabKey];
+    if (!force && (s.loaded || s.loading)) {
+      if (s.loaded) renderTab(tabKey);
+      return;
+    }
+    s.loading = true;
+    s.error = null;
+    renderTab(tabKey);
+
+    try {
+      const data = await fetchJSON(s.url);
+      s.data = Array.isArray(data) ? data : [];
+      s.loaded = true;
+      s.error = null;
+      updateCount(tabKey);
+      applyFilterSort(tabKey);
+    } catch (err) {
+      console.error(`加载 ${tabKey} 失败:`, err);
+      s.error = err;
+      renderTab(tabKey);
+    } finally {
+      s.loading = false;
+    }
+  }
+
+  // ---------- 加载用户信息 ----------
+  async function loadUserInfo() {
+    try {
+      const user = await fetchJSON(`${API_BASE}/users/${USERNAME}`);
+      els.avatar.src = user.avatar_url || '';
+      els.avatar.alt = user.login || 'avatar';
+      els.userName.textContent = user.login || USERNAME;
+      els.userName.href = user.html_url || `https://github.com/${USERNAME}`;
+      els.userBio.textContent = user.bio || '';
+      els.repoCount.textContent = user.public_repos ?? '-';
+      els.followerCount.textContent = formatCount(user.followers);
+      els.followingCount.textContent = formatCount(user.following);
+    } catch (err) {
+      console.error('加载用户信息失败:', err);
+      // 用户信息失败不影响其它 tab
+    }
+  }
+
+  // ---------- Tab 切换 ----------
+  function activateTab(tabKey) {
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.tab === tabKey);
+    });
+    document.querySelectorAll('.tab-panel').forEach(p => {
+      p.classList.toggle('active', p.dataset.panel === tabKey);
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // 懒加载
+    ensureLoaded(tabKey, false);
+  }
+
+  // ---------- 事件绑定 ----------
+  function bindEvents() {
+    // 主题
+    els.themeToggle.addEventListener('click', toggleTheme);
+
+    // Tab 按钮
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => activateTab(btn.dataset.tab));
+    });
+
+    // 每个 panel 内的搜索 / 排序 / 分页
+    Object.keys(panels).forEach(tabKey => {
+      const panel = panels[tabKey];
+      const s = state[tabKey];
+
+      // 搜索（防抖）
+      let timer;
+      panel.search.addEventListener('input', () => {
+        s.search = panel.search.value;
+        clearTimeout(timer);
+        timer = setTimeout(() => applyFilterSort(tabKey), 250);
+      });
+
+      // 排序
+      panel.sort.addEventListener('change', () => {
+        s.sort = panel.sort.value;
+        applyFilterSort(tabKey);
+      });
+
+      // 上一页
+      panel.prev.addEventListener('click', () => {
+        if (s.page > 1) {
+          s.page--;
+          renderTab(tabKey);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
+
+      // 下一页
+      panel.next.addEventListener('click', () => {
+        const totalPages = Math.max(1, Math.ceil(s.filtered.length / PER_PAGE));
+        if (s.page < totalPages) {
+          s.page++;
+          renderTab(tabKey);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
+    });
+  }
+
+  // ---------- 初始化 ----------
+  function init() {
+    initTheme();
+    bindEvents();
+
+    // 先加载用户信息和仓库（默认 tab），关注和 Star 懒加载
+    loadUserInfo();
+    ensureLoaded('repos', false);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 })();
 </script>
 
