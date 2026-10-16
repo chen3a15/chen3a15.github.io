@@ -72,12 +72,56 @@ body {
   content:"🔍"; position:absolute; left:12px; top:50%; transform:translateY(-50%);
   font-size:.9rem; opacity:.5; pointer-events:none;
 }
-.sort-select {
-  padding:10px 14px; border:1px solid var(--border); border-radius:8px;
-  background:var(--card-bg); color:var(--text); font-size:.9rem;
-  outline:none; cursor:pointer; transition:border-color .2s;
+
+/* ===== 自定义排序下拉框（美化箭头） ===== */
+.select-wrapper {
+  position:relative;
+  display:inline-flex;
+  align-items:center;
 }
-.sort-select:focus { border-color:var(--accent); }
+.sort-select {
+  appearance:none;
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  padding:10px 38px 10px 14px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:var(--card-bg);
+  color:var(--text);
+  font-size:.9rem;
+  font-family:inherit;
+  outline:none;
+  cursor:pointer;
+  transition:border-color .2s,box-shadow .2s,background .2s;
+  line-height:1.4;
+}
+.sort-select:hover {
+  border-color:#b6bec7;
+  background:#f9fafb;
+}
+.sort-select:focus {
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(9,105,218,.15);
+}
+/* 自定义箭头：CSS 画的下三角 + 上下分隔线，覆盖在右侧 */
+.select-wrapper::after {
+  content:"";
+  position:absolute;
+  right:14px;
+  top:50%;
+  width:8px;
+  height:8px;
+  transform:translateY(-75%) rotate(45deg);
+  border-right:1.5px solid var(--text-secondary);
+  border-bottom:1.5px solid var(--text-secondary);
+  pointer-events:none;
+  transition:border-color .2s;
+}
+.select-wrapper:hover::after {
+  border-color:var(--text);
+}
+/* 让 select 自身的箭头在 Firefox 下也隐藏 */
+.sort-select::-ms-expand { display:none; }
 
 /* ===== 仓库卡片网格 ===== */
 .repo-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px; }
@@ -181,6 +225,7 @@ body {
   .profile-stats { justify-content:center; }
   .toolbar { flex-direction:column; }
   .search-box { min-width:100%; }
+  .select-wrapper { width:100%; }
   .sort-select { width:100%; }
   .repo-grid, .user-grid { grid-template-columns:1fr; }
 }
@@ -204,12 +249,12 @@ body {
     </div>
   </header>
 
-  <!-- Tabs -->
+  <!-- Tabs: 仓库 → Star → 关注 → 粉丝 -->
   <nav class="tabs">
     <button class="tab-btn active" data-tab="repos">📦 仓库 <span class="tab-count" data-count="repos"></span></button>
+    <button class="tab-btn" data-tab="starred">⭐ Star <span class="tab-count" data-count="starred"></span></button>
     <button class="tab-btn" data-tab="following">🔗 关注 <span class="tab-count" data-count="following"></span></button>
     <button class="tab-btn" data-tab="followers">👥 粉丝 <span class="tab-count" data-count="followers"></span></button>
-    <button class="tab-btn" data-tab="starred">⭐ Star <span class="tab-count" data-count="starred"></span></button>
   </nav>
 
   <!-- Panel: 仓库 -->
@@ -218,13 +263,39 @@ body {
       <div class="search-box">
         <input type="text" data-search placeholder="搜索仓库名称或描述..." autocomplete="off">
       </div>
-      <select class="sort-select" data-sort>
-        <option value="updated">最近更新</option>
-        <option value="created">创建时间</option>
-        <option value="pushed">最近推送</option>
-        <option value="full_name">名称 A→Z</option>
-        <option value="stars">⭐ 星标数</option>
-      </select>
+      <div class="select-wrapper">
+        <select class="sort-select" data-sort>
+          <option value="updated">最近更新</option>
+          <option value="created">创建时间</option>
+          <option value="pushed">最近推送</option>
+          <option value="full_name">名称 A→Z</option>
+          <option value="stars">⭐ 星标数</option>
+        </select>
+      </div>
+    </div>
+    <div class="repo-grid" data-grid></div>
+    <div class="pagination" data-pagination style="display:none;">
+      <button data-prev disabled>← 上一页</button>
+      <span class="page-info" data-page-info></span>
+      <button data-next disabled>下一页 →</button>
+    </div>
+  </div>
+
+  <!-- Panel: Star -->
+  <div class="tab-panel" data-panel="starred">
+    <div class="toolbar">
+      <div class="search-box">
+        <input type="text" data-search placeholder="搜索仓库名称或描述..." autocomplete="off">
+      </div>
+      <div class="select-wrapper">
+        <select class="sort-select" data-sort>
+          <option value="updated">最近更新</option>
+          <option value="created">创建时间</option>
+          <option value="pushed">最近推送</option>
+          <option value="full_name">名称 A→Z</option>
+          <option value="stars">⭐ 星标数</option>
+        </select>
+      </div>
     </div>
     <div class="repo-grid" data-grid></div>
     <div class="pagination" data-pagination style="display:none;">
@@ -240,10 +311,12 @@ body {
       <div class="search-box">
         <input type="text" data-search placeholder="搜索用户名..." autocomplete="off">
       </div>
-      <select class="sort-select" data-sort>
-        <option value="login_asc">用户名 A→Z</option>
-        <option value="login_desc">用户名 Z→A</option>
-      </select>
+      <div class="select-wrapper">
+        <select class="sort-select" data-sort>
+          <option value="login_asc">用户名 A→Z</option>
+          <option value="login_desc">用户名 Z→A</option>
+        </select>
+      </div>
     </div>
     <div class="user-grid" data-grid></div>
     <div class="pagination" data-pagination style="display:none;">
@@ -259,34 +332,14 @@ body {
       <div class="search-box">
         <input type="text" data-search placeholder="搜索用户名..." autocomplete="off">
       </div>
-      <select class="sort-select" data-sort>
-        <option value="login_asc">用户名 A→Z</option>
-        <option value="login_desc">用户名 Z→A</option>
-      </select>
+      <div class="select-wrapper">
+        <select class="sort-select" data-sort>
+          <option value="login_asc">用户名 A→Z</option>
+          <option value="login_desc">用户名 Z→A</option>
+        </select>
+      </div>
     </div>
     <div class="user-grid" data-grid></div>
-    <div class="pagination" data-pagination style="display:none;">
-      <button data-prev disabled>← 上一页</button>
-      <span class="page-info" data-page-info></span>
-      <button data-next disabled>下一页 →</button>
-    </div>
-  </div>
-
-  <!-- Panel: Star -->
-  <div class="tab-panel" data-panel="starred">
-    <div class="toolbar">
-      <div class="search-box">
-        <input type="text" data-search placeholder="搜索仓库名称或描述..." autocomplete="off">
-      </div>
-      <select class="sort-select" data-sort>
-        <option value="updated">最近更新</option>
-        <option value="created">创建时间</option>
-        <option value="pushed">最近推送</option>
-        <option value="full_name">名称 A→Z</option>
-        <option value="stars">⭐ 星标数</option>
-      </select>
-    </div>
-    <div class="repo-grid" data-grid></div>
     <div class="pagination" data-pagination style="display:none;">
       <button data-prev disabled>← 上一页</button>
       <span class="page-info" data-page-info></span>
@@ -330,18 +383,17 @@ body {
     repos:     { data:[], filtered:[], page:1, loaded:false, loading:false, error:null,
                  search:'', sort:'updated',
                  url: `${API_BASE}/users/${USERNAME}/repos?per_page=100&sort=updated` },
+    starred:   { data:[], filtered:[], page:1, loaded:false, loading:false, error:null,
+                 search:'', sort:'updated',
+                 url: `${API_BASE}/users/${USERNAME}/starred?per_page=100&sort=updated` },
     following: { data:[], filtered:[], page:1, loaded:false, loading:false, error:null,
                  search:'', sort:'login_asc',
                  url: `${API_BASE}/users/${USERNAME}/following?per_page=100` },
     followers: { data:[], filtered:[], page:1, loaded:false, loading:false, error:null,
                  search:'', sort:'login_asc',
                  url: `${API_BASE}/users/${USERNAME}/followers?per_page=100` },
-    starred:   { data:[], filtered:[], page:1, loaded:false, loading:false, error:null,
-                 search:'', sort:'updated',
-                 url: `${API_BASE}/users/${USERNAME}/starred?per_page=100&sort=updated` },
   };
 
-  // 缓存每个 panel 的 DOM
   const panels = {};
   document.querySelectorAll('.tab-panel').forEach(panel => {
     const key = panel.dataset.panel;
