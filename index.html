@@ -12,18 +12,10 @@
   --radius:12px; --star-color:#e3b341; --lang-bg:#eaeef2; --lang-text:#1f2328;
   --skeleton-bg:#eaeef2; --skeleton-shine:#f6f8fa;
 }
-[data-theme="dark"] {
-  --bg:#0d1117; --card-bg:#161b22; --text:#e6edf3; --text-secondary:#8b949e;
-  --border:#30363d; --accent:#58a6ff; --accent-hover:#79c0ff;
-  --shadow:0 1px 3px rgba(0,0,0,.3); --shadow-hover:0 4px 12px rgba(0,0,0,.5);
-  --star-color:#e3b341; --lang-bg:#21262d; --lang-text:#c9d1d9;
-  --skeleton-bg:#21262d; --skeleton-shine:#30363d;
-}
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif;
   background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh;
-  transition:background-color .3s,color .3s;
 }
 .container { max-width:1100px; margin:0 auto; padding:24px 20px 60px; }
 
@@ -32,7 +24,6 @@ body {
   display:flex; align-items:center; gap:20px;
   background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius);
   padding:24px 28px; margin-bottom:20px; box-shadow:var(--shadow);
-  transition:background-color .3s,border-color .3s;
 }
 .profile-avatar { width:80px; height:80px; border-radius:50%; border:2px solid var(--border); flex-shrink:0; background:var(--skeleton-bg); }
 .profile-info { flex:1; min-width:0; }
@@ -42,13 +33,6 @@ body {
 .profile-info .bio { color:var(--text-secondary); font-size:.925rem; margin-bottom:8px; }
 .profile-stats { display:flex; gap:20px; flex-wrap:wrap; font-size:.9rem; color:var(--text-secondary); }
 .profile-stats .num { font-weight:600; color:var(--text); }
-.theme-toggle {
-  background:var(--bg); border:1px solid var(--border); border-radius:50%;
-  width:40px; height:40px; display:flex; align-items:center; justify-content:center;
-  cursor:pointer; font-size:1.2rem; color:var(--text); flex-shrink:0;
-  transition:background .2s,border-color .2s;
-}
-.theme-toggle:hover { background:var(--border); }
 
 /* ===== Tabs ===== */
 .tabs {
@@ -100,7 +84,7 @@ body {
 .repo-card {
   background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius);
   padding:18px 20px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:8px;
-  transition:transform .2s,box-shadow .2s,background-color .3s,border-color .3s;
+  transition:transform .2s,box-shadow .2s;
   animation:fadeInUp .35s ease both;
 }
 .repo-card:hover { transform:translateY(-3px); box-shadow:var(--shadow-hover); }
@@ -122,7 +106,7 @@ body {
 }
 .star-icon { color:var(--star-color); }
 
-/* ===== 用户卡片（关注列表） ===== */
+/* ===== 用户卡片（关注/粉丝） ===== */
 .user-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; }
 .user-card {
   display:flex; align-items:center; gap:12px;
@@ -130,7 +114,7 @@ body {
   border-radius:var(--radius); padding:14px 16px;
   text-decoration:none; color:var(--text);
   box-shadow:var(--shadow);
-  transition:transform .2s,box-shadow .2s,background-color .3s,border-color .3s;
+  transition:transform .2s,box-shadow .2s;
   animation:fadeInUp .35s ease both;
 }
 .user-card:hover { transform:translateY(-2px); box-shadow:var(--shadow-hover); }
@@ -214,17 +198,17 @@ body {
       <div class="bio" id="userBio"></div>
       <div class="profile-stats">
         <span>📦 <span class="num" id="repoCount">-</span> 仓库</span>
-        <span>👥 <span class="num" id="followerCount">-</span> 关注者</span>
-        <span>🔗 <span class="num" id="followingCount">-</span> 正在关注</span>
+        <span>🔗 <span class="num" id="followingCount">-</span> 关注</span>
+        <span>👥 <span class="num" id="followerCount">-</span> 粉丝</span>
       </div>
     </div>
-    <button class="theme-toggle" id="themeToggle" title="切换主题" aria-label="切换主题">🌙</button>
   </header>
 
   <!-- Tabs -->
   <nav class="tabs">
     <button class="tab-btn active" data-tab="repos">📦 仓库 <span class="tab-count" data-count="repos"></span></button>
-    <button class="tab-btn" data-tab="following">👥 关注 <span class="tab-count" data-count="following"></span></button>
+    <button class="tab-btn" data-tab="following">🔗 关注 <span class="tab-count" data-count="following"></span></button>
+    <button class="tab-btn" data-tab="followers">👥 粉丝 <span class="tab-count" data-count="followers"></span></button>
     <button class="tab-btn" data-tab="starred">⭐ Star <span class="tab-count" data-count="starred"></span></button>
   </nav>
 
@@ -252,6 +236,25 @@ body {
 
   <!-- Panel: 关注 -->
   <div class="tab-panel" data-panel="following">
+    <div class="toolbar">
+      <div class="search-box">
+        <input type="text" data-search placeholder="搜索用户名..." autocomplete="off">
+      </div>
+      <select class="sort-select" data-sort>
+        <option value="login_asc">用户名 A→Z</option>
+        <option value="login_desc">用户名 Z→A</option>
+      </select>
+    </div>
+    <div class="user-grid" data-grid></div>
+    <div class="pagination" data-pagination style="display:none;">
+      <button data-prev disabled>← 上一页</button>
+      <span class="page-info" data-page-info></span>
+      <button data-next disabled>下一页 →</button>
+    </div>
+  </div>
+
+  <!-- Panel: 粉丝 -->
+  <div class="tab-panel" data-panel="followers">
     <div class="toolbar">
       <div class="search-box">
         <input type="text" data-search placeholder="搜索用户名..." autocomplete="off">
@@ -315,12 +318,11 @@ body {
   };
   const DEFAULT_LANG_COLOR = '#8b949e';
 
-  // ---------- DOM ----------
   const $ = id => document.getElementById(id);
   const els = {
     avatar: $('avatar'), userName: $('userName'), userBio: $('userBio'),
     repoCount: $('repoCount'), followerCount: $('followerCount'),
-    followingCount: $('followingCount'), themeToggle: $('themeToggle'),
+    followingCount: $('followingCount'),
   };
 
   // ---------- 状态 ----------
@@ -331,12 +333,15 @@ body {
     following: { data:[], filtered:[], page:1, loaded:false, loading:false, error:null,
                  search:'', sort:'login_asc',
                  url: `${API_BASE}/users/${USERNAME}/following?per_page=100` },
+    followers: { data:[], filtered:[], page:1, loaded:false, loading:false, error:null,
+                 search:'', sort:'login_asc',
+                 url: `${API_BASE}/users/${USERNAME}/followers?per_page=100` },
     starred:   { data:[], filtered:[], page:1, loaded:false, loading:false, error:null,
                  search:'', sort:'updated',
                  url: `${API_BASE}/users/${USERNAME}/starred?per_page=100&sort=updated` },
   };
 
-  // ---------- 缓存每个 panel 的 DOM 引用 ----------
+  // 缓存每个 panel 的 DOM
   const panels = {};
   document.querySelectorAll('.tab-panel').forEach(panel => {
     const key = panel.dataset.panel;
@@ -352,7 +357,7 @@ body {
     };
   });
 
-  // ---------- 工具函数 ----------
+  // ---------- 工具 ----------
   function formatCount(n) {
     if (n == null) return '0';
     if (n >= 1e6) return (n/1e6).toFixed(1).replace(/\.0$/,'') + 'M';
@@ -395,33 +400,12 @@ body {
     return '加载失败，请检查网络连接';
   }
 
-  // ---------- 主题 ----------
-  function initTheme() {
-    const saved = localStorage.getItem('gh-repo-theme');
-    if (saved === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      els.themeToggle.textContent = '☀️';
-    }
-  }
-  function toggleTheme() {
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    if (isDark) {
-      document.documentElement.removeAttribute('data-theme');
-      els.themeToggle.textContent = '🌙';
-      localStorage.setItem('gh-repo-theme', 'light');
-    } else {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      els.themeToggle.textContent = '☀️';
-      localStorage.setItem('gh-repo-theme', 'dark');
-    }
-  }
-
   // ---------- 骨架屏 ----------
   function showSkeleton(gridEl, count, kind) {
     gridEl.innerHTML = '';
     for (let i = 0; i < count; i++) {
       const el = document.createElement('div');
-      if (kind === 'following') {
+      if (kind === 'user') {
         el.className = 'skeleton-user';
         el.innerHTML = `
           <div class="skeleton-avatar"></div>
@@ -442,8 +426,7 @@ body {
 
   // ---------- 状态提示 ----------
   function showStatus(panel, icon, message, hint, showRetry, tabKey) {
-    const grid = panel.grid;
-    grid.innerHTML = `
+    panel.grid.innerHTML = `
       <div class="status-box">
         <div class="icon">${icon}</div>
         <p>${escapeHtml(message)}</p>
@@ -452,7 +435,7 @@ body {
       </div>`;
     panel.pagination.style.display = 'none';
     if (showRetry) {
-      grid.querySelector('.btn-retry').addEventListener('click', () => {
+      panel.grid.querySelector('.btn-retry').addEventListener('click', () => {
         state[tabKey].loaded = false;
         state[tabKey].error = null;
         ensureLoaded(tabKey, true);
@@ -460,7 +443,7 @@ body {
     }
   }
 
-  // ---------- 渲染：仓库卡片 ----------
+  // ---------- 卡片 HTML ----------
   function repoCardHtml(repo, opts) {
     const showOwner = opts && opts.showOwner;
     const name = escapeHtml(repo.name);
@@ -496,7 +479,6 @@ body {
       </div>`;
   }
 
-  // ---------- 渲染：用户卡片 ----------
   function userCardHtml(user) {
     const login = escapeHtml(user.login);
     const url = escapeHtml(user.html_url);
@@ -516,12 +498,11 @@ body {
   function applyFilterSort(tabKey) {
     const s = state[tabKey];
     const keyword = s.search.trim().toLowerCase();
+    const isUserTab = (tabKey === 'following' || tabKey === 'followers');
 
     if (keyword) {
       s.filtered = s.data.filter(item => {
-        if (tabKey === 'following') {
-          return (item.login || '').toLowerCase().includes(keyword);
-        }
+        if (isUserTab) return (item.login || '').toLowerCase().includes(keyword);
         const name = (item.name || '').toLowerCase();
         const desc = (item.description || '').toLowerCase();
         const owner = (item.owner && item.owner.login || '').toLowerCase();
@@ -532,81 +513,64 @@ body {
     }
 
     switch (s.sort) {
-      case 'updated':
-        s.filtered.sort((a,b) => new Date(b.updated_at) - new Date(a.updated_at)); break;
-      case 'created':
-        s.filtered.sort((a,b) => new Date(b.created_at) - new Date(a.created_at)); break;
-      case 'pushed':
-        s.filtered.sort((a,b) => new Date(b.pushed_at) - new Date(a.pushed_at)); break;
-      case 'full_name':
-        s.filtered.sort((a,b) => (a.name||'').localeCompare(b.name||'')); break;
-      case 'stars':
-        s.filtered.sort((a,b) => (b.stargazers_count||0) - (a.stargazers_count||0)); break;
-      case 'login_asc':
-        s.filtered.sort((a,b) => (a.login||'').localeCompare(b.login||'')); break;
-      case 'login_desc':
-        s.filtered.sort((a,b) => (b.login||'').localeCompare(a.login||'')); break;
+      case 'updated':    s.filtered.sort((a,b)=>new Date(b.updated_at)-new Date(a.updated_at)); break;
+      case 'created':    s.filtered.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)); break;
+      case 'pushed':     s.filtered.sort((a,b)=>new Date(b.pushed_at)-new Date(a.pushed_at)); break;
+      case 'full_name':  s.filtered.sort((a,b)=>(a.name||'').localeCompare(b.name||'')); break;
+      case 'stars':      s.filtered.sort((a,b)=>(b.stargazers_count||0)-(a.stargazers_count||0)); break;
+      case 'login_asc':  s.filtered.sort((a,b)=>(a.login||'').localeCompare(b.login||'')); break;
+      case 'login_desc': s.filtered.sort((a,b)=>(b.login||'').localeCompare(a.login||'')); break;
     }
 
     s.page = 1;
     renderTab(tabKey);
   }
 
-  // ---------- 渲染 Tab 内容 ----------
+  // ---------- 渲染 Tab ----------
   function renderTab(tabKey) {
     const s = state[tabKey];
     const panel = panels[tabKey];
-    const isFollowing = tabKey === 'following';
+    const isUserTab = (tabKey === 'following' || tabKey === 'followers');
 
-    // 加载中
     if (s.loading && !s.loaded) {
-      showSkeleton(panel.grid, isFollowing ? 8 : 6, isFollowing ? 'following' : 'repo');
+      showSkeleton(panel.grid, isUserTab ? 8 : 6, isUserTab ? 'user' : 'repo');
       panel.pagination.style.display = 'none';
       return;
     }
-
-    // 错误
-    if (s.error) {
-      showStatus(panel, '⚠️', errorMessage(s.error), '', true, tabKey);
-      return;
-    }
-
-    // 未加载（不应出现，但保底）
+    if (s.error) { showStatus(panel, '⚠️', errorMessage(s.error), '', true, tabKey); return; }
     if (!s.loaded) {
-      showSkeleton(panel.grid, isFollowing ? 8 : 6, isFollowing ? 'following' : 'repo');
+      showSkeleton(panel.grid, isUserTab ? 8 : 6, isUserTab ? 'user' : 'repo');
       panel.pagination.style.display = 'none';
       return;
     }
 
-    // 空
     if (s.filtered.length === 0) {
       const searching = s.search.trim() !== '';
-      const icon = searching ? '🔍' : (isFollowing ? '👤' : '📭');
-      const msg = searching
-        ? '没有找到匹配结果'
-        : (isFollowing ? '该用户没有公开关注的人' : '没有公开的 Star 仓库');
+      let icon, msg;
+      if (searching) { icon = '🔍'; msg = '没有找到匹配结果'; }
+      else if (tabKey === 'following') { icon = '🔗'; msg = '该用户没有公开关注的人'; }
+      else if (tabKey === 'followers') { icon = '👥'; msg = '该用户没有公开粉丝'; }
+      else if (tabKey === 'starred')   { icon = '⭐'; msg = '没有公开的 Star 仓库'; }
+      else { icon = '📭'; msg = '该用户暂无公开仓库'; }
       showStatus(panel, icon, msg, searching ? '试试其他关键词' : '', false, tabKey);
       return;
     }
 
-    // 分页
     const totalPages = Math.max(1, Math.ceil(s.filtered.length / PER_PAGE));
     if (s.page > totalPages) s.page = totalPages;
     const start = (s.page - 1) * PER_PAGE;
     const pageItems = s.filtered.slice(start, start + PER_PAGE);
 
-    // 渲染
     panel.grid.innerHTML = '';
     pageItems.forEach((item, i) => {
-      const el = document.createElement('div');
-      if (isFollowing) {
-        // user-card 本身就是 <a>，直接用它
+      if (isUserTab) {
         const tmp = document.createElement('div');
         tmp.innerHTML = userCardHtml(item);
         const node = tmp.firstElementChild;
         node.style.animationDelay = (i * 0.03) + 's';
         panel.grid.appendChild(node);
       } else {
+        const el = document.createElement('div');
         el.className = 'repo-card';
         el.style.animationDelay = (i * 0.04) + 's';
         el.innerHTML = repoCardHtml(item, { showOwner: tabKey === 'starred' });
@@ -614,7 +578,6 @@ body {
       }
     });
 
-    // 分页控件
     if (totalPages > 1) {
       panel.pagination.style.display = 'flex';
       panel.pageInfo.textContent = `第 ${s.page} 页 / 共 ${totalPages} 页`;
@@ -625,7 +588,6 @@ body {
     }
   }
 
-  // ---------- 更新 Tab 计数 ----------
   function updateCount(tabKey) {
     const el = document.querySelector(`[data-count="${tabKey}"]`);
     if (!el) return;
@@ -633,7 +595,7 @@ body {
     if (s.loaded) el.textContent = s.data.length;
   }
 
-  // ---------- 按需加载 ----------
+  // ---------- 懒加载 ----------
   async function ensureLoaded(tabKey, force) {
     const s = state[tabKey];
     if (!force && (s.loaded || s.loading)) {
@@ -648,7 +610,6 @@ body {
       const data = await fetchJSON(s.url);
       s.data = Array.isArray(data) ? data : [];
       s.loaded = true;
-      s.error = null;
       updateCount(tabKey);
       applyFilterSort(tabKey);
     } catch (err) {
@@ -660,7 +621,7 @@ body {
     }
   }
 
-  // ---------- 加载用户信息 ----------
+  // ---------- 用户信息 ----------
   async function loadUserInfo() {
     try {
       const user = await fetchJSON(`${API_BASE}/users/${USERNAME}`);
@@ -670,11 +631,10 @@ body {
       els.userName.href = user.html_url || `https://github.com/${USERNAME}`;
       els.userBio.textContent = user.bio || '';
       els.repoCount.textContent = user.public_repos ?? '-';
-      els.followerCount.textContent = formatCount(user.followers);
       els.followingCount.textContent = formatCount(user.following);
+      els.followerCount.textContent = formatCount(user.followers);
     } catch (err) {
       console.error('加载用户信息失败:', err);
-      // 用户信息失败不影响其它 tab
     }
   }
 
@@ -687,26 +647,19 @@ body {
       p.classList.toggle('active', p.dataset.panel === tabKey);
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    // 懒加载
     ensureLoaded(tabKey, false);
   }
 
   // ---------- 事件绑定 ----------
   function bindEvents() {
-    // 主题
-    els.themeToggle.addEventListener('click', toggleTheme);
-
-    // Tab 按钮
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', () => activateTab(btn.dataset.tab));
     });
 
-    // 每个 panel 内的搜索 / 排序 / 分页
     Object.keys(panels).forEach(tabKey => {
       const panel = panels[tabKey];
       const s = state[tabKey];
 
-      // 搜索（防抖）
       let timer;
       panel.search.addEventListener('input', () => {
         s.search = panel.search.value;
@@ -714,39 +667,24 @@ body {
         timer = setTimeout(() => applyFilterSort(tabKey), 250);
       });
 
-      // 排序
       panel.sort.addEventListener('change', () => {
         s.sort = panel.sort.value;
         applyFilterSort(tabKey);
       });
 
-      // 上一页
       panel.prev.addEventListener('click', () => {
-        if (s.page > 1) {
-          s.page--;
-          renderTab(tabKey);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+        if (s.page > 1) { s.page--; renderTab(tabKey); window.scrollTo({top:0,behavior:'smooth'}); }
       });
-
-      // 下一页
       panel.next.addEventListener('click', () => {
         const totalPages = Math.max(1, Math.ceil(s.filtered.length / PER_PAGE));
-        if (s.page < totalPages) {
-          s.page++;
-          renderTab(tabKey);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+        if (s.page < totalPages) { s.page++; renderTab(tabKey); window.scrollTo({top:0,behavior:'smooth'}); }
       });
     });
   }
 
   // ---------- 初始化 ----------
   function init() {
-    initTheme();
     bindEvents();
-
-    // 先加载用户信息和仓库（默认 tab），关注和 Star 懒加载
     loadUserInfo();
     ensureLoaded('repos', false);
   }
